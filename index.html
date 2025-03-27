@@ -3,6 +3,8 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="AnimBase is a lightweight declarative animation engine for the web. Animate with HTML only using data-* attributes." />
+        <link rel="canonical" href="https://agusmade.github.io/animbase/" />
 		<meta name="color-scheme" content="light dark" />
 		<title>AnimBase – Declarative Animation Engine</title>
 		<script type="module" src="./dist/animbase.iife.min.js"></script>
@@ -10,14 +12,11 @@
 			window.addEventListener("load", () => {
 				AnimBase.setHooks("intro", {
 					onFinish: () => {
-						document.querySelector("main").style.display = "block";
-						document.querySelector("footer").style.display =
-							"block";
-						setTimeout(() => {
-							document
-								.querySelector("main")
-								.scrollIntoView({ behavior: "smooth" });
-						}, 150);
+						const main = document.querySelector("main");
+                        const footer = document.querySelector("footer");
+                        main.style.display = "block";
+                        footer.style.display = "block";
+                        setTimeout(() => main.scrollIntoView({ behavior: "smooth" }), 150);
 					},
 				});
 			});
@@ -60,7 +59,7 @@
 				left: 50%;
 				top: 50%;
 				transform: translate(-50%, -50%);
-				/* opacity: 0; */
+				opacity: 0;
 			}
 			.tagline {
 				font-size: 22pt;
@@ -143,7 +142,7 @@
 							"800": {
 								"opacity":"1.in",
 								"color": "#5bf",
-								"transform": "translate(0%, -30%.inBack)) scale(1)"
+								"transform": "translate(0%, -30%.inBack) scale(1)"
 							},
 							"3200": {},
 							"3800": {"transform": "translate(0%, -100%) scale(2.out)"}
@@ -184,6 +183,7 @@
 				<a href="./demo/scroll-parallax.html">🌄 Scroll Parallax</a>
 				<a href="./demo/cinematic-autostart.html">⏱️ Auto Cinematic</a>
 				<a href="./demo/triggered.html">🕹️ Triggered</a>
+				<a href="./demo/easing-test.html">📈 Easing Test</a>
 			</div>
 		</main>
 		<footer>Made with ❤️ by Agus Made · MIT License</footer>
