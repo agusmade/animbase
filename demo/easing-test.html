@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>AnimBase – Easing Functions Visual Test</title>
+		<style>
+			.container {
+				display: grid;
+				grid-template-columns: 1fr 1fr 1fr;
+				gap: 10px;
+			}
+			.item {
+				position: relative;
+				width: 100%;
+				height: 300px;
+				/* display: inline-block; */
+			}
+			.title {
+				height: 24px;
+			}
+			canvas {
+				border: 1px solid black;
+				width: 100%;
+				height: calc(100% - 24px);
+			}
+			.demo {
+				position: absolute;
+				right: 5px;
+				top: 24px;
+				height: calc(100% - 24px);
+				width: 32px;
+			}
+			.ball {
+				position: absolute;
+				width: 32px;
+				height: 32px;
+				border-radius: 50%;
+				background-color: #2345;
+				top: calc(100% - 16px);
+			}
+		</style>
+		<script type="module" src="../dist/animbase.iife.min.js"></script>
+		<script>
+			window.addEventListener("load", () => {
+				const toCanvasHeight = (a, canvas) => {
+					const bMin = canvas.height - canvas.height * 0.2;
+					const bMax = canvas.height * 0.2;
+					return bMin + a * (bMax - bMin);
+				};
+				function drawGraph(ease, canvas) {
+					const ctx = canvas.getContext("2d");
+					ctx.canvas.width =
+						document.querySelector("canvas").offsetWidth;
+					ctx.canvas.height =
+						document.querySelector("canvas").offsetHeight;
+
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
+					ctx.beginPath();
+					ctx.moveTo(0, canvas.height); // Mulai dari pojok kiri bawah
+
+					for (let x = 0; x <= canvas.width; x++) {
+						const t = x / canvas.width;
+						const y = toCanvasHeight(
+							AnimBase.easingFunctions[ease](t),
+							canvas
+						);
+						ctx.lineTo(x, y);
+					}
+					ctx.stroke();
+				}
+				for (let n of Object.keys(AnimBase.easingFunctions)) {
+					const item = document.getElementById(n);
+					const canvas = item.querySelector("canvas");
+
+					drawGraph(n, canvas);
+					item.addEventListener("click", () => {
+						AnimBase.trigger(n);
+					});
+				}
+
+				// let s = "";
+				// for (let n of Object.keys(AnimBase.easingFunctions)) {
+				// 	s += `		<div class="item" id="${n}">
+				// 			<div class="title">${n}</div>
+				// 			<canvas></canvas>
+				// 			<div class="demo">
+				// 				<div
+				// 					data-anim-trigger-group="${n}"
+				// 					data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+				// 				></div>
+				// 				<div
+				// 					class="ball"
+				// 					data-anim-trigger-group="${n}"
+				// 					data-anim-init='{"top": "calc(80% - 16px)"}'
+				// 					data-anim-config='{"100": {"top": "calc(20%.${n} - 16px)"}}'
+				// 				></div>
+				// 			</div>
+				// 		</div>
+				// `;
+				// }
+				// console.log(s);
+			});
+		</script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="item" id="linear">
+				<div class="title">linear</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="linear"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="linear"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.linear - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="ease">
+				<div class="title">ease</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="ease"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="ease"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.ease - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="in">
+				<div class="title">in</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="in"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="in"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.in - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="out">
+				<div class="title">out</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="out"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="out"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.out - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inOut">
+				<div class="title">inOut</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inOut"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inOut"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inOut - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inQuad">
+				<div class="title">inQuad</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inQuad"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inQuad"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inQuad - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="outQuad">
+				<div class="title">outQuad</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="outQuad"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="outQuad"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.outQuad - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inOutQuad">
+				<div class="title">inOutQuad</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inOutQuad"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inOutQuad"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inOutQuad - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inCubic">
+				<div class="title">inCubic</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inCubic"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inCubic"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inCubic - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="outCubic">
+				<div class="title">outCubic</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="outCubic"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="outCubic"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.outCubic - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inOutCubic">
+				<div class="title">inOutCubic</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inOutCubic"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inOutCubic"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inOutCubic - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inQuart">
+				<div class="title">inQuart</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inQuart"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inQuart"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inQuart - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="outQuart">
+				<div class="title">outQuart</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="outQuart"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="outQuart"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.outQuart - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inOutQuart">
+				<div class="title">inOutQuart</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inOutQuart"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inOutQuart"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inOutQuart - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inQuint">
+				<div class="title">inQuint</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inQuint"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inQuint"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inQuint - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="outQuint">
+				<div class="title">outQuint</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="outQuint"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="outQuint"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.outQuint - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inOutQuint">
+				<div class="title">inOutQuint</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inOutQuint"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inOutQuint"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inOutQuint - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inSine">
+				<div class="title">inSine</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inSine"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inSine"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inSine - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="outSine">
+				<div class="title">outSine</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="outSine"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="outSine"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.outSine - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inOutSine">
+				<div class="title">inOutSine</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inOutSine"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inOutSine"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inOutSine - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inExpo">
+				<div class="title">inExpo</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inExpo"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inExpo"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inExpo - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="outExpo">
+				<div class="title">outExpo</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="outExpo"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="outExpo"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.outExpo - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inOutExpo">
+				<div class="title">inOutExpo</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inOutExpo"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inOutExpo"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inOutExpo - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inCirc">
+				<div class="title">inCirc</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inCirc"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inCirc"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inCirc - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="outCirc">
+				<div class="title">outCirc</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="outCirc"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="outCirc"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.outCirc - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inOutCirc">
+				<div class="title">inOutCirc</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inOutCirc"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inOutCirc"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inOutCirc - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inBack">
+				<div class="title">inBack</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inBack"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inBack"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inBack - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="outBack">
+				<div class="title">outBack</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="outBack"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="outBack"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.outBack - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inOutBack">
+				<div class="title">inOutBack</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inOutBack"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inOutBack"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inOutBack - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inElastic">
+				<div class="title">inElastic</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inElastic"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inElastic"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inElastic - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="outElastic">
+				<div class="title">outElastic</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="outElastic"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="outElastic"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.outElastic - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inOutElastic">
+				<div class="title">inOutElastic</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inOutElastic"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inOutElastic"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inOutElastic - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inBounce">
+				<div class="title">inBounce</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inBounce"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inBounce"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inBounce - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="outBounce">
+				<div class="title">outBounce</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="outBounce"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="outBounce"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.outBounce - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="inOutBounce">
+				<div class="title">inOutBounce</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="inOutBounce"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="inOutBounce"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.inOutBounce - 16px)"}}'
+					></div>
+				</div>
+			</div>
+			<div class="item" id="spring">
+				<div class="title">spring</div>
+				<canvas></canvas>
+				<div class="demo">
+					<div
+						data-anim-trigger-group="spring"
+						data-anim-trigger-config='{"speed": 100, "once": true, "max": 100}'
+					></div>
+					<div
+						class="ball"
+						data-anim-trigger-group="spring"
+						data-anim-init='{"top": "calc(80% - 16px)"}'
+						data-anim-config='{"100": {"top": "calc(20%.spring - 16px)"}}'
+					></div>
+				</div>
+			</div>
+		</div>
+		<!-- Don't worry, I didn't type all of this. I'm not THAT dedicated. -->
+	</body>
+</html>

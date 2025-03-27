@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AnimBase Demo – Fade & Slide</title>
+		<style>
+			body {
+				font-family: sans-serif;
+				padding: 2rem;
+			}
+			.box {
+				font-size: 2rem;
+				width: fit-content;
+				margin-top: 2rem;
+				transition: none !important; /* jangan sampai CSS conflict */
+			}
+		</style>
+		<script type="module" src="../dist/animbase.iife.min.js"></script>
+	</head>
+	<body>
+		<label
+			>Timeline:
+			<input type="range" min="0" max="100" value="0" id="text-slider"
+		/></label>
+
+		<div
+			class="box"
+			data-anim-init='{"opacity":"0", "transform":"translateX(-50px)"}'
+			data-anim-config='{"100":{"opacity":"1", "transform":"translateX(0px.out)"}}'
+			data-anim-controller-ref="#text-slider"
+		>
+			Hello, AnimBase!
+		</div>
+	</body>
+</html>

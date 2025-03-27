@@ -1,0 +1,16 @@
+# Source code dan config tidak dibutuhkan
+src/
+node_modules/
+rollup.config.js
+package.json
+package-lock.json
+*.ts
+*.md
+
+# Editor & OS-specific
+.DS_Store
+.idea/
+.vscode/
+
+# Misc
+.env

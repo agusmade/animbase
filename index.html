@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="color-scheme" content="light dark" />
+		<title>AnimBase – Declarative Animation Engine</title>
+		<script type="module" src="./dist/animbase.iife.min.js"></script>
+		<script>
+			window.addEventListener("load", () => {
+				AnimBase.setHooks("intro", {
+					onFinish: () => {
+						document.querySelector("main").style.display = "block";
+						document.querySelector("footer").style.display =
+							"block";
+						setTimeout(() => {
+							document
+								.querySelector("main")
+								.scrollIntoView({ behavior: "smooth" });
+						}, 150);
+					},
+				});
+			});
+		</script>
+		<style>
+			:root {
+				color-scheme: light dark;
+			}
+			body {
+				margin: 0;
+				font-family: system-ui, sans-serif;
+				background: #111;
+				color: #eee;
+			}
+			header {
+				height: 100dvh;
+				overflow-x: hidden;
+				position: relative;
+			}
+			.area {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+			.area > * {
+				position: absolute;
+			}
+			.welcome {
+				font-size: 20pt;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				opacity: 0;
+			}
+			.name,
+			.tagline {
+				font-size: 48pt;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				/* opacity: 0; */
+			}
+			.tagline {
+				font-size: 22pt;
+			}
+			main {
+				padding: 4rem 2rem;
+				max-width: 800px;
+				margin: 0 auto;
+				display: none;
+			}
+			h2 {
+				text-align: center;
+			}
+			.demo-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+				gap: 1rem;
+				margin-top: 2rem;
+			}
+			.demo-grid a {
+				display: block;
+				padding: 1rem;
+				border-radius: 0.75rem;
+				background: #222;
+				text-decoration: none;
+				color: #5bf;
+				text-align: center;
+				font-weight: bold;
+				transition: all 0.2s ease;
+			}
+			.demo-grid a:hover {
+				background: #333;
+			}
+			footer {
+				text-align: center;
+				font-size: 0.9rem;
+				padding: 2rem;
+				color: #888;
+				display: none;
+			}
+			.virtual {
+				display: none;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div
+				class="virtual"
+				data-anim-trigger-group="intro"
+				data-anim-trigger-config='{"speed": 400, "once": true, "autostart": true, "max": 3800}'
+			></div>
+			<div class="area">
+				<div
+					class="welcome"
+					data-anim-trigger-group="intro"
+					data-anim-init='{"opacity": "0", "transform": "translate(calc(50% - 0px), calc(-50% + -40pt))"}'
+					data-anim-config='{
+						"100":{},
+						"2000": {"opacity":"1.outQuart", "transform": "translate(calc(-50% - 150px.outElastic), calc(-50% + -40pt))"},
+						"2800": {},
+						"3500": {"opacity":"0.out", "transform": "translate(calc(-50% - 150px), calc(-50% + 40pt))"}
+        			}'
+				>
+					welcome to
+				</div>
+				<div
+					class="name"
+					data-anim-controlled-by="scrollTop"
+					data-anim-init='{"opacity": "1", "transform": "translate(-50%, calc(-50% + 0vh)) scale(1)"}'
+					data-anim-config='{
+						"300":{"opacity": "1", "transform": "translate(-50%, calc(-50% + 45vh.outSine)) scale(0.5.inSine)"}
+					}'
+				>
+					<div
+						data-anim-trigger-group="intro"
+						data-anim-init='{"opacity": "0", "color": "#fff", "transform": "translate(0%, 200%) scale(1)"}'
+						data-anim-config='{
+							"100":{},
+							"800": {
+								"opacity":"1.in",
+								"color": "#5bf",
+								"transform": "translate(0%, -30%.inBack)) scale(1)"
+							},
+							"3200": {},
+							"3800": {"transform": "translate(0%, -100%) scale(2.out)"}
+						}'
+					>
+						AnimBase
+					</div>
+				</div>
+				<div
+					class="tagline"
+					data-anim-controlled-by="scrollTop"
+					data-anim-init='{"opacity": "1", "transform": "translate(-50%, calc(-50% + 0vh))"}'
+					data-anim-config='{
+						"300":{"opacity": "0", "transform": "translate(50%.inSine, calc(-50% + 45vh.outSine))"}
+					}'
+				>
+					<div
+						data-anim-trigger-group="intro"
+						data-anim-init='{"opacity": "0", "transform": "translate(-50%, 0)"}'
+						data-anim-config='{
+							"3600": {},
+							"3800": {"opacity": "1.in", "transform": "translate(0%, 0)"}
+						}'
+					>
+						The declarative animation engine
+					</div>
+				</div>
+			</div>
+		</header>
+		<main>
+			<h2>🎞️ Demos</h2>
+			<div class="demo-grid">
+				<a href="./demo/looping-ball.html">🔁 Looping Ball</a>
+				<a href="./demo/fade-slide-range.html"
+					>🎚️ Fade & Slide (Range)</a
+				>
+				<a href="./demo/scroll-cinematic.html">🎬 Scroll Cinematic</a>
+				<a href="./demo/scroll-parallax.html">🌄 Scroll Parallax</a>
+				<a href="./demo/cinematic-autostart.html">⏱️ Auto Cinematic</a>
+				<a href="./demo/triggered.html">🕹️ Triggered</a>
+			</div>
+		</main>
+		<footer>Made with ❤️ by Agus Made · MIT License</footer>
+	</body>
+</html>

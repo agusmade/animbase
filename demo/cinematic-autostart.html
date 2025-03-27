@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="color-scheme" content="light dark" />
+		<title>AnimBase Demo – Scroll Cinematic</title>
+		<style>
+			html,
+			body {
+				width: 100%;
+				height: 100%;
+				margin: 0 0 0 0;
+			}
+			.area {
+				width: 100%;
+				height: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+			}
+			.area > * {
+				position: absolute;
+			}
+			.welcome {
+				position: absolute;
+				font-size: 20pt;
+				left: 50%;
+				top: 50%;
+				opacity: 0;
+				transform: translate(calc(-50% - 200px), calc(-50% - 40pt));
+			}
+			.name,
+			.tagline {
+				position: absolute;
+				font-size: 48pt;
+				left: 50%;
+				top: 50%;
+				opacity: 0;
+				transform: translate(-50%, -50%);
+			}
+			.tagline {
+				font-size: 14pt;
+			}
+		</style>
+		<script type="module" src="../dist/animbase.iife.min.js"></script>
+	</head>
+	<body>
+		<div
+			data-anim-trigger-group="g1"
+			data-anim-trigger-config='{"speed": 400, "once": false, "autostart": true, "max": 4800}'
+		></div>
+		<div class="area">
+			<div
+				class="welcome"
+				data-anim-trigger-group="g1"
+				data-anim-init='{
+					"opacity": "0",
+					"transform": "translate(calc(50% - 0px), calc(-50% + -40pt))"
+				}'
+				data-anim-config='{
+					"100":{},
+					"2000": {
+						"opacity":"1.outQuart",
+						"transform": "translate(calc(-50% - 150px.outElastic), calc(-50% + -40pt))"
+					},
+					"2800": {},
+					"3500": {
+						"opacity":"0.inSine",
+						"transform": "translate(calc(-50% - 150px), calc(-50% + 40pt))"
+					}
+				}'
+			>
+				welcome to
+			</div>
+			<div
+				class="name"
+				data-anim-trigger-group="g1"
+				data-anim-init='{
+					"opacity": "0",
+					"color": "#fff",
+					"transform": "translate(-50%, 200%) scale(1)"
+				}'
+				data-anim-config='{
+					"100":{},
+					"800": {
+						"opacity":"1.out",
+						"color": "#5bf",
+						"transform": "translate(-50%, -50%.spring) scale(1)"
+					},
+					"3000": {},
+					"3600": {
+						"color": "#fa2.outSine",
+						"transform": "translate(-50%, -100%.out) scale(1)"
+					},
+					"4400": {},
+					"4800": {
+						"opacity":"0.out",
+						"transform": "translate(-50%, -100%) scale(2.out)"
+					}
+				}'
+			>
+				AnimBase
+			</div>
+			<div
+				class="tagline"
+				data-anim-trigger-group="g1"
+				data-anim-init='{"opacity": "0", "transform": "translate(-150%, -50%)"}'
+				data-anim-config='{
+					"3200": {},
+					"3600": {"opacity": "1.out", "transform": "translate(-50%.spring, -50%)"},
+					"4400": {},
+					"4800": {"opacity":"0.out", "transform": "translate(150%.inOutSine, -50%)"}
+				}'
+			>
+				The declarative animation engine
+			</div>
+		</div>
+	</body>
+</html>

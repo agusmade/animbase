@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AnimBase Demo – Triggered</title>
+		<style>
+			body {
+				font-family: sans-serif;
+				text-align: center;
+				padding: 2rem;
+			}
+			.box {
+				width: 100px;
+				height: 100px;
+				background: #f44;
+				margin: 2rem auto;
+				border-radius: 0.5rem;
+				transition: none !important;
+			}
+			.buttons > button {
+				margin: 0.25rem;
+			}
+		</style>
+		<script type="module" src="../dist/animbase.iife.min.js"></script>
+	</head>
+	<body>
+		<h2>Triggered Reverse Animation</h2>
+		<div
+			class="box"
+			data-anim-init='{
+      "transform": "scale(0.5) rotate(0deg)",
+      "background": "#f44",
+      "opacity": "0"
+    }'
+			data-anim-config='{
+      "100": {
+        "transform": "scale(1.5.outQuart) rotate(180deg.out)",
+        "background": "#4f4",
+        "opacity": "1.in"
+      }
+    }'
+			data-anim-trigger-group="demoReverse"
+		></div>
+
+		<div
+			data-anim-trigger-group="demoReverse"
+			data-anim-trigger-config='{"max": 100, "once": false, "speed": 60}'
+		></div>
+
+		<div class="buttons">
+			<button onclick="AnimBase.trigger('demoReverse')">
+				▶️ Trigger
+			</button>
+			<button onclick="AnimBase.pause('demoReverse')">⏸️ Pause</button>
+			<button onclick="AnimBase.resume('demoReverse')">▶️ Resume</button>
+			<button onclick="AnimBase.setReverse('demoReverse', true)">
+				🔁 Reverse
+			</button>
+			<button onclick="AnimBase.setOnce('demoReverse', true)">
+				☝️ Once
+			</button>
+			<button onclick="AnimBase.setReverse('demoReverse', false)">
+				⏩ Forward
+			</button>
+			<button onclick="AnimBase.stop('demoReverse')">⏹️ Stop</button>
+		</div>
+	</body>
+</html>

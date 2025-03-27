@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AnimBase Demo – Looping Ball</title>
+		<style>
+			body {
+				font-family: sans-serif;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 100dvh;
+				margin: 0;
+				background: #eef;
+			}
+			.ball {
+				width: 60px;
+				height: 60px;
+				border-radius: 50%;
+				background: radial-gradient(circle at 20% 25%, #5cabff, #000);
+			}
+			.shadow {
+				position: absolute;
+				opacity: 0.4;
+				background: #000;
+				transform: translateY(50%) scale(1, 0.5);
+				z-index: -1;
+			}
+		</style>
+		<script type="module" src="../dist/animbase.iife.min.js"></script>
+	</head>
+	<body>
+		<!-- Konfigurasi trigger-group -->
+		<div
+			data-anim-trigger-group="floating"
+			data-anim-trigger-config='{"speed": 60, "once": false, "autostart": true, "max": 100}'
+		></div>
+
+		<!-- Bola animasi -->
+		<div
+			class="ball"
+			data-anim-init='{"transform": "translateY(-30px)"}'
+			data-anim-config='{
+				"60": {"transform": "translateY(0px.inOutSine)"},
+				"100": {"transform": "translateY(-30px.outSine)"}
+			}'
+			data-anim-trigger-group="floating"
+		></div>
+		<!-- Bayangan -->
+		<div
+			class="ball shadow"
+			data-anim-init='{"filter": "blur(1.5rem)"}'
+			data-anim-config='{
+				"60": {"filter": "blur(0.2rem)"},
+				"100": {"filter": "blur(1.5rem)"}
+			}'
+			data-anim-trigger-group="floating"
+		></div>
+	</body>
+</html>
