@@ -1,0 +1,37 @@
+{
+	"name": "animbase",
+	"version": "1.0.0",
+	"description": "Declarative animation engine",
+	"main": "dist/animbase.iife.min.js",
+	"module": "dist/animbase.esm.min.js",
+	"exports": {
+		"import": "./dist/animbase.esm.min.js",
+		"require": "./dist/animbase.iife.min.js"
+	},
+	"scripts": {
+		"build": "rollup -c",
+		"dev": "rollup -c --watch & npx serve ."
+	},
+	"author": "Agus Made <krisnaparta@gmail.com>",
+	"license": "MIT",
+	"devDependencies": {
+		"rollup": "^4.0.0",
+		"rollup-plugin-terser": "^7.0.2"
+	},
+	"files": [
+		"dist/",
+		"autoinit.js",
+		"animbase-core.js",
+		"README.md",
+		"LICENSE"
+	],
+	"keywords": [
+		"animation",
+		"declarative",
+		"timeline",
+		"scroll animation",
+		"easing",
+		"css transform",
+		"vanilla js"
+	]
+}
