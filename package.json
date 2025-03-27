@@ -1,12 +1,14 @@
 {
 	"name": "animbase",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Declarative animation engine",
-	"main": "dist/animbase.iife.min.js",
-	"module": "dist/animbase.esm.min.js",
+	"main": "dist/animbase.cjs.js",
+	"module": "dist/animbase.esm.js",
 	"exports": {
-		"import": "./dist/animbase.esm.min.js",
-		"require": "./dist/animbase.iife.min.js"
+		".": {
+			"import": "./dist/animbase.esm.js",
+			"require": "./dist/animbase.cjs.js"
+		}
 	},
 	"scripts": {
 		"build": "rollup -c",
@@ -28,10 +30,17 @@
 	"keywords": [
 		"animation",
 		"declarative",
+		"engine",
+		"css",
 		"timeline",
-		"scroll animation",
-		"easing",
-		"css transform",
-		"vanilla js"
-	]
+		"javascript"
+	],
+	"bugs": {
+		"url": "https://github.com/agusmade/animbase/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/agusmade/animbase.git"
+	},
+	"homepage": "https://agusmade.github.io/animbase/"
 }

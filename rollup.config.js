@@ -11,6 +11,16 @@ module.exports = [
 		},
 	},
 
+	// CJS
+	{
+		input: "src/index.js",
+		output: {
+			file: "dist/animbase.cjs.js",
+			format: "cjs",
+			sourcemap: true,
+		},
+	},
+
 	// IIFE (non-minified)
 	{
 		input: "src/index.js",

@@ -1,5 +1,9 @@
 # AnimBase
 
+![npm](https://img.shields.io/npm/v/animbase)
+![license](https://img.shields.io/badge/license-MIT-green)
+[![gh-pages](https://img.shields.io/badge/demo-gh--pages-orange)](https://agusmade.github.io/animbase/)
+
 **The declarative animation engine** – Animate HTML elements using only `data-*` attributes. No custom JavaScript required.
 
 ## ✨ Features
@@ -9,11 +13,10 @@
 -   🎨 Supports numeric values and colors
 -   ⚡ Per-subvalue easing (e.g., `transform: translateY(20px.out)`, `color: #00f.out`)
 -   🧠 Detects and interpolates each number or color in a single property (e.g., `box-shadow`, `filter`, `transform`, `outline`, etc.)
--   🎯 Multiple timeline sources:
+-   🎯 Multiple timeline sources (3 types):
     -   scroll (`scrollTop`, `scrollLeft`)
     -   range input or any bound controller element
     -   triggered timer (looping or one-shot)
--   🧠 Automatic controller binding (via `autoinit.js`)
 -   🔂 Triggered animation with runtime control API
 -   ⏯️ Playback control: trigger, pause, resume, stop, seek
 -   🔁 Direction control with `reverse`
@@ -23,30 +26,52 @@
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Installation
+
+### Using NPM
+
+```bash
+npm install animbase
+```
+
+Then import manually:
+
+```js
+import AnimBase from "animbase";
+```
+
+### Using CDN
+
+```html
+<script type="module" src="https://unpkg.com/animbase/dist/animbase.iife.min.js"></script>
+```
+
+---
+
+## 🧭 Quick Start
 
 ### 1. Include the script
 
 ```html
-<script type="module" src="./autoinit.js"></script>
+<script type="module" src="https://unpkg.com/animbase/dist/animbase.iife.min.js"></script>
 ```
 
 ### 2. Add animated element using one of three timeline types:
 
-#### 🧭 A. Controlled by another element (e.g. range input)
+#### A. Controlled by another element (e.g. range input)
 
 ```html
 <input type="range" id="slider" min="0" max="100" value="0" />
 <div data-anim-init='{"opacity": "0"}' data-anim-config='{"100": {"opacity": "1"}}' data-anim-controller-ref="#slider"></div>
 ```
 
-#### 🌐 B. Controlled by scroll position
+#### B. Controlled by scroll position
 
 ```html
 <div data-anim-init='{"transform": "translateY(100px.out)"}' data-anim-config='{"200": {"transform": "translateY(0px.out)"}}' data-anim-controlled-by="scrollTop"></div>
 ```
 
-#### ⏱️ C. Triggered timed animation (manual or autoplay)
+#### C. Triggered timed animation (manual or autoplay)
 
 ```html
 <!-- Config element (required once per group) -->
@@ -65,21 +90,21 @@
 
 ## 🧠 How It Works
 
--   `data-anim-init` defines the initial style (e.g. `{"opacity": "0", "transform": "scale(0.5)"}`)
--   `data-anim-config` defines how it animates over time, using keyframes and optional easing per subvalue
+-   `data-anim-init` defines the initial style (e.g. `{ "opacity": "0", "transform": "scale(0.5)" }`)
+-   `data-anim-config` defines how it animates over time using keyframes with optional easing per subvalue
 -   Subvalue formats supported:
     -   `1`, `1px`, `1%`, `1deg`, `#00f` → default to **linear easing**
     -   `1.out`, `1px.in`, `#00f.inOut` → apply **explicit easing function**
--   Includes a wide range of easing types like `outElastic`, `inBounce`, and more.
--   Each CSS property string is scanned for subvalues (numbers, units, colors) and those values are animated individually.
-    -   Example: `boxShadow: 0 0 10px #000` (from CSS `box-shadow`) will animate all 4 values if defined in config.
-    -   This works for **any CSS property** with embedded numeric or color values.
--   Timeline source is defined by one of:
-    -   `data-anim-controller-ref`: reference to another DOM element (e.g. range input)
-    -   `data-anim-controlled-by`: scroll-based timeline (`scrollTop` or `scrollLeft`)
-    -   `data-anim-trigger-group`: programmatic or timed animation loop
+-   Includes 30+ easing types: `linear`, `inOutBack`, `outElastic`, `inBounce`, `spring`, and more.
+-   Each CSS property string is parsed to detect subvalues (numbers, units, colors), all of which are animated individually.
+    -   Example: `boxShadow: "0 0 10px #000"` → 4 animatable parts.
+    -   Works with **any property** containing animatable values.
+-   Timeline source must be one of:
+    -   `data-anim-controller-ref`: bind to another DOM element (e.g. input[type=range])
+    -   `data-anim-controlled-by`: use window scroll (`scrollTop` / `scrollLeft`)
+    -   `data-anim-trigger-group`: timed animation (manual or autoplay)
 
-❗ Only one of these three should be defined per element.
+❗ Only **one** of these properties should be defined per animated element.
 
 ---
 
@@ -91,8 +116,8 @@ AnimBase.pause("group"); // Pause
 AnimBase.resume("group"); // Resume
 AnimBase.stop("group"); // Stop and reset
 AnimBase.seek("group", 50); // Jump to frame 50
-AnimBase.setReverse("group", true); // Enable reverse playback
-AnimBase.setOnce("group", true); // Only play once (no loop)
+AnimBase.setReverse("group", true); // Reverse playback
+AnimBase.setOnce("group", true); // Play once only
 
 AnimBase.setHooks("group", {
 	onStart: () => console.log("Started"),
@@ -105,6 +130,10 @@ AnimBase.setHooks("group", {
 ## 📦 License
 
 MIT
+
+---
+
+🎉 Check out the [live demos](https://agusmade.github.io/animbase/) to see AnimBase in action, or integrate it into your next web creation!
 
 ---
 
