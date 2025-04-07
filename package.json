@@ -1,6 +1,6 @@
 {
 	"name": "animbase",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"description": "Declarative animation engine",
 	"main": "dist/animbase.cjs.js",
 	"module": "dist/animbase.esm.js",
@@ -12,7 +12,8 @@
 	},
 	"scripts": {
 		"build": "rollup -c",
-		"dev": "rollup -c --watch & npx serve ."
+		"dev": "rollup -c --watch --environment BUILD_ENV:dev",
+		"start": "rollup -c --watch --environment BUILD_ENV:dev & npx serve ."
 	},
 	"author": "Agus Made <krisnaparta@gmail.com>",
 	"license": "MIT",
@@ -22,8 +23,6 @@
 	},
 	"files": [
 		"dist/",
-		"autoinit.js",
-		"animbase-core.js",
 		"README.md",
 		"LICENSE"
 	],
@@ -33,7 +32,15 @@
 		"engine",
 		"css",
 		"timeline",
-		"javascript"
+		"javascript",
+		"ease",
+		"easing",
+		"motion tween",
+		"web animation",
+		"transition",
+		"css transform",
+		"data attributes",
+		"lightweight animation"
 	],
 	"bugs": {
 		"url": "https://github.com/agusmade/animbase/issues"

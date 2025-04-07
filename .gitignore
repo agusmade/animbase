@@ -6,6 +6,8 @@ dist/
 index.html
 demo/
 public/
+docs/
+notes/
 
 # Build log dan cache
 npm-debug.log*

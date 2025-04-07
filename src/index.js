@@ -1,11 +1,9 @@
-import * as AnimBaseCore from "./animbase-core.js";
-import "./autoinit.js"; // tetap bekerja saat pakai <script> biasa
+import * as Core from './animbase-core.js';
+import Auto from './autoinit.js';
 
-// Untuk IIFE dan global
-if (typeof window !== "undefined") {
-	window.AnimBase = window.AnimBase || {};
-	Object.assign(window.AnimBase, AnimBaseCore);
-}
+const AnimBase = {
+	...Core,
+	...Auto,
+};
 
-// Untuk ESM/CommonJS
-export * from "./animbase-core.js";
+export default AnimBase;
