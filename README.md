@@ -44,7 +44,7 @@ import AnimBase from 'animbase';
 ### Using CDN
 
 ```html
-<script type="module" src="https://unpkg.com/animbase/dist/animbase.iife.min.js"></script>
+<script src="https://unpkg.com/animbase/dist/animbase.iife.min.js"></script>
 ```
 
 ---
@@ -54,7 +54,7 @@ import AnimBase from 'animbase';
 ### 1. Include the script
 
 ```html
-<script type="module" src="https://unpkg.com/animbase/dist/animbase.iife.min.js"></script>
+<script src="https://unpkg.com/animbase/dist/animbase.iife.min.js"></script>
 ```
 
 ### 2. Add animated element using one of two animation modes:
