@@ -3,112 +3,26 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="AnimBase is a lightweight declarative animation engine for the web. Animate with HTML only using data-* attributes." />
-        <link rel="canonical" href="https://agusmade.github.io/animbase/" />
+		<meta
+			name="description"
+			content="AnimBase is a lightweight declarative animation engine for the web. Animate with HTML only using data-* attributes."
+		/>
+		<link rel="canonical" href="https://agusmade.github.io/animbase/" />
 		<meta name="color-scheme" content="light dark" />
 		<title>AnimBase – Declarative Animation Engine</title>
-		<script type="module" src="./dist/animbase.iife.min.js"></script>
-		<script>
-			window.addEventListener("load", () => {
-				AnimBase.setHooks("intro", {
-					onFinish: () => {
-						const main = document.querySelector("main");
-                        const footer = document.querySelector("footer");
-                        main.style.display = "block";
-                        footer.style.display = "block";
-                        setTimeout(() => main.scrollIntoView({ behavior: "smooth" }), 150);
-					},
-				});
-			});
-		</script>
-		<style>
-			:root {
-				color-scheme: light dark;
-			}
-			body {
-				margin: 0;
-				font-family: system-ui, sans-serif;
-				background: #111;
-				color: #eee;
-			}
-			header {
-				height: 100dvh;
-				overflow-x: hidden;
-				position: relative;
-			}
-			.area {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-			}
-			.area > * {
-				position: absolute;
-			}
-			.welcome {
-				font-size: 20pt;
-				left: 50%;
-				top: 50%;
-				transform: translate(-50%, -50%);
-				opacity: 0;
-			}
-			.name,
-			.tagline {
-				font-size: 48pt;
-				left: 50%;
-				top: 50%;
-				transform: translate(-50%, -50%);
-				opacity: 0;
-			}
-			.tagline {
-				font-size: 22pt;
-			}
-			main {
-				padding: 4rem 2rem;
-				max-width: 800px;
-				margin: 0 auto;
-				display: none;
-			}
-			h2 {
-				text-align: center;
-			}
-			.demo-grid {
-				display: grid;
-				grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-				gap: 1rem;
-				margin-top: 2rem;
-			}
-			.demo-grid a {
-				display: block;
-				padding: 1rem;
-				border-radius: 0.75rem;
-				background: #222;
-				text-decoration: none;
-				color: #5bf;
-				text-align: center;
-				font-weight: bold;
-				transition: all 0.2s ease;
-			}
-			.demo-grid a:hover {
-				background: #333;
-			}
-			footer {
-				text-align: center;
-				font-size: 0.9rem;
-				padding: 2rem;
-				color: #888;
-				display: none;
-			}
-			.virtual {
-				display: none;
-			}
-		</style>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css" />
+		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/home.css" />
+		<script src="https://agusmade.github.io/animbase/dist/animbase.iife.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 	</head>
 	<body>
 		<header>
 			<div
-				class="virtual"
 				data-anim-trigger-group="intro"
 				data-anim-trigger-config='{"speed": 400, "once": true, "autostart": true, "max": 3800}'
 			></div>
@@ -119,9 +33,9 @@
 					data-anim-init='{"opacity": "0", "transform": "translate(calc(50% - 0px), calc(-50% + -40pt))"}'
 					data-anim-config='{
 						"100":{},
-						"2000": {"opacity":"1.outQuart", "transform": "translate(calc(-50% - 150px.outElastic), calc(-50% + -40pt))"},
+						"2000": {"opacity":"1.outQuart", "transform": "translate(calc(-50% - 100px.outElastic), calc(-50% + -40pt))"},
 						"2800": {},
-						"3500": {"opacity":"0.out", "transform": "translate(calc(-50% - 150px), calc(-50% + 40pt))"}
+						"3500": {"opacity":"0.out", "transform": "translate(calc(-50% - 100px), calc(-50% + 40pt))"}
         			}'
 				>
 					welcome to
@@ -131,7 +45,7 @@
 					data-anim-controlled-by="scrollTop"
 					data-anim-init='{"opacity": "1", "transform": "translate(-50%, calc(-50% + 0vh)) scale(1)"}'
 					data-anim-config='{
-						"300":{"opacity": "1", "transform": "translate(-50%, calc(-50% + 45vh.outSine)) scale(0.5.inSine)"}
+						"300":{"opacity": "1", "transform": "translate(-50%, calc(-50% + 45vh.outSine)) scale(0.6.inSine)"}
 					}'
 				>
 					<div
@@ -145,7 +59,7 @@
 								"transform": "translate(0%, -30%.inBack) scale(1)"
 							},
 							"3200": {},
-							"3800": {"transform": "translate(0%, -100%) scale(2.out)"}
+							"3800": {"color": "#fa2.outSine", "transform": "translate(0%, -90%.outExpo) scale(1.2.outExpo)"}
 						}'
 					>
 						AnimBase
@@ -163,29 +77,159 @@
 						data-anim-trigger-group="intro"
 						data-anim-init='{"opacity": "0", "transform": "translate(-50%, 0)"}'
 						data-anim-config='{
-							"3600": {},
-							"3800": {"opacity": "1.in", "transform": "translate(0%, 0)"}
+							"3400": {},
+							"3800": {"opacity": "1.outSine", "transform": "translate(0%.spring, 0)"}
 						}'
 					>
 						The declarative animation engine
 					</div>
 				</div>
+				<div
+					class="hero-buttons"
+					data-anim-controlled-by="scrollTop"
+					data-anim-init='{"opacity": "1"}'
+					data-anim-config='{"300":{"opacity": "0"}}'
+				>
+					<button
+						id="replay"
+						data-anim-trigger-group="intro"
+						data-anim-init='{"opacity": "0"}'
+						data-anim-config='{
+							"3400": {},
+							"3800": {"opacity": "1.inSine"}
+						}'
+						onclick="AnimBase.play('intro')"
+					>
+						<i data-icon="reload"></i>
+					</button>
+					<a
+						href="#features"
+						class="button"
+						data-anim-trigger-group="intro"
+						data-anim-init='{"opacity": "0"}'
+						data-anim-config='{
+							"3400": {},
+							"3800": {"opacity": "1.inSine"}
+						}'
+					>
+						<i data-icon="chevron-down"></i>
+					</a>
+				</div>
 			</div>
 		</header>
 		<main>
-			<h2>🎞️ Demos</h2>
-			<div class="demo-grid">
-				<a href="./demo/looping-ball.html">🔁 Looping Ball</a>
-				<a href="./demo/fade-slide-range.html"
-					>🎚️ Fade & Slide (Range)</a
-				>
-				<a href="./demo/scroll-cinematic.html">🎬 Scroll Cinematic</a>
-				<a href="./demo/scroll-parallax.html">🌄 Scroll Parallax</a>
-				<a href="./demo/cinematic-autostart.html">⏱️ Auto Cinematic</a>
-				<a href="./demo/triggered.html">🕹️ Triggered</a>
-				<a href="./demo/easing-test.html">📈 Easing Test</a>
-			</div>
+			<section class="features">
+				<a name="features"></a>
+				<h3>Features</h3>
+				<ul>
+					<li>Animate with pure HTML using <code>data-*</code> attributes</li>
+					<li>Supports timeline-based animations, scroll-controlled, input-driven, or triggered</li>
+					<li>
+						Built-in <code>easing</code> functions, including <code>spring</code>, <code>elastic</code>,
+						<code>bounce</code>
+					</li>
+					<li>Small footprint: ~9KB minified</li>
+					<li>No runtime dependencies</li>
+				</ul>
+			</section>
+			<section class="getting-started">
+				<a name="getting-started"></a>
+				<div class="section-content">
+					<h2>Getting Started</h2>
+					<p>Install via CDN or NPM and start animating in seconds.</p>
+					<h3>💡 CDN</h3>
+					<pre><code class="language-html">&lt;script src="https://unpkg.com/animbase/dist/animbase.iife.min.js"&gt;&lt;/script&gt;</code></pre>
+					<h3>📦 NPM</h3>
+					<pre><code class="language-shell">npm install animbase</code></pre>
+					<h3>⚙️ Import (ESM/CommonJS)</h3>
+					<pre><code class="language-js">// ESM
+import AnimBase from "animbase";
+
+// CommonJS
+const AnimBase = require("animbase");</code></pre>
+					<h3>🚀 Usage Examples</h3>
+
+					<div class="usage-grid">
+						<!-- Range Input -->
+						<div class="usage-card">
+							<div class="example-preview">
+								<div
+									class="box"
+									data-anim-controller-ref="#slider"
+									data-anim-init='{"transform": "translateX(-100%) rotateZ(-90deg)"}'
+									data-anim-config='{"100": {"transform": "translateX(100%.outQuad) rotateZ(0deg.outBounce)"}}'
+								>
+									🎯 Slide Me
+								</div>
+								<input type="range" min="0" max="100" value="50" step="1" id="slider" />
+							</div>
+							<div class="example-code">
+								<pre><code class="language-html">&lt;div
+  data-anim-controller-ref="#slider"
+  data-anim-init='{"transform": "translateX(0%) rotateZ(-90deg)"}'
+  data-anim-config='{"100": {"transform": "translateX(200%.outQuad) rotateZ(0deg.outBounce)"}}'
+&gt;🎯 Slide Me&lt;/div&gt;
+&lt;input type="range" min="0" max="100" value="50" id="slider"&gt;</code></pre>
+							</div>
+						</div>
+
+						<!-- Triggered Animation -->
+						<div class="usage-card">
+							<div class="example-preview">
+								<div
+									class="box"
+									data-anim-trigger-group="hello"
+									data-anim-init='{"transform": "translateX(-100%) scale(0.5)", "opacity": "0"}'
+									data-anim-config='{"100": {"transform": "translateX(100%.spring) scale(1.outSine)", "opacity": "1.out"}}'
+								>
+									🎬 Hello
+								</div>
+								<button onclick="AnimBase.play('hello', {once: true})">Play</button>
+							</div>
+							<div class="example-code">
+								<pre><code class="language-html">&lt;div
+  data-anim-trigger-group="hello"
+  data-anim-init='{"transform": "translateX(-100%) scale(0.5)", "opacity": "0"}'
+  data-anim-config='{"100": {"transform": "translateX(100%.spring) scale(1.outSine)", "opacity": "1.out"}}'
+&gt;🎬 Hello&lt;/div&gt;
+&lt;button onclick="AnimBase.play('hello', {once: true})"&gt;Play&lt;/button&gt;</code></pre>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<section class="use-cases">
+				<a name="use-cases"></a>
+				<div class="section-content">
+					<h2>Use Cases & Showcase</h2>
+					<p>AnimBase is perfect for a wide range of animation scenarios, including:</p>
+					<ul>
+						<li>🎬 Hero section animations</li>
+						<li>🎠 3D-style coverflow interfaces</li>
+						<li>📖 Book-style page flip effects</li>
+						<li>🔤 Letter-by-letter animated text</li>
+						<li>🧭 Scroll-based motion effects</li>
+						<li>🎛️ Range-slider driven animations</li>
+						<li>🧪 Purely programmatic animations</li>
+					</ul>
+					<h3>Live Demos</h3>
+					<ul>
+						<li><a href="https://agusmade.github.io/animbase/demo/index.html">🎥 View All Demos</a></li>
+						<li><a href="https://agusmade.github.io/animbase/docs/index.html">📚 Documentation / API</a></li>
+						<li><a href="https://github.com/agusmade/animbase" target="_blank">🛠 GitHub</a></li>
+						<li><a href="https://www.npmjs.com/package/animbase" target="_blank">📦 npm</a></li>
+					</ul>
+					<p>
+						Want to build something creative? Try combining animation timelines with your UI logic imperatively
+						using the <code>createTimedAnimator</code> API.
+					</p>
+				</div>
+			</section>
 		</main>
-		<footer>Made with ❤️ by Agus Made · MIT License</footer>
+		<footer>
+			Made with ❤️ by Agus Made ·
+			<a href="https://github.com/agusmade/animbase/blob/main/LICENSE" target="_blank">MIT License</a>
+		</footer>
+		<script src="https://agusmade.github.io/animbase/public/js/main.js"></script>
 	</body>
 </html>

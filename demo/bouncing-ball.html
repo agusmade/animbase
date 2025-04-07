@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AnimBase Demo – Bouncing Ball</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
+		<script src="https://agusmade.github.io/animbase/dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
+		<style>
+			body {
+				font-family: sans-serif;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 100dvh;
+				margin: 0;
+				background: radial-gradient(ellipse at 50% 500%, #fff, #000 150%);
+			}
+			.ball {
+				width: 60px;
+				height: 60px;
+				border-radius: 50%;
+				background: radial-gradient(circle at 20% 25%, #5cabff, #000);
+				transform-origin: bottom;
+			}
+			.shadow {
+				position: absolute;
+				opacity: 0.4;
+				background: #000;
+				transform: translateY(30%) scale(1, 0.5);
+				z-index: -1;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Konfigurasi trigger-group -->
+		<div
+			data-anim-trigger-group="bounce"
+			data-anim-trigger-config='{"speed": 60, "once": false, "autostart": true, "max": 115}'
+		></div>
+
+		<!-- Bola animasi -->
+		<div
+			class="ball"
+			data-anim-init='{"transform": "translateY(-200%) scale(1,1)"}'
+			data-anim-config='{
+				"60": {"transform": "translateY(0%.inSine) scale(1,1)"},
+				"70": {"transform": "translateY(0%) scale(1.1.outQuart,0.9.outQuart)"},
+				"75": {"transform": "translateY(0%) scale(1.inQuart,1.inQuart)"},
+				"110": {"transform": "translateY(-200%.outSine) scale(1,1)"}
+			}'
+			data-anim-trigger-group="bounce"
+		></div>
+		<!-- Bayangan -->
+		<div
+			class="ball shadow"
+			data-anim-init='{"filter": "blur(1.8rem)"}'
+			data-anim-config='{
+				"60": {"filter": "blur(0.2rem.inSine)"},
+				"75": {},
+				"110": {"filter": "blur(1.8rem.outSine)"}
+			}'
+			data-anim-trigger-group="bounce"
+		></div>
+	</body>
+</html>

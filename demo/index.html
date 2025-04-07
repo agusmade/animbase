@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AnimBase Demo Index</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
+		<script src="https://agusmade.github.io/animbase/dist/animbase.iife.min.js"></script>
+
+		<style>
+			.grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+				gap: 1.5rem;
+				width: 100%;
+				max-width: 1000px;
+				margin: 0 auto;
+			}
+
+			.card {
+				background: #222;
+				border-radius: 10px;
+				overflow: hidden;
+				box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+				transition: transform 0.2s ease;
+				text-decoration: none;
+				color: inherit;
+			}
+			.card:hover {
+				transform: scale(1.02);
+			}
+			.card img {
+				width: 100%;
+				display: block;
+				aspect-ratio: 4 / 3;
+				object-fit: cover;
+			}
+
+			.card p {
+				padding: 1rem;
+				margin: 0;
+				font-weight: bold;
+				font-size: 1.1rem;
+				text-align: center;
+				color: #ccc;
+			}
+		</style>
+	</head>
+	<body>
+		<h1><span class="name">AnimBase</span> demos</h1>
+		<main>
+			<div class="grid">
+				<a class="card" href="https://agusmade.github.io/animbase/demo/slide-range.html">
+					<img src="https://agusmade.github.io/animbase/public/images/demo/slide-range.png" alt="Range Control Demo" />
+					<p>Slider Driven</p>
+				</a>
+				<a class="card" href="https://agusmade.github.io/animbase/demo/triggered.html">
+					<img src="https://agusmade.github.io/animbase/public/images/demo/triggered.png" alt="Trigger" />
+					<p>Manual Playback</p>
+				</a>
+				<a class="card" href="https://agusmade.github.io/animbase/demo/bouncing-ball.html">
+					<img src="https://agusmade.github.io/animbase/public/images/demo/bouncing-ball.png" alt="Range Control Demo" />
+					<p>Soft Bounce</p>
+				</a>
+				<a class="card" href="https://agusmade.github.io/animbase/demo/css3d-lontar.html">
+					<img src="https://agusmade.github.io/animbase/public/images/demo/css3d-lontar.png" alt="Ancient Scroller" />
+					<p>Scroll Like It's 1300 AD</p>
+				</a>
+				<a class="card" href="https://agusmade.github.io/animbase/demo/css3d-open-box.html">
+					<img src="https://agusmade.github.io/animbase/public/images/demo/css3d-open-box.png" alt="Box Opening" />
+					<p>3D Pop-Out</p>
+				</a>
+				<a class="card" href="https://agusmade.github.io/animbase/demo/css3d-flipcard.html">
+					<img src="https://agusmade.github.io/animbase/public/images/demo/css3d-flipcard.png" alt="3D Flip Card" />
+					<p>Card Flip</p>
+				</a>
+				<a class="card" href="https://agusmade.github.io/animbase/demo/css3d-coverflow.html">
+					<img src="https://agusmade.github.io/animbase/public/images/demo/css3d-coverflow.png" alt="Coverflow" />
+					<p>Coverflow</p>
+				</a>
+				<a class="card" href="https://agusmade.github.io/animbase/demo/letters.html">
+					<img src="https://agusmade.github.io/animbase/public/images/demo/letters.png" alt="Letters Animation" />
+					<p>Letter by Letter</p>
+				</a>
+				<a class="card" href="https://agusmade.github.io/animbase/demo/cinematic.html">
+					<img src="https://agusmade.github.io/animbase/public/images/demo/cinematic.png" alt="Cinematic Autostart" />
+					<p>Infinite Entrance</p>
+				</a>
+			</div>
+		</main>
+		<footer>
+			<p>Powered by <span class="name">AnimBase</span></p>
+		</footer>
+	</body>
+</html>

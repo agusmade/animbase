@@ -4,11 +4,24 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>AnimBase Demo – Triggered</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
+		<script src="https://agusmade.github.io/animbase/dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
 		<style>
 			body {
 				font-family: sans-serif;
-				text-align: center;
-				padding: 2rem;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				height: 100dvh;
+				gap: 2rem;
+				background: radial-gradient(ellipse at 50% -100%, #69413c -50%, #000 300%);
 			}
 			.box {
 				width: 100px;
@@ -18,52 +31,119 @@
 				border-radius: 0.5rem;
 				transition: none !important;
 			}
-			.buttons > button {
+			/* .buttons > button {
 				margin: 0.25rem;
+			} */
+			.buttons {
+				display: flex;
+				flex-direction: row;
+				gap: 0.6rem;
+			}
+			.buttons > div {
+				position: relative;
+			}
+			.buttons span {
+				opacity: 0;
+				transition: opacity 250ms ease-in-out;
+				position: absolute;
+				top: -30px;
+				left: 50%;
+				transform: translateX(-50%);
+				white-space: nowrap;
+			}
+			button:hover + span {
+				opacity: 1;
+			}
+			button > i > svg {
+				width: 24px;
+				height: 24px;
 			}
 		</style>
-		<script type="module" src="../dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/dist/animbase.iife.min.js"></script>
 	</head>
 	<body>
-		<h2>Triggered Reverse Animation</h2>
 		<div
 			class="box"
 			data-anim-init='{
-      "transform": "scale(0.5) rotate(0deg)",
-      "background": "#f44",
-      "opacity": "0"
-    }'
+				"transform": "scale(0.5) rotate(0deg)",
+				"background": "#f44",
+				"opacity": "0"
+			}'
 			data-anim-config='{
-      "100": {
-        "transform": "scale(1.5.outQuart) rotate(180deg.out)",
-        "background": "#4f4",
-        "opacity": "1.in"
-      }
-    }'
-			data-anim-trigger-group="demoReverse"
+				"100": {
+					"transform": "scale(1.5.outQuart) rotate(180deg.out)",
+					"background": "#4f4",
+					"opacity": "1.in"
+				}
+			}'
+			data-anim-trigger-group="g1"
 		></div>
 
-		<div
-			data-anim-trigger-group="demoReverse"
-			data-anim-trigger-config='{"max": 100, "once": false, "speed": 60}'
-		></div>
+		<div data-anim-trigger-group="g1" data-anim-trigger-config='{"max": 100, "once": false, "speed": 60}'></div>
 
 		<div class="buttons">
-			<button onclick="AnimBase.trigger('demoReverse')">
-				▶️ Trigger
-			</button>
-			<button onclick="AnimBase.pause('demoReverse')">⏸️ Pause</button>
-			<button onclick="AnimBase.resume('demoReverse')">▶️ Resume</button>
-			<button onclick="AnimBase.setReverse('demoReverse', true)">
-				🔁 Reverse
-			</button>
-			<button onclick="AnimBase.setOnce('demoReverse', true)">
-				☝️ Once
-			</button>
-			<button onclick="AnimBase.setReverse('demoReverse', false)">
-				⏩ Forward
-			</button>
-			<button onclick="AnimBase.stop('demoReverse')">⏹️ Stop</button>
+			<div>
+				<button onclick="AnimBase.play('g1')"><i data-icon="play"></i></button>
+				<span>Play</span>
+			</div>
+			<div>
+				<button onclick="pause()"><i data-icon="pause"></i></button>
+				<span>Pause/Resume</span>
+			</div>
+			<div>
+				<button onclick="AnimBase.stop('g1')"><i data-icon="stop"></i></button>
+				<span>Stop</span>
+			</div>
+			<div id="reverse">
+				<button onclick="reverse(true)"><i data-icon="backward"></i></button>
+				<span>Reverse</span>
+			</div>
+			<div id="forward">
+				<button onclick="reverse(false)"><i data-icon="forward"></i></button>
+				<span>Forward</span>
+			</div>
+			<div id="once">
+				<button onclick="once(true)"><i data-icon="repeat-off"></i></button>
+				<span>Once</span>
+			</div>
+			<div id="repeat">
+				<button onclick="once(false)"><i data-icon="repeat"></i></button>
+				<span>Repeat</span>
+			</div>
 		</div>
+		<script>
+			var rev = false,
+				onc = false,
+				pau = false;
+			function updatReverse() {
+				document.getElementById('reverse').style.display = rev ? 'none' : 'block';
+				document.getElementById('forward').style.display = rev ? 'block' : 'none';
+			}
+			function updatOnce() {
+				document.getElementById('once').style.display = onc ? 'none' : 'block';
+				document.getElementById('repeat').style.display = onc ? 'block' : 'none';
+			}
+			function reverse(isReverse) {
+				AnimBase.stop('g1');
+				AnimBase.setReverse('g1', isReverse);
+				AnimBase.play('g1');
+				rev = isReverse;
+				updatReverse();
+			}
+			function once(isOnce) {
+				AnimBase.stop('g1');
+				AnimBase.setOnce('g1', isOnce);
+				AnimBase.play('g1');
+				onc = isOnce;
+				updatOnce();
+			}
+			function pause() {
+				if (!pau) AnimBase.pause('g1');
+				else AnimBase.resume('g1');
+				pau = !pau;
+			}
+			updatReverse();
+			updatOnce();
+		</script>
 	</body>
 </html>

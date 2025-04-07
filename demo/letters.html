@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AnimBase Demo – Letters</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
+		<script src="https://agusmade.github.io/animbase/dist/animbase.iife.min.js"></script>
+		<style>
+			body {
+				margin: 0;
+				background: #eee;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+				font-family: sans-serif;
+				background: radial-gradient(ellipse at 60% -200%, #7651da 20%, #000 100%);
+			}
+			.place {
+				display: flex;
+				justify-content: center;
+				text-align: center;
+			}
+			.content {
+				font-size: 20pt;
+				color: #468;
+				perspective: 1000px;
+				transform-style: preserve-3d;
+			}
+			.content > span {
+				opacity: 0;
+				display: inline-block;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="place">
+			<div class="content">AnimBase offers a declarative approach to animation.</div>
+		</div>
+		<script>
+			const content = document.querySelector('.content');
+			content.innerHTML = content.textContent.replace(/\S/g, '<span>$&</span>');
+			const els = document.querySelectorAll('.content>span');
+			const animator = AnimBase.createTimedAnimator('letters', {
+				speed: (els.length * 100) / 4,
+				autostart: false,
+				once: false,
+				max: els.length * 100 + 2000,
+			});
+			els.forEach((el, i) => {
+				let config = {};
+				if (i > 0) config[i * 100] = {};
+				config[(i + 1) * 100] = {
+					opacity: '1.outSine',
+					transform: 'rotateY(0deg.outSine) translateZ(0px.inCirc) scale(1.inSine)',
+				};
+				if (i < els.length - 1) config[els.length * 100] = {};
+				config[els.length * 100 + 2000] = {
+					opacity: '0.out',
+					transform: 'rotateY(0deg) translateZ(100px.out) scale(1)',
+				};
+				animator.addElement(el, {
+					init: {
+						opacity: '0',
+						transform: 'rotateY(-45deg) translateZ(50px) scale(2)',
+					},
+					config,
+				});
+			});
+			AnimBase.play('letters');
+		</script>
+	</body>
+</html>

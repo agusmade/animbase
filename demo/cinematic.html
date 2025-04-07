@@ -5,12 +5,32 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="color-scheme" content="light dark" />
 		<title>AnimBase Demo – Scroll Cinematic</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
 		<style>
+			:root {
+				color-scheme: light dark;
+			}
 			html,
 			body {
-				width: 100%;
-				height: 100%;
-				margin: 0 0 0 0;
+				scroll-behavior: smooth;
+			}
+			body {
+				margin: 0 auto;
+				font-family: 'Lato', system-ui, sans-serif;
+				color: #ddd;
+				background: #111;
+				overflow-x: hidden;
+				max-width: 960px;
+				padding: 0 20px;
+			}
+			i[data-icon] {
+				display: inline-flex;
+				justify-content: center;
+				align-items: center;
 			}
 			.area {
 				width: 100%;
@@ -18,6 +38,7 @@
 				position: fixed;
 				top: 0;
 				left: 0;
+				background: radial-gradient(ellipse at 200% 70%, #0e2c41 20%, #000 100%);
 			}
 			.area > * {
 				position: absolute;
@@ -29,6 +50,7 @@
 				top: 50%;
 				opacity: 0;
 				transform: translate(calc(-50% - 200px), calc(-50% - 40pt));
+				font-family: 'Winky Sans', system-ui, sans-serif;
 			}
 			.name,
 			.tagline {
@@ -38,12 +60,21 @@
 				top: 50%;
 				opacity: 0;
 				transform: translate(-50%, -50%);
+				font-family: 'Winky Sans', system-ui, sans-serif;
 			}
 			.tagline {
 				font-size: 14pt;
 			}
+			h2 {
+				text-align: left;
+				font-size: 22pt;
+				color: #fa2;
+			}
+			.name {
+				font-family: 'Lobster Two', system-ui, sans-serif;
+			}
 		</style>
-		<script type="module" src="../dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/dist/animbase.iife.min.js"></script>
 	</head>
 	<body>
 		<div

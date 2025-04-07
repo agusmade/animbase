@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AnimBase Demo – Scroll Like It's 1300 AD</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
+		<script src="https://agusmade.github.io/animbase/dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
+		<style>
+			body {
+				margin: 0;
+				background: #111;
+				color: #fff;
+				font-family: sans-serif;
+				background: radial-gradient(ellipse at -300% 100%, #ac9a70 0%, #000 150%);
+			}
+			.palmleaf-container {
+				perspective: 1000px;
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				transform-style: preserve-3d;
+			}
+			.leaf {
+				position: absolute;
+				width: 90%;
+				height: 200px;
+				max-width: 1024px;
+				top: 50%;
+				left: 50%;
+				transform: translate3d(-50%, 20px, 0px) rotateX(0deg);
+				transform-origin: 50% calc(0% - 20px);
+				transform-style: preserve-3d;
+			}
+			.front,
+			.back {
+				backface-visibility: hidden;
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				background-color: #c9a46a;
+				background-image: url('https://agusmade.github.io/animbase/public/images/textures/palmleaf.webp');
+				background-size: cover;
+				box-shadow: inset 0 0 100px #916527, 1px 1px 5px #0005;
+				border-radius: 5px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				color: #1a1b2499;
+				font-style: italic;
+				font-size: x-large;
+				font-family: serif;
+				text-align: center;
+				padding: 0 20px;
+				box-sizing: border-box;
+				text-shadow: 0.8px 0.9px 0.5px #fff6;
+			}
+			.back {
+				transform: rotateX(180deg);
+			}
+			p code {
+				color: #4a1b24bb;
+				font-size: 120%;
+			}
+			#sc {
+				width: 1px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="sc"></div>
+		<div class="palmleaf-container">
+			<div class="leaf cover">
+				<div class="front">
+					<p>This is <span class="name">AnimBase</span></p>
+				</div>
+				<div class="back"><p>Ancient wisdom meets modern CSS — now that’s a plot twist!</p></div>
+			</div>
+			<div class="leaf">
+				<div class="front"><p>Each page turns like my motivation on Monday morning.</p></div>
+				<div class="back"><p>You thought this was just an animation? It’s a spiritual journey… with easing!</p></div>
+			</div>
+			<div class="leaf">
+				<div class="front">
+					<p>No JavaScript? No problem. We speak fluent <code>data-*</code>.</p>
+				</div>
+				<div class="back"><p>Turning pages like a pro — no caffeine required.</p></div>
+			</div>
+			<div class="leaf">
+				<div class="front"><p>Declarative by day, imperative by night. AnimBase doesn’t sleep.</p></div>
+				<div class="back">
+					<p>Too lazy to write JS? We got you. Just cast <code>data-*</code> like a wizard.</p>
+				</div>
+			</div>
+			<div class="leaf">
+				<div class="front"><p>CSS transitions be like: 'I don’t do curves like AnimBase does.'</p></div>
+				<div class="back"><p>Legend says one flip of AnimBase can fix all layout shifts. Almost.</p></div>
+			</div>
+			<div class="leaf">
+				<div class="front"><p>Some engines require horsepower. AnimBase runs on attributes.</p></div>
+				<div class="back"><p>If your site doesn't move, does it even breathe?</p></div>
+			</div>
+			<div class="leaf">
+				<div class="front"><p>Scroll-controlled animations. Because your mouse deserves power.</p></div>
+				<div class="back">
+					<p>We tried writing a novel using <code>data-anim-config</code>. Got a website instead.</p>
+				</div>
+			</div>
+			<div class="leaf">
+				<div class="front"><p>Backface-visibility: hidden. Just like our imposter syndrome.</p></div>
+				<div class="back">
+					<p>That's all, folks — until the next <code>requestAnimationFrame</code>.</p>
+				</div>
+			</div>
+		</div>
+		<script>
+			const leafs = Array.from(document.querySelectorAll('.leaf'));
+			const dist = [10, 10 + 5, 15 + 3, 18 + 2, 20 + 1, 21 + 1];
+			// let a = [];
+			const initLeaf = () => {
+				leafs.forEach((el, idx) => {
+					let k = {};
+					let v;
+					for (let i = -dist.length; i <= dist.length; i++) {
+						if (idx + i < 0 || idx + i > leafs.length) continue;
+						const rotateY = i > 0 ? 180 : 0;
+						const translateY = i < 0 ? dist[Math.abs(i + 1)] : i > 0 ? dist[i - 1] * -1 : 0;
+						const translateZ = i < 0 ? i * -1 : i > 0 ? i : 0;
+						if ((idx + i) * 100 === 0) v = {rotateY, translateY, translateZ};
+						k[(idx + i) * 100] = {
+							transform: `translate3d(-50%, calc(20px + ${translateY}%), -${translateZ}px) rotateX(${rotateY}deg.inSine)`,
+						};
+					}
+					const c = {
+						init: {
+							transform:
+								Object.keys(k)[0] !== '0'
+									? `translate3d(-50%, calc(20px + ${dist.at(-1)}%), -${dist.length - 1}px) rotateX(0deg)`
+									: `translate3d(-50%, calc(20px + ${v.translateY}%), -${v.translateZ}px) rotateX(${v.rotateY}deg)`,
+						},
+						config: k,
+					};
+					el.setAttribute('data-anim-init', JSON.stringify(c.init));
+					el.setAttribute('data-anim-config', JSON.stringify(c.config));
+					el.setAttribute('data-anim-controlled-by', 'scrollY');
+					// a.push(c);
+				});
+				// console.log(a);
+			};
+			initLeaf();
+			AnimBase.refresh();
+			document.getElementById('sc').style.height = `${leafs.length * 100 + window.innerHeight}px`;
+		</script>
+	</body>
+</html>

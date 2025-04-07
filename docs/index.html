@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AnimBase Documentation</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css" />
+		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/docs.css" />
+		<script src="https://agusmade.github.io/animbase/dist/animbase.iife.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+	</head>
+	<body>
+		<h1><span class="name">AnimBase</span> documentation</h1>
+
+		<h2>Installation</h2>
+		<h3>💡 CDN</h3>
+		<pre><code class="language-html">&lt;script src="https://unpkg.com/animbase/dist/animbase.iife.min.js"&gt;&lt;/script&gt;</code></pre>
+
+		<h3>📦 NPM</h3>
+		<pre><code class="language-javscript">npm install animbase</code></pre>
+
+		<h3>⚙️ Import (ESM/CommonJS)</h3>
+		<pre><code>// ESM
+import AnimBase from "animbase";
+
+// CommonJS
+const AnimBase = require("animbase");</code></pre>
+
+		<h2>Public API</h2>
+		<h3>Imperative Control</h3>
+		<ul>
+			<li><code>AnimBase.play(group, options?)</code></li>
+			<li><code>AnimBase.pause(group)</code></li>
+			<li><code>AnimBase.resume(group)</code></li>
+			<li><code>AnimBase.stop(group)</code></li>
+			<li><code>AnimBase.seek(group, frame)</code></li>
+			<li><code>AnimBase.setOnce(group, true/false)</code></li>
+			<li><code>AnimBase.setReverse(group, true/false)</code></li>
+			<li><code>AnimBase.setHooks(group, { onStart, onFinish })</code></li>
+			<li><code>AnimBase.getAnimator(group)</code></li>
+			<li><code>AnimBase.createTimedAnimator(group, config)</code></li>
+			<li><code>AnimBase.refresh()</code></li>
+		</ul>
+
+		<h3>Data Attributes</h3>
+		<ul>
+			<li><code>data-anim-init</code> – initial style object</li>
+			<li><code>data-anim-config</code> – keyframe config object</li>
+			<li><code>data-anim-trigger-group</code> – group for timed animation</li>
+			<li><code>data-anim-trigger-config</code> – config source for the group</li>
+			<li><code>data-anim-controller-ref</code> – selector or "window"</li>
+			<li><code>data-anim-controlled-by</code> – property like scrollY, scrollX, value, currentTime</li>
+			<li><code>data-anim-listen</code> – event to listen (optional)</li>
+		</ul>
+
+		<h2>Examples</h2>
+		<h3>Minimal Usage</h3>
+		<div class="example-grid">
+			<div class="example-preview">
+				<div
+					data-anim-init='{"opacity":"0","transform":"scale(0.5)"}'
+					data-anim-config='{"100":{"opacity":"1.in","transform":"scale(1.outBack)"}}'
+				>
+					Hello AnimBase
+				</div>
+				<div><button onclick="AnimBase.play()">Play</button> <button onclick="AnimBase.stop()">Stop</button></div>
+			</div>
+			<div class="example-code">
+				<pre><code class="language-html">&lt;div
+	data-anim-init='{"transform": "scale(0.5)", "opacity": "0"}'
+	data-anim-config='{"100": {"transform": "scale(1.outBack)", "opacity": "1.in"}}'
+&gt;Hello AnimBase&lt;/div&gt;
+
+&lt;button onclick="AnimBase.play()"&gt;Play&lt;/button&gt;
+&lt;button onclick="AnimBase.stop()"&gt;Stop&lt;/button&gt;
+				</code></pre>
+			</div>
+		</div>
+
+		<h3>Controlled by Range Input</h3>
+		<div class="example-grid">
+			<div class="example-preview">
+				<input type="range" id="slider" min="0" max="100" />
+				<div
+					data-anim-controller-ref="#slider"
+					data-anim-controlled-by="value"
+					data-anim-init='{"opacity": "0"}'
+					data-anim-config='{"100": {"opacity": "1"}}'
+				>
+					Fades in as slider moves
+				</div>
+			</div>
+			<div class="example-code">
+				<pre><code class="language-html">&lt;input type="range" id="slider" min="0" max="100" /&gt;
+
+&lt;div data-anim-controller-ref="#slider" data-anim-controlled-by="value"
+	data-anim-init='{"opacity": "0"}'
+	data-anim-config='{"100": {"opacity": "1"}}'
+&gt;Fades in as slider moves&lt;/div&gt;</code></pre>
+			</div>
+		</div>
+
+		<h3>Triggered Timed Animation</h3>
+		<div class="example-grid">
+			<div class="example-preview">
+				<div
+					data-anim-trigger-group="myanim"
+					data-anim-init='{"transform": "translateY(100px)", "opacity": "0"}'
+					data-anim-config='{"100": {"transform": "translateY(0px.outBack)", "opacity": "1.in"}}'
+				>
+					This will animate on load
+				</div>
+				<div data-anim-trigger-group="myanim" data-anim-trigger-config='{ "speed": 50, "autostart": true }'></div>
+			</div>
+			<div class="example-code">
+				<pre><code class="language-html">&lt;div data-anim-trigger-group="myanim"
+	data-anim-init='{"transform": "translateY(100px)", "opacity": "0"}'
+	data-anim-config='{"100": {"transform": "translateY(0px.outBack)", "opacity": "1.in"}}'
+&gt;This will animate on load&lt;/div&gt;
+
+&lt;div data-anim-trigger-group="myanim" data-anim-trigger-config='{ "speed": 50, "autostart": true }'&gt;&lt;/div&gt;</code></pre>
+			</div>
+		</div>
+
+		<p>For more examples, visit the <a href="https://agusmade.github.io/animbase/demo">live demo page</a>.</p>
+
+		<h2>Notes</h2>
+		<ul>
+			<li>Default group name for <code>AnimBase.play()</code> is <code>default</code>.</li>
+			<li>Triggered animation can be controlled via API using its group name.</li>
+			<li>You can imperatively add elements using <code>getAnimator(group).addElement(...)</code></li>
+		</ul>
+
+		<footer>
+			<p>Powered by <span class="name">AnimBase</span></p>
+		</footer>
+		<script>
+			hljs.highlightAll();
+		</script>
+	</body>
+</html>

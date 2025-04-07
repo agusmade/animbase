@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>AnimBase Demo – 3D Coverflow</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
+		<script src="https://agusmade.github.io/animbase/dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
+		<style>
+			body {
+				margin: 0;
+				overflow: hidden;
+				background: #111;
+				color: #fff;
+				font-family: sans-serif;
+				background: radial-gradient(ellipse at -300% 100%, #7a6f58 0%, #000 150%);
+			}
+			.coverflow-container {
+				perspective: 1000px;
+				position: relative;
+				width: 100vw;
+				height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				transform-style: preserve-3d;
+			}
+			.cover {
+				width: 240px;
+				height: 300px;
+				background: #eee;
+				border-radius: 12px;
+				background-size: cover;
+				background-position: center;
+				position: absolute;
+				will-change: transform;
+				box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+				-webkit-backface-visibility: hidden;
+				backface-visibility: hidden;
+			}
+			.controls {
+				position: absolute;
+				bottom: 30px;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				gap: 20px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="coverflow-container" id="carousel">
+			<div class="cover" style="background-image: url('https://picsum.photos/id/1015/400/600')"></div>
+			<div class="cover" style="background-image: url('https://picsum.photos/id/1016/400/600')"></div>
+			<div class="cover" style="background-image: url('https://picsum.photos/id/1018/400/600')"></div>
+			<div class="cover" style="background-image: url('https://picsum.photos/id/1020/400/600')"></div>
+			<div class="cover" style="background-image: url('https://picsum.photos/id/1024/400/600')"></div>
+			<div class="cover" style="background-image: url('https://picsum.photos/id/1028/400/600')"></div>
+			<div class="cover" style="background-image: url('https://picsum.photos/id/1023/400/600')"></div>
+		</div>
+		<div class="controls">
+			<button onclick="navigate(-1)">
+				<i data-icon="chevron-left"></i>
+			</button>
+			<button onclick="navigate(1)">
+				<i data-icon="chevron-right"></i>
+			</button>
+		</div>
+		<script>
+			const covers = Array.from(document.querySelectorAll('.cover'));
+			const deg = [45, 60, 75, 90];
+			const dist = [90, 150, 175, 185];
+			const scl = [0.75, 0.65, 0.55, 0.5];
+			const initCover = animator => {
+				covers.forEach((el, idx) => {
+					let k = {};
+					for (let i = -deg.length; i <= deg.length; i++) {
+						if (idx + i < 0 || idx + i > covers.length - 1) continue;
+						const rotateY = i < 0 ? deg[Math.abs(i + 1)] * -1 : i > 0 ? deg[i - 1] : 0;
+						const translateX = i < 0 ? dist[Math.abs(i + 1)] : i > 0 ? dist[i - 1] * -1 : 0;
+						const scale = i < 0 ? scl[Math.abs(i + 1)] : i > 0 ? scl[i - 1] : 1;
+						k[(idx + i) * 100] = {
+							opacity: '1',
+							transform: `translateX(${translateX}%.inOut) rotateY(${rotateY}deg.inOutQuart) scale(${scale})`,
+						};
+					}
+					animator.addElement(el, {
+						init: {
+							opacity: '0',
+							transform:
+								Object.keys(k)[0] !== '0'
+									? `translateX(${dist.at(-1)}%) rotateY(-${deg.at(-1)}deg) scale(${scl.at(-1)})`
+									: `translateX(0%) rotateY(0deg) scale(1)`,
+						},
+						config: k,
+					});
+				});
+			};
+
+			let current = 2;
+			function navigate(dir) {
+				const next = current + dir;
+				if (next < 0 || next > covers.length - 1 || next === current) return;
+				AnimBase.play('flow', {from: current * 100, to: next * 100});
+				current = next;
+			}
+
+			let startX = 0;
+			document.addEventListener('touchstart', e => {
+				startX = e.touches[0].clientX;
+			});
+			document.addEventListener('touchend', e => {
+				const dx = e.changedTouches[0].clientX - startX;
+				if (dx > 50) navigate(-1);
+				if (dx < -50) navigate(1);
+			});
+
+			const animator = AnimBase.createTimedAnimator('flow', {
+				speed: 1000,
+				autostart: false,
+				once: true,
+				max: covers.length * 100,
+			});
+			initCover(animator);
+			AnimBase.seek('flow', current * 100);
+		</script>
+	</body>
+</html>

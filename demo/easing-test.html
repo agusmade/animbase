@@ -5,7 +5,8 @@
 		<style>
 			.container {
 				display: grid;
-				grid-template-columns: 1fr 1fr 1fr;
+				/* grid-template-columns: 1fr 1fr 1fr; */
+				grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 				gap: 10px;
 			}
 			.item {
@@ -38,7 +39,7 @@
 				top: calc(100% - 16px);
 			}
 		</style>
-		<script type="module" src="../dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/dist/animbase.iife.min.js"></script>
 		<script>
 			window.addEventListener("load", () => {
 				const toCanvasHeight = (a, canvas) => {
