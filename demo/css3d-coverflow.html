@@ -20,12 +20,19 @@
 				color: #fff;
 				font-family: sans-serif;
 				background: radial-gradient(ellipse at -300% 100%, #7a6f58 0%, #000 150%);
+				width: 100%;
+				height: 100vh;
+			}
+			.place {
+				width: 100%;
+				height: 100%;
+				overflow: hidden;
 			}
 			.coverflow-container {
 				perspective: 1000px;
 				position: relative;
-				width: 100vw;
-				height: 100vh;
+				width: 100%;
+				height: 100%;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -55,14 +62,16 @@
 		</style>
 	</head>
 	<body>
-		<div class="coverflow-container" id="carousel">
-			<div class="cover" style="background-image: url('https://picsum.photos/id/1015/400/600')"></div>
-			<div class="cover" style="background-image: url('https://picsum.photos/id/1016/400/600')"></div>
-			<div class="cover" style="background-image: url('https://picsum.photos/id/1018/400/600')"></div>
-			<div class="cover" style="background-image: url('https://picsum.photos/id/1020/400/600')"></div>
-			<div class="cover" style="background-image: url('https://picsum.photos/id/1024/400/600')"></div>
-			<div class="cover" style="background-image: url('https://picsum.photos/id/1028/400/600')"></div>
-			<div class="cover" style="background-image: url('https://picsum.photos/id/1023/400/600')"></div>
+		<div class="place">
+			<div class="coverflow-container" id="carousel">
+				<div class="cover" style="background-image: url('https://picsum.photos/id/1015/400/600')"></div>
+				<div class="cover" style="background-image: url('https://picsum.photos/id/1016/400/600')"></div>
+				<div class="cover" style="background-image: url('https://picsum.photos/id/1018/400/600')"></div>
+				<div class="cover" style="background-image: url('https://picsum.photos/id/1020/400/600')"></div>
+				<div class="cover" style="background-image: url('https://picsum.photos/id/1024/400/600')"></div>
+				<div class="cover" style="background-image: url('https://picsum.photos/id/1028/400/600')"></div>
+				<div class="cover" style="background-image: url('https://picsum.photos/id/1023/400/600')"></div>
+			</div>
 		</div>
 		<div class="controls">
 			<button onclick="navigate(-1)">
@@ -80,23 +89,23 @@
 			const initCover = animator => {
 				covers.forEach((el, idx) => {
 					let k = {};
+					let v;
 					for (let i = -deg.length; i <= deg.length; i++) {
 						if (idx + i < 0 || idx + i > covers.length - 1) continue;
 						const rotateY = i < 0 ? deg[Math.abs(i + 1)] * -1 : i > 0 ? deg[i - 1] : 0;
 						const translateX = i < 0 ? dist[Math.abs(i + 1)] : i > 0 ? dist[i - 1] * -1 : 0;
 						const scale = i < 0 ? scl[Math.abs(i + 1)] : i > 0 ? scl[i - 1] : 1;
+						if ((idx + i) * 100 === 0) v = {rotateY, translateX, scale};
 						k[(idx + i) * 100] = {
-							opacity: '1',
 							transform: `translateX(${translateX}%.inOut) rotateY(${rotateY}deg.inOutQuart) scale(${scale})`,
 						};
 					}
 					animator.addElement(el, {
 						init: {
-							opacity: '0',
 							transform:
 								Object.keys(k)[0] !== '0'
 									? `translateX(${dist.at(-1)}%) rotateY(-${deg.at(-1)}deg) scale(${scl.at(-1)})`
-									: `translateX(0%) rotateY(0deg) scale(1)`,
+									: `translateX(${v.translateX}%) rotateY(${v.rotateY}deg) scale(${v.scale})`,
 						},
 						config: k,
 					});
