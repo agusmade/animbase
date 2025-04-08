@@ -10,6 +10,14 @@
 			"require": "./dist/animbase.cjs.js"
 		}
 	},
+	"types": "types/animbase.d.ts",
+	"typesVersions": {
+		"*": {
+			"animbase-core-only": [
+				"types/animbase-core-only.d.ts"
+			]
+		}
+	},
 	"scripts": {
 		"build": "rollup -c",
 		"dev": "rollup -c --watch --environment BUILD_ENV:dev",
@@ -23,6 +31,7 @@
 	},
 	"files": [
 		"dist/",
+		"types/",
 		"README.md",
 		"LICENSE"
 	],
