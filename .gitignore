@@ -2,12 +2,9 @@
 node_modules/
 dist/
 
-# Demo dan dokumentasi publik
-index.html
-demo/
-public/
-docs/
-notes/
+# Local tools and docs development
+docs-src/
+tools/
 
 # Build log dan cache
 npm-debug.log*

@@ -1,4 +1,15 @@
 const {terser} = require('rollup-plugin-terser');
+const serve = require('rollup-plugin-serve');
+
+const isDev = process.env.BUILD_ENV === 'dev';
+
+const baseServePlugin = [
+	serve({
+		// open: true,
+		contentBase: ['docs-src', './'],
+		port: 3000,
+	}),
+];
 
 module.exports = [
 	// --- Full AnimBase ---
@@ -8,7 +19,7 @@ module.exports = [
 		output: {
 			file: 'dist/animbase.esm.js',
 			format: 'esm',
-			sourcemap: process.env.BUILD_ENV === 'dev',
+			sourcemap: isDev,
 		},
 	},
 
@@ -18,7 +29,7 @@ module.exports = [
 		output: {
 			file: 'dist/animbase.cjs.js',
 			format: 'cjs',
-			sourcemap: process.env.BUILD_ENV === 'dev',
+			sourcemap: isDev,
 		},
 	},
 
@@ -29,8 +40,9 @@ module.exports = [
 			file: 'dist/animbase.iife.js',
 			format: 'iife',
 			name: 'AnimBase',
-			sourcemap: process.env.BUILD_ENV === 'dev',
+			sourcemap: isDev,
 		},
+		plugins: isDev ? baseServePlugin : [],
 	},
 
 	// IIFE (minified)
@@ -41,7 +53,7 @@ module.exports = [
 			format: 'iife',
 			name: 'AnimBase',
 			plugins: [terser()],
-			sourcemap: process.env.BUILD_ENV === 'dev',
+			sourcemap: isDev,
 		},
 	},
 
@@ -51,7 +63,7 @@ module.exports = [
 		output: {
 			file: 'dist/animbase-core-only.esm.js',
 			format: 'esm',
-			sourcemap: process.env.BUILD_ENV === 'dev',
+			sourcemap: isDev,
 		},
 	},
 	{
@@ -59,7 +71,7 @@ module.exports = [
 		output: {
 			file: 'dist/animbase-core-only.cjs.js',
 			format: 'cjs',
-			sourcemap: process.env.BUILD_ENV === 'dev',
+			sourcemap: isDev,
 		},
 	},
 ];

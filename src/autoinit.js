@@ -141,6 +141,8 @@ function runLoop(animator) {
 const defaultListeners = {
 	scrollY: 'scroll',
 	scrollX: 'scroll',
+	scrollTop: 'scroll',
+	scrollLeft: 'scroll',
 	value: 'input',
 	currentTime: 'timeupdate',
 };
@@ -157,14 +159,18 @@ function scanAnimatedElements() {
 	);
 
 	animatedElements.forEach(el => {
-		const refSelector = el.dataset.animControllerRef;
+		let refSelector = el.dataset.animControllerRef;
 		let controlProp = el.dataset.animControlledBy;
-		if (controlProp === 'scrollTop' || controlProp === 'scrollY') {
-			if (!refSelector) el.setAttribute(ATTR_CONTROLLER_REF, 'window');
-			el.setAttribute(ATTR_CONTROLLED_BY, 'scrollY');
-		} else if (controlProp === 'scrollLeft' || controlProp === 'scrollX') {
-			if (!refSelector) el.setAttribute(ATTR_CONTROLLER_REF, 'window');
-			el.setAttribute(ATTR_CONTROLLED_BY, 'scrollX');
+		if (['scrollTop', 'scrollY', 'scrollLeft', 'scrollX'].includes(controlProp)) {
+			if (!refSelector) refSelector = 'window';
+			el.setAttribute(ATTR_CONTROLLER_REF, refSelector);
+			if (refSelector === 'window') {
+				if (controlProp === 'scrollLeft') el.setAttribute(ATTR_CONTROLLED_BY, 'scrollX');
+				if (controlProp === 'scrollTop') el.setAttribute(ATTR_CONTROLLED_BY, 'scrollY');
+			} else {
+				if (controlProp === 'scrollX') el.setAttribute(ATTR_CONTROLLED_BY, 'scrollLeft');
+				if (controlProp === 'scrollY') el.setAttribute(ATTR_CONTROLLED_BY, 'scrollTop');
+			}
 		} else if (!!refSelector && refSelector !== 'window' && !controlProp) {
 			el.setAttribute(ATTR_CONTROLLED_BY, 'value');
 		} else if (!refSelector && !el.dataset.animTriggerGroup) {
@@ -191,7 +197,6 @@ function scanAnimatedElements() {
 					}"][${ATTR_CONTROLLED_BY}="${controlProp}"]`,
 				});
 				controllers.set(key, animator);
-
 				const eventName = customListen || defaultListeners[controlProp || 'value'] || 'input';
 				refEl.addEventListener(eventName, () => animator.updateTimeline());
 			}
