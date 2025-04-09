@@ -5,6 +5,9 @@ html,
 body {
 	scroll-behavior: smooth;
 }
+* {
+	box-sizing: border-box !important;
+}
 body {
 	margin: 0 auto;
 	font-family: 'Lato', system-ui, sans-serif;
@@ -88,8 +91,32 @@ footer {
 }
 .example-code {
 	display: inline-block;
-	margin-top: 1rem;
+	/* margin-top: 1rem; */
 	color: white;
 	border-radius: 8px;
 	transform-origin: left bottom;
+	max-height: 240px;
+}
+.example-code > pre {
+	margin: 0 0 0 0;
+	max-height: 240px;
+}
+.example-code > pre > code {
+	margin: 0 0 0 0;
+}
+.note.warning {
+	color: #facc1588;
+	background: #1f293788;
+	border-left: 4px solid #facc1588;
+	padding: 0.5rem 1rem;
+	margin: 1rem 0;
+	font-size: 0.95rem;
+}
+.example-b1 {
+	height: 100%;
+	overflow: hidden;
+}
+.example-b1 > * {
+	position: absolute;
+	background-color: #fffe;
 }
