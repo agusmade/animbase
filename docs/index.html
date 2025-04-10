@@ -16,66 +16,116 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css" />
 		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/docs.css" />
 		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 	</head>
 	<body>
-		<h1><span class="name">AnimBase</span> documentation</h1>
+		<header>
+			<nav
+				data-anim-controlled-by="scrollTop"
+				data-anim-init='{"backgroundColor": "#2220", "boxShadow": "0 0px 0px #000b"}'
+				data-anim-config='{
+							"200":{"backgroundColor": "#222f.inSine"},
+							"800":{"boxShadow": "0 5px.in 10px.out #000b"}
+						}'
+			>
+				<div class="nav-content">
+					<div
+						class="title"
+						data-anim-controlled-by="scrollTop"
+						data-anim-init='{"opacity": "0", "transform": "translateX(50%)"}'
+						data-anim-config='{
+							"200":{},
+							"500":{"opacity": "1.outQuad", "transform": "translateX(0%.spring)"}
+						}'
+					>
+						<a class="name" href="/index.html">AnimBase</a> <span>documentation</span>
+					</div>
+					<div class="menu-bg"></div>
+					<div class="nav-right">
+						<div>
+							<a href="/index.html">Home</a>
+							<a href="https://agusmade.github.io/animbase/demo/">Demo</a>
+						</div>
+						<div>
+							<a href="https://github.com/agusmade/animbase/"><i data-icon="github"></i></a>
+						</div>
+						<a class="menu-close-button">x</a>
+					</div>
+					<a class="menu-button"><i data-icon="menu"></i></a>
+				</div>
+				<div
+					class="nav-border"
+					data-anim-controlled-by="scrollTop"
+					data-anim-init='{"opacity": "0"}'
+					data-anim-config='{"200":{"opacity": "1.inSine"}}'
+				></div>
+			</nav>
+			<div
+				data-anim-trigger-group="intro"
+				data-anim-trigger-config='{"speed": 400, "once": true, "autostart": true, "max": 3800}'
+			></div>
+		</header>
+		<main>
+			<h1><span class="name">AnimBase</span> documentation</h1>
 
-		<h2>Installation</h2>
-		<h3>💡 CDN</h3>
-		<pre><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"&gt;&lt;/script&gt;</code></pre>
+			<h2>Installation</h2>
+			<h3>💡 CDN</h3>
+			<pre><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"&gt;&lt;/script&gt;</code></pre>
 
-		<h3>📦 NPM</h3>
-		<pre><code class="language-bash">npm install animbase</code></pre>
+			<h3>📦 NPM</h3>
+			<pre><code class="language-bash">npm install animbase</code></pre>
 
-		<h3>⚙️ Import (ESM/CommonJS)</h3>
-		<pre><code>// ESM
+			<h3>⚙️ Import (ESM/CommonJS)</h3>
+			<pre><code>// ESM
 import AnimBase from "animbase";
 
 // CommonJS
 const AnimBase = require("animbase");</code></pre>
 
-		<h2>Public API</h2>
-		<h3>Imperative Control</h3>
-		<ul>
-			<li><code>AnimBase.play(group, options?)</code></li>
-			<li><code>AnimBase.pause(group)</code></li>
-			<li><code>AnimBase.resume(group)</code></li>
-			<li><code>AnimBase.stop(group)</code></li>
-			<li><code>AnimBase.seek(group, frame)</code></li>
-			<li><code>AnimBase.setOnce(group, true/false)</code></li>
-			<li><code>AnimBase.setReverse(group, true/false)</code></li>
-			<li><code>AnimBase.setHooks(group, { onStart, onFinish })</code></li>
-			<li><code>AnimBase.getAnimator(group)</code></li>
-			<li><code>AnimBase.createTimedAnimator(group, config)</code></li>
-			<li><code>AnimBase.refresh()</code></li>
-		</ul>
+			<h2>Public API</h2>
+			<h3>Imperative Control</h3>
+			<ul>
+				<li><code>AnimBase.play(group, options?)</code></li>
+				<li><code>AnimBase.pause(group)</code></li>
+				<li><code>AnimBase.resume(group)</code></li>
+				<li><code>AnimBase.stop(group)</code></li>
+				<li><code>AnimBase.seek(group, frame)</code></li>
+				<li><code>AnimBase.setOnce(group, true/false)</code></li>
+				<li><code>AnimBase.setReverse(group, true/false)</code></li>
+				<li><code>AnimBase.setHooks(group, { onStart, onFinish })</code></li>
+				<li><code>AnimBase.getAnimator(group)</code></li>
+				<li><code>AnimBase.createTimedAnimator(group, config)</code></li>
+				<li><code>AnimBase.refresh()</code></li>
+			</ul>
 
-		<h3>Data Attributes</h3>
-		<ul>
-			<li><code>data-anim-init</code> – initial style object</li>
-			<li><code>data-anim-config</code> – keyframe config object</li>
-			<li><code>data-anim-trigger-group</code> – group for timed animation</li>
-			<li><code>data-anim-trigger-config</code> – config source for the group</li>
-			<li><code>data-anim-controller-ref</code> – selector or "window"</li>
-			<li><code>data-anim-controlled-by</code> – property like scrollY, scrollX, value, currentTime</li>
-			<li><code>data-anim-listen</code> – event to listen (optional)</li>
-		</ul>
+			<h3>Data Attributes</h3>
+			<ul>
+				<li><code>data-anim-init</code> – initial style object</li>
+				<li><code>data-anim-config</code> – keyframe config object</li>
+				<li><code>data-anim-trigger-group</code> – group for timed animation</li>
+				<li><code>data-anim-trigger-config</code> – config source for the group</li>
+				<li><code>data-anim-controller-ref</code> – selector or "window"</li>
+				<li><code>data-anim-controlled-by</code> – property like scrollY, scrollX, value, currentTime</li>
+				<li><code>data-anim-listen</code> – event to listen (optional)</li>
+			</ul>
 
-		<h2>Examples</h2>
-		<h3>Minimal Usage</h3>
-		<div class="example-grid">
-			<div class="example-preview">
-				<div
-					data-anim-init='{"opacity":"0","transform":"scale(0.5)"}'
-					data-anim-config='{"100":{"opacity":"1.in","transform":"scale(1.outBack)"}}'
-				>
-					Hello AnimBase
+			<h2>Examples</h2>
+			<h3>Minimal Usage</h3>
+			<div class="example-grid">
+				<div class="example-preview">
+					<div
+						data-anim-init='{"opacity":"0","transform":"scale(0.5)"}'
+						data-anim-config='{"100":{"opacity":"1.in","transform":"scale(1.outBack)"}}'
+					>
+						Hello AnimBase
+					</div>
+					<div>
+						<button onclick="AnimBase.play()">Play</button> <button onclick="AnimBase.stop()">Stop</button>
+					</div>
 				</div>
-				<div><button onclick="AnimBase.play()">Play</button> <button onclick="AnimBase.stop()">Stop</button></div>
-			</div>
-			<div class="example-code">
-				<pre><code class="language-html">&lt;div
+				<div class="example-code">
+					<pre><code class="language-html">&lt;div
 	data-anim-init='{"transform": "scale(0.5)", "opacity": "0"}'
 	data-anim-config='{"100": {"transform": "scale(1.outBack)", "opacity": "1.in"}}'
 &gt;Hello AnimBase&lt;/div&gt;
@@ -83,71 +133,74 @@ const AnimBase = require("animbase");</code></pre>
 &lt;button onclick="AnimBase.play()"&gt;Play&lt;/button&gt;
 &lt;button onclick="AnimBase.stop()"&gt;Stop&lt;/button&gt;
 				</code></pre>
-			</div>
-		</div>
-
-		<h3>Controlled by Range Input</h3>
-		<div class="example-grid">
-			<div class="example-preview">
-				<input type="range" id="slider" min="0" max="100" />
-				<div
-					data-anim-controller-ref="#slider"
-					data-anim-controlled-by="value"
-					data-anim-init='{"opacity": "0"}'
-					data-anim-config='{"100": {"opacity": "1"}}'
-				>
-					Fades in as slider moves
 				</div>
 			</div>
-			<div class="example-code">
-				<pre><code class="language-html">&lt;input type="range" id="slider" min="0" max="100" /&gt;
+
+			<h3>Controlled by Range Input</h3>
+			<div class="example-grid">
+				<div class="example-preview">
+					<input type="range" id="slider" min="0" max="100" />
+					<div
+						data-anim-controller-ref="#slider"
+						data-anim-controlled-by="value"
+						data-anim-init='{"opacity": "0"}'
+						data-anim-config='{"100": {"opacity": "1"}}'
+					>
+						Fades in as slider moves
+					</div>
+				</div>
+				<div class="example-code">
+					<pre><code class="language-html">&lt;input type="range" id="slider" min="0" max="100" /&gt;
 
 &lt;div data-anim-controller-ref="#slider" data-anim-controlled-by="value"
 	data-anim-init='{"opacity": "0"}'
 	data-anim-config='{"100": {"opacity": "1"}}'
 &gt;Fades in as slider moves&lt;/div&gt;</code></pre>
-			</div>
-		</div>
-
-		<h3>Triggered Timed Animation</h3>
-		<div class="example-grid">
-			<div class="example-preview">
-				<div
-					data-anim-trigger-group="myanim"
-					data-anim-init='{"transform": "translateY(100px)", "opacity": "0"}'
-					data-anim-config='{"100": {"transform": "translateY(0px.outBack)", "opacity": "1.in"}}'
-				>
-					This will animate on load
 				</div>
-				<div data-anim-trigger-group="myanim" data-anim-trigger-config='{ "speed": 50, "autostart": true }'></div>
 			</div>
-			<div class="example-code">
-				<pre><code class="language-html">&lt;div data-anim-trigger-group="myanim"
+
+			<h3>Triggered Timed Animation</h3>
+			<div class="example-grid">
+				<div class="example-preview">
+					<div
+						data-anim-trigger-group="myanim"
+						data-anim-init='{"transform": "translateY(100px)", "opacity": "0"}'
+						data-anim-config='{"100": {"transform": "translateY(0px.outBack)", "opacity": "1.in"}}'
+					>
+						This will animate on load
+					</div>
+					<div
+						data-anim-trigger-group="myanim"
+						data-anim-trigger-config='{ "speed": 50, "autostart": true }'
+					></div>
+				</div>
+				<div class="example-code">
+					<pre><code class="language-html">&lt;div data-anim-trigger-group="myanim"
 	data-anim-init='{"transform": "translateY(100px)", "opacity": "0"}'
 	data-anim-config='{"100": {"transform": "translateY(0px.outBack)", "opacity": "1.in"}}'
 &gt;This will animate on load&lt;/div&gt;
 
 &lt;div data-anim-trigger-group="myanim" data-anim-trigger-config='{ "speed": 50, "autostart": true }'&gt;&lt;/div&gt;</code></pre>
-			</div>
-		</div>
-
-		<h3>Scroll-Controlled with Threshold Delay</h3>
-		<div class="example-grid">
-			<div class="example-preview scroll-area" style="overflow-y: auto; display: block; padding: 0 0; margin: 0 0">
-				<div style="height: 190%; position: relative; text-align: center">
-					<div
-						data-anim-controlled-by="scrollTop"
-						data-anim-controller-ref=".scroll-area"
-						data-anim-init='{"opacity": "0", "top": "40%"}'
-						data-anim-config='{"100": {},"250": {"opacity": "1.inSine", "top": "60%"}}'
-						style="position: absolute; top: 40%; width: 100%"
-					>
-						This will animate after frame 100
-					</div>
 				</div>
 			</div>
-			<div class="example-code">
-				<pre><code class="language-html">&lt;div class=&quot;example-preview scroll-area&quot; style=&quot;overflow-y: auto; display: block; padding: 0 0; margin: 0 0&quot;&gt;
+
+			<h3>Scroll-Controlled with Threshold Delay</h3>
+			<div class="example-grid">
+				<div class="example-preview scroll-area" style="overflow-y: auto; display: block; padding: 0 0; margin: 0 0">
+					<div style="height: 190%; position: relative; text-align: center">
+						<div
+							data-anim-controlled-by="scrollTop"
+							data-anim-controller-ref=".scroll-area"
+							data-anim-init='{"opacity": "0", "top": "40%"}'
+							data-anim-config='{"100": {},"250": {"opacity": "1.inSine", "top": "60%"}}'
+							style="position: absolute; top: 40%; width: 100%"
+						>
+							This will animate after frame 100
+						</div>
+					</div>
+				</div>
+				<div class="example-code">
+					<pre><code class="language-html">&lt;div class=&quot;example-preview scroll-area&quot; style=&quot;overflow-y: auto; display: block; padding: 0 0; margin: 0 0&quot;&gt;
 	&lt;div style=&quot;height: 190%; position: relative; text-align: center&quot;&gt;
 		&lt;div
 			data-anim-controlled-by=&quot;scrollTop&quot;
@@ -160,39 +213,39 @@ const AnimBase = require("animbase");</code></pre>
 		&lt;/div&gt;
 	&lt;/div&gt;
 &lt;/div&gt;</code></pre>
-			</div>
-		</div>
-		<p class="note warning">
-			When using scrollable elements, you may need to animate the position (e.g., top) to keep the animated content
-			visible during scroll. In this example, we move from top: 40% to 60%.
-		</p>
-		<h3>Multi-Element with Timeline and Easing</h3>
-		<div class="example-grid">
-			<div class="example-preview example-b1">
-				<div
-					data-anim-trigger-group="b1"
-					data-anim-init='{"opacity":"0", "top":"0px", "transform":"scale(0.5)"}'
-					data-anim-config='{"100":{"opacity":"1.outSine", "top":"80px.spring", "transform":"scale(1.spring)"}, "200":{}, "300":{"opacity":"0.inSine", "top":"190px.outBounce", "transform":"scale(1.2.inSine)"}}'
-					style="width: 30px; height: 30px; border-radius: 50%"
-				></div>
-				<div
-					data-anim-trigger-group="b1"
-					data-anim-init='{"opacity":"0", "height":"0px"}'
-					data-anim-config='{"100":{"opacity":"1.outSine", "height":"80px.spring"}, "200":{},"300":{"height":"0px.spring"}}'
-					style="width: 1px; top: 5px"
-				></div>
-				<div
-					data-anim-trigger-group="b1"
-					data-anim-init='{"opacity":"0", "left":"0%"}'
-					data-anim-config='{"170":{},"205":{"opacity":"1.outSine", "left":"100%.outQuad"}}'
-					style="height: 1px; top: 80px; left: -10%; width: 60px"
-				></div>
-				<div style="left: 0; top: 50%">
-					<button onclick="AnimBase.play('b1', {speed:60, max:100, max:300,once:true})">Play</button>
 				</div>
 			</div>
-			<div class="example-code">
-				<pre><code class="language-html">&lt;div
+			<p class="note warning">
+				When using scrollable elements, you may need to animate the position (e.g., top) to keep the animated content
+				visible during scroll. In this example, we move from top: 40% to 60%.
+			</p>
+			<h3>Multi-Element with Timeline and Easing</h3>
+			<div class="example-grid">
+				<div class="example-preview example-b1">
+					<div
+						data-anim-trigger-group="b1"
+						data-anim-init='{"opacity":"0", "top":"0px", "transform":"scale(0.5)"}'
+						data-anim-config='{"100":{"opacity":"1.outSine", "top":"80px.spring", "transform":"scale(1.spring)"}, "200":{}, "300":{"opacity":"0.inSine", "top":"190px.outBounce", "transform":"scale(1.2.inSine)"}}'
+						style="width: 30px; height: 30px; border-radius: 50%"
+					></div>
+					<div
+						data-anim-trigger-group="b1"
+						data-anim-init='{"opacity":"0", "height":"0px"}'
+						data-anim-config='{"100":{"opacity":"1.outSine", "height":"80px.spring"}, "200":{},"300":{"height":"0px.spring"}}'
+						style="width: 1px; top: 5px"
+					></div>
+					<div
+						data-anim-trigger-group="b1"
+						data-anim-init='{"opacity":"0", "left":"0%"}'
+						data-anim-config='{"170":{},"205":{"opacity":"1.outSine", "left":"100%.outQuad"}}'
+						style="height: 1px; top: 80px; left: -10%; width: 60px"
+					></div>
+					<div style="left: 0; top: 50%">
+						<button onclick="AnimBase.play('b1', {speed:60, max:100, max:300,once:true})">Play</button>
+					</div>
+				</div>
+				<div class="example-code">
+					<pre><code class="language-html">&lt;div
 	data-anim-trigger-group=&quot;b1&quot;
 	data-anim-init='{"opacity":"0", "top":"0px", "transform":"scale(0.5)"}'
 	data-anim-config='{"100":{"opacity":"1.outSine", "top":"80px.spring", "transform":"scale(1.spring)"}, "200":{}, "300":{"opacity":"0.inSine", "top":"190px.outBounce", "transform":"scale(1.2.inSine)"}}'
@@ -213,34 +266,36 @@ const AnimBase = require("animbase");</code></pre>
 &lt;div style=&quot;left: 0; top: 50%&quot;&gt;
 	&lt;button onclick=&quot;AnimBase.play('b1', {speed:60, max:100, max:300,once:true})&quot;&gt;Play&lt;/button&gt;
 &lt;/div&gt;</code></pre>
+				</div>
 			</div>
-		</div>
 
-		<p>For more examples, visit the <a href="https://agusmade.github.io/animbase/demo/">live demo page</a>.</p>
+			<p>For more examples, visit the <a href="https://agusmade.github.io/animbase/demo/">live demo page</a>.</p>
 
-		<h2>Notes</h2>
-		<ul>
-			<li>Default group name for <code>AnimBase.play()</code> is <code>default</code>.</li>
-			<li>Triggered animation can be controlled via API using its group name.</li>
-			<li>You can imperatively add elements using <code>getAnimator(group).addElement(...)</code></li>
-			<li>If <code>data-anim-controller-ref</code> is omitted, the controller defaults to <code>window</code>.</li>
-			<li>
-				If <code>data-anim-listen</code> is omitted, the event defaults to <code>scroll</code> for scroll-based
-				control and <code>input</code> for slider-based control.
-			</li>
-		</ul>
+			<h2>Notes</h2>
+			<ul>
+				<li>Default group name for <code>AnimBase.play()</code> is <code>default</code>.</li>
+				<li>Triggered animation can be controlled via API using its group name.</li>
+				<li>You can imperatively add elements using <code>getAnimator(group).addElement(...)</code></li>
+				<li>If <code>data-anim-controller-ref</code> is omitted, the controller defaults to <code>window</code>.</li>
+				<li>
+					If <code>data-anim-listen</code> is omitted, the event defaults to <code>scroll</code> for scroll-based
+					control and <code>input</code> for slider-based control.
+				</li>
+			</ul>
 
-		<h2>See Also</h2>
-		<ul>
-			<li>Live Demos: <a href="https://agusmade.github.io/animbase/demo/">https://agusmade.github.io/animbase/demo/</a></li>
-			<li>
-				Easing Visual Test:
-				<a href="https://agusmade.github.io/animbase/easing-test/">https://agusmade.github.io/animbase/easing-test/</a>
-			</li>
-			<li>GitHub Repo: <a href="https://github.com/agusmade/animbase">https://github.com/agusmade/animbase</a></li>
-			<li>NPM Package: <a href="https://www.npmjs.com/package/animbase">https://www.npmjs.com/package/animbase</a></li>
-		</ul>
-
+			<h2>See Also</h2>
+			<ul>
+				<li>Live Demos: <a href="https://agusmade.github.io/animbase/demo/">https://agusmade.github.io/animbase/demo/</a></li>
+				<li>
+					Easing Visual Test:
+					<a href="https://agusmade.github.io/animbase/easing-test/">https://agusmade.github.io/animbase/easing-test/</a>
+				</li>
+				<li>GitHub Repo: <a href="https://github.com/agusmade/animbase">https://github.com/agusmade/animbase</a></li>
+				<li>
+					NPM Package: <a href="https://www.npmjs.com/package/animbase">https://www.npmjs.com/package/animbase</a>
+				</li>
+			</ul>
+		</main>
 		<footer>
 			<p>Powered by <span class="name">AnimBase</span></p>
 		</footer>

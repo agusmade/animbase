@@ -15,7 +15,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
 		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
 		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
-
+		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
 		<style>
 			.grid {
 				display: grid;
@@ -56,6 +56,52 @@
 		</style>
 	</head>
 	<body>
+		<header>
+			<nav
+				data-anim-controlled-by="scrollTop"
+				data-anim-init='{"backgroundColor": "#2220", "boxShadow": "0 0px 0px #000b"}'
+				data-anim-config='{
+							"200":{"backgroundColor": "#222f.inSine"},
+							"800":{"boxShadow": "0 5px.in 10px.out #000b"}
+						}'
+			>
+				<div class="nav-content">
+					<div
+						class="title"
+						data-anim-controlled-by="scrollTop"
+						data-anim-init='{"opacity": "0", "transform": "translateX(50%)"}'
+						data-anim-config='{
+							"200":{},
+							"500":{"opacity": "1.outQuad", "transform": "translateX(0%.spring)"}
+						}'
+					>
+						<a class="name" href="/index.html">AnimBase</a> <span>demos</span>
+					</div>
+					<div class="menu-bg"></div>
+					<div class="nav-right">
+						<div>
+							<a href="/index.html">Home</a>
+							<a href="https://agusmade.github.io/animbase/docs/">Documentation</a>
+						</div>
+						<div>
+							<a href="https://github.com/agusmade/animbase/"><i data-icon="github"></i></a>
+						</div>
+						<a class="menu-close-button">x</a>
+					</div>
+					<a class="menu-button"><i data-icon="menu"></i></a>
+				</div>
+				<div
+					class="nav-border"
+					data-anim-controlled-by="scrollTop"
+					data-anim-init='{"opacity": "0"}'
+					data-anim-config='{"200":{"opacity": "1.inSine"}}'
+				></div>
+			</nav>
+			<div
+				data-anim-trigger-group="intro"
+				data-anim-trigger-config='{"speed": 400, "once": true, "autostart": true, "max": 3800}'
+			></div>
+		</header>
 		<h1><span class="name">AnimBase</span> demos</h1>
 		<main>
 			<div class="grid">

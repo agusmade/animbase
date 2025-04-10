@@ -28,6 +28,9 @@ const sty = `.container {
 	justify-content: center;
 	position: absolute;
 }
+@media (max-width: 480px) {
+.container {overflow:hidden;}
+}
 .place {
 	cursor: pointer;
 	position:relative;
@@ -132,7 +135,7 @@ const sty = `.container {
 }
 h3{font-family: "Winky Sans", system-ui, sans-serif;}`;
 
-const createBox = (section, els) => {
+const createBox = (section, els, wrapper) => {
 	const container = D.ce('div', {class: 'container'});
 	const box = D.ce('div', {class: 'box'});
 	const place = D.ce('div', {class: 'place'});
@@ -154,7 +157,8 @@ const createBox = (section, els) => {
 		class: 'content',
 		style: 'position:absolute; width:100%; height:100%;left:0;top:0;',
 	});
-	D.ac(document.body, content);
+	if (wrapper) D.ac(document.querySelector(wrapper), content);
+	else D.ac(document.body, content);
 	const shadowRoot = content.attachShadow({mode: 'open'}); // Membuat shadow root
 	D.ac(shadowRoot, container, style);
 
@@ -251,13 +255,28 @@ const createBox = (section, els) => {
 		else if (state === 'open') boxClose();
 	});
 };
+function opemMenu() {
+	if (!document.body.classList.contains('menu-visible')) document.body.classList.add('menu-visible');
+}
+function closeMenu() {
+	if (document.body.classList.contains('menu-visible')) document.body.classList.remove('menu-visible');
+}
 
 window.addEventListener('load', () => {
 	document.querySelectorAll('[data-icon]').forEach(el => {
 		loadIcon(el, el.dataset.icon);
 	});
-	createBox(document.querySelector('section.features'), document.querySelectorAll('section.features>*:not(a[name])'));
+	const menuButton = document.querySelector('.menu-button');
+	document.addEventListener('click', function (event) {
+		if (menuButton.contains(event.target)) opemMenu();
+		else closeMenu();
+	});
 
+	createBox(
+		document.querySelector('section.features'),
+		document.querySelectorAll('section.features>*:not(a[name])'),
+		'.wrapper'
+	);
 	AnimBase.setHooks('intro', {
 		onFinish: () => {
 			const main = document.querySelector('main');

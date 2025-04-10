@@ -20,7 +20,19 @@ const D = {
 	},
 };
 
+function opemMenu() {
+	if (!document.body.classList.contains('menu-visible')) document.body.classList.add('menu-visible');
+}
+function closeMenu() {
+	if (document.body.classList.contains('menu-visible')) document.body.classList.remove('menu-visible');
+}
+
 window.addEventListener('load', () => {
+	const menuButton = document.querySelector('.menu-button');
+	document.addEventListener('click', function (event) {
+		if (menuButton.contains(event.target)) opemMenu();
+		else closeMenu();
+	});
 	document.querySelectorAll('[data-icon]').forEach(el => {
 		loadIcon(el, el.dataset.icon);
 	});
