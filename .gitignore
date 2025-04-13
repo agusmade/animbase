@@ -12,6 +12,9 @@ yarn-debug.log*
 yarn-error.log*
 *.tsbuildinfo
 
+# Vitest coverage output
+coverage/
+
 # Editor & OS-specific
 .DS_Store
 *.swp

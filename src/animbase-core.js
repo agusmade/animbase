@@ -14,13 +14,13 @@ const toHexRGBA = s => {
 				.map(v => v + v)
 				.join('') + 'ff'
 		: c4
-		? c4
-				.split('')
-				.map(v => v + v)
-				.join('')
-		: c6
-		? c6 + 'ff'
-		: c8;
+			? c4
+					.split('')
+					.map(v => v + v)
+					.join('')
+			: c6
+				? c6 + 'ff'
+				: c8;
 };
 const interpolateColor = (t, color1, color2) => {
 	const cInt1 = splitColor(toHexRGBA(color1));
@@ -79,19 +79,19 @@ const easingFunctions = {
 		0 === t
 			? 0
 			: 1 === t
-			? 1
-			: t < 0.5
-			? -(Math.pow(2, 20 * t - 10) * Math.sin(((20 * t - 11.125) * 2 * Math.PI) / 4.5)) / 2
-			: (Math.pow(2, -20 * t + 10) * Math.sin(((20 * t - 11.125) * 2 * Math.PI) / 4.5)) / 2 + 1,
+				? 1
+				: t < 0.5
+					? -(Math.pow(2, 20 * t - 10) * Math.sin(((20 * t - 11.125) * 2 * Math.PI) / 4.5)) / 2
+					: (Math.pow(2, -20 * t + 10) * Math.sin(((20 * t - 11.125) * 2 * Math.PI) / 4.5)) / 2 + 1,
 	inBounce: t => 1 - easingFunctions.outBounce(1 - t),
 	outBounce: t =>
 		t < 1 / 2.75
 			? 7.5625 * t * t
 			: t < 2 / 2.75
-			? 7.5625 * (t -= 1.5 / 2.75) * t + 0.75
-			: t < 2.5 / 2.75
-			? 7.5625 * (t -= 2.25 / 2.75) * t + 0.9375
-			: 7.5625 * (t -= 2.625 / 2.75) * t + 0.984375,
+				? 7.5625 * (t -= 1.5 / 2.75) * t + 0.75
+				: t < 2.5 / 2.75
+					? 7.5625 * (t -= 2.25 / 2.75) * t + 0.9375
+					: 7.5625 * (t -= 2.625 / 2.75) * t + 0.984375,
 	inOutBounce: t =>
 		t < 0.5 ? (1 - easingFunctions.outBounce(1 - 2 * t)) / 2 : (1 + easingFunctions.outBounce(2 * t - 1)) / 2,
 	spring: (t, stiffness = 4.5, damping = 6) => 1 - Math.cos(t * stiffness * Math.PI) * Math.exp(-t * damping),
@@ -117,9 +117,9 @@ re = {
 const parseExpression = s => {
 	const rege = RegExp(re.numberWithOptionalUnitAndFunc.source, 'g');
 	let arr;
-	let r = [];
+	const r = [];
 	while ((arr = rege.exec(s)) !== null) {
-		let [text, color, sValue, unit, func] = arr;
+		const [text, color, sValue, unit, func] = arr;
 		if (func && !easingFunctions[func]) throw Error(`Invalid easing function: ${func}`);
 		r.push({
 			type: color ? 'color' : 'number',
@@ -134,8 +134,8 @@ const parseExpression = s => {
 };
 
 function replaceString(str, _ref, _replacer) {
-	let ref = [..._ref].reverse();
-	let replacer = [..._replacer].reverse();
+	const ref = [..._ref].reverse();
+	const replacer = [..._replacer].reverse();
 	for (let i = 0; i < ref.length; i++) {
 		const fromIndex = ref[i].lastIndex - ref[i].text.length;
 		const toIndex = ref[i].lastIndex;
@@ -146,7 +146,7 @@ function replaceString(str, _ref, _replacer) {
 
 const getValue = ({startValue, endValue, startFrame = 0, endFrame, currentFrame, func = 'linear', type} = {}) => {
 	if (startValue === endValue) return startValue;
-	let normalValue = linearInterpolation(currentFrame, startFrame, endFrame, 0, 1);
+	const normalValue = linearInterpolation(currentFrame, startFrame, endFrame, 0, 1);
 	const easeValue = easingFunctions[func](normalValue);
 	if (type === 'color') return interpolateColor(easeValue, startValue, endValue);
 	return linearInterpolation(easeValue, 0, 1, startValue, endValue);
@@ -182,17 +182,17 @@ class AnimatedElement {
 		const styleConfig = {};
 		let startFrame = 0;
 		let ref = {};
-		let initialRef = {};
+		const initialRef = {};
 
-		for (let [prop, str] of Object.entries(init)) {
+		for (const [prop, str] of Object.entries(init)) {
 			initialRef[prop] = parseExpression(str);
 			ref[prop] = [...initialRef[prop]];
 		}
-		for (let [k, props] of Object.entries(config)) {
+		for (const [k, props] of Object.entries(config)) {
 			if (k === '0') continue;
 			const endFrame = parseInt(k);
 			styleConfig[k] = {startFrame, endFrame, ref, props: {}};
-			for (let [prop, str] of Object.entries(props)) {
+			for (const [prop, str] of Object.entries(props)) {
 				const values = parseExpression(str);
 				ref = {...ref, [prop]: values};
 				styleConfig[k].props[prop] = values;
@@ -206,12 +206,12 @@ class AnimatedElement {
 	}
 
 	update(currentFrame, debug = false) {
-		let result = {};
+		const result = {};
 		const entries = Object.entries(this.styleConfig);
 		const found = entries.find(([, d]) => currentFrame >= d.startFrame && currentFrame <= d.endFrame);
 		if (found) {
 			const detail = found[1];
-			for (let [prop, v] of Object.entries(detail.ref)) {
+			for (const [prop, v] of Object.entries(detail.ref)) {
 				const replacer = detail.props[prop]
 					? detail.props[prop].map(
 							(vi, i) =>
@@ -224,7 +224,7 @@ class AnimatedElement {
 									func: vi.func,
 									type: vi.type,
 								})}${vi.unit || ''}`
-					  )
+						)
 					: v.map(vi => `${vi.value}${vi.unit || ''}`);
 				const r = replaceString(this.initial[prop], this.initialRef[prop], replacer);
 				if (debug) result[prop] = r;
@@ -232,7 +232,7 @@ class AnimatedElement {
 			}
 		} else {
 			const detail = entries.at(-1)[1];
-			for (let [prop, v] of Object.entries(detail.ref)) {
+			for (const [prop, v] of Object.entries(detail.ref)) {
 				const replacer = detail.props[prop]
 					? detail.props[prop].map(vi => `${vi.value}${vi.unit || ''}`)
 					: v.map(vi => `${vi.value}${vi.unit || ''}`);

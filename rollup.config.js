@@ -1,77 +1,70 @@
 const {terser} = require('rollup-plugin-terser');
 const serve = require('rollup-plugin-serve');
 
+// Check if in dev mode via environment variable
 const isDev = process.env.BUILD_ENV === 'dev';
 
-const baseServePlugin = [
-	serve({
-		// open: true,
-		contentBase: ['docs-src', './'],
-		port: 3000,
-	}),
-];
+/**
+ * Shared output options
+ */
+const makeOutput = (file, format, options = {}) => ({
+	file: `dist/${file}`,
+	format,
+	sourcemap: isDev,
+	...options,
+});
+
+/**
+ * Optional dev server plugin (only active for dev + iife)
+ */
+const devPlugins = isDev
+	? [
+			serve({
+				contentBase: ['docs-src', './'],
+				port: 3000,
+			}),
+	  ]
+	: [];
 
 module.exports = [
 	// --- Full AnimBase ---
+
 	// ESM
 	{
 		input: 'src/index.js',
-		output: {
-			file: 'dist/animbase.esm.js',
-			format: 'esm',
-			sourcemap: isDev,
-		},
+		output: makeOutput('animbase.esm.js', 'esm'),
 	},
 
 	// CJS
 	{
 		input: 'src/index.js',
-		output: {
-			file: 'dist/animbase.cjs.js',
-			format: 'cjs',
-			sourcemap: isDev,
-		},
+		output: makeOutput('animbase.cjs.js', 'cjs'),
 	},
 
 	// IIFE (non-minified)
 	{
 		input: 'src/index.js',
-		output: {
-			file: 'dist/animbase.iife.js',
-			format: 'iife',
-			name: 'AnimBase',
-			sourcemap: isDev,
-		},
-		plugins: isDev ? baseServePlugin : [],
+		output: makeOutput('animbase.iife.js', 'iife', {name: 'AnimBase'}),
+		plugins: devPlugins,
 	},
 
 	// IIFE (minified)
 	{
 		input: 'src/index.js',
-		output: {
-			file: 'dist/animbase.iife.min.js',
-			format: 'iife',
+		output: makeOutput('animbase.iife.min.js', 'iife', {
 			name: 'AnimBase',
 			plugins: [terser()],
-			sourcemap: isDev,
-		},
+		}),
 	},
 
 	// --- Core-Only Build ---
+
 	{
 		input: 'src/animbase-core-only.js',
-		output: {
-			file: 'dist/animbase-core-only.esm.js',
-			format: 'esm',
-			sourcemap: isDev,
-		},
+		output: makeOutput('animbase-core-only.esm.js', 'esm'),
 	},
 	{
 		input: 'src/animbase-core-only.js',
-		output: {
-			file: 'dist/animbase-core-only.cjs.js',
-			format: 'cjs',
-			sourcemap: isDev,
-		},
+		output: makeOutput('animbase-core-only.cjs.js', 'cjs'),
 	},
 ];

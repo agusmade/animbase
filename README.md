@@ -11,15 +11,15 @@
 ## ✨ Features
 
 -   🔧 **Fully declarative** via `data-anim-init` and `data-anim-config`
--   🎞️ **Frame-based timeline**
+-   🎮 **Frame-based timeline**
 -   🎨 Supports numeric values and colors
 -   ⚡ Per-subvalue easing (e.g., `transform: translateY(20px.out)`, `color: #00f.out`)
 -   🧠 Detects and interpolates each number or color in a single property (e.g., `box-shadow`, `filter`, `transform`, `outline`, etc.)
--   🎯 Multiple timeline sources (3 types):
+-   🎯 Multiple timeline sources (2 types):
     -   external-controlled (scroll, input range, other)
     -   triggered timer (looping or one-shot)
 -   🔂 Triggered animation with runtime control API
--   ⏯️ Playback control: trigger, pause, resume, stop, seek
+-   ⏰ Playback control: trigger, pause, resume, stop, seek
 -   🔁 Direction control with `reverse`
 -   ☝️ Play-once support with `once`
 -   🪝 Hooks: `onStart` and `onFinish`
@@ -89,7 +89,7 @@ Default behavior:
 -   If only `data-anim-controller-ref` → property defaults to `value`, listens to `input`
 -   If only `data-anim-controlled-by` → target defaults to `window`, uses common scroll events
 
-#### B. Triggered Timed Animator
+#### B. Timed Animator
 
 ```html
 <!-- Config element (required once per group) -->
@@ -106,6 +106,8 @@ Default behavior:
 	AnimBase.trigger('hero');
 </script>
 ```
+
+> Group config should be placed on a separate, non-animated element.
 
 ---
 
@@ -141,21 +143,54 @@ AnimBase includes multiple builds:
 
 ---
 
-## 🧠 How It Works
+## 🧠 How AnimBase Works (Summary)
 
--   `data-anim-init` defines the initial style (e.g. `{ "opacity": "0", "transform": "scale(0.5)" }`)
--   `data-anim-config` defines how it animates over time using keyframes with optional easing per subvalue
--   Subvalue formats supported:
-    -   `1`, `1px`, `1%`, `1deg`, `#00f` → default to **linear easing**
-    -   `1.out`, `1px.in`, `#00f.inOut` → apply **explicit easing function**
--   Includes 30+ easing types: `linear`, `inOutBack`, `outElastic`, `inBounce`, `spring`, and more.
--   Each CSS property string is parsed to detect subvalues (numbers, units, colors), all of which are animated individually.
-    -   Example: `boxShadow: "0 0 10px #000"` → 4 animatable parts.
-    -   Works with **any property** containing animatable values.
+AnimBase lets you define powerful animations **entirely using HTML attributes** — no JavaScript required for most cases.
+
+It works by parsing two key attributes:
+
+### 1. `data-anim-init`
+
+Defines the **initial styles** of the element as a JSON string.
+
+```html
+data-anim-init='{"opacity": "0", "transform": "scale(0.5)"}'
+```
+
+### 2. `data-anim-config`
+
+Defines a **timeline of keyframes**, where each key (frame number) maps to a style change. Values are interpolated over time.
+
+```html
+data-anim-config='{ "500": {"opacity": "1.out", "transform": "scale(1.spring)"} }'
+```
+
+### ✨ Per-Value Easing
+
+Each variable inside a value string (e.g. `5rem.outQuad`) can have **its own easing**. AnimBase parses:
+
+-   Numbers: `100`, `50px`, `-2.5rem`, `10%`
+-   Colors: `#fff`, `#5bf.outBounce`
+-   Easing functions: `linear`, `spring`, `outQuad`, etc.
+
+### ⚙️ Example
+
+```html
+<div
+	data-anim-init='{"boxShadow": "1px -2.5rem 10% #5bf"}'
+	data-anim-config='{"300": {"boxShadow": "3px 5rem.in 10% #fa2.outBounce"}}'
+>
+	AnimBase
+</div>
+```
+
+Each variable animates independently with its own easing. AnimBase **matches variables by position**, so value structure must stay consistent across keyframes.
+
+👉 Want more details? See the [full explanation here](https://agusmade.github.io/animbase/docs/how-it-works.html)
 
 ---
 
-## 🧪 Advanced API (for `trigger-group` only)
+## 💪 Advanced API (for `trigger-group` only)
 
 ```js
 AnimBase.trigger('group'); // Start animation
@@ -177,7 +212,7 @@ AnimBase.getAnimator('group').addElement(domElement, {init, config});
 
 ---
 
-## 📦 License
+## 📆 License
 
 MIT
 

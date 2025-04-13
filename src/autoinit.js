@@ -4,7 +4,7 @@ import {TimelineAnimator} from './animbase-core.js';
 
 const controllers = new Map();
 
-let AB = {};
+const AB = {};
 
 // --- Public Control API ---
 ['trigger', 'pause', 'resume', 'stop', 'seek', 'setOnce', 'setReverse', 'setHooks'].forEach(fn => {
@@ -72,6 +72,7 @@ let AB = {};
 });
 
 function createTimedAnimator(group, config = {}) {
+	// eslint-disable-next-line prefer-const
 	let {configSelector, elementSelector, ...cfg} = config;
 	if (configSelector) {
 		const configEl = document.querySelector(configSelector);
@@ -84,6 +85,7 @@ function createTimedAnimator(group, config = {}) {
 	const autostart = cfg.autostart || false;
 
 	let animator;
+	// eslint-disable-next-line prefer-const
 	animator = new TimelineAnimator(
 		() => animator?.state?.frame ?? (cfg.reverse ? max : 0),
 		elementSelector ? {elementSelector} : {autoCollect: false, autoUpdate: false}
@@ -160,7 +162,7 @@ function scanAnimatedElements() {
 
 	animatedElements.forEach(el => {
 		let refSelector = el.dataset.animControllerRef;
-		let controlProp = el.dataset.animControlledBy;
+		const controlProp = el.dataset.animControlledBy;
 		if (['scrollTop', 'scrollY', 'scrollLeft', 'scrollX'].includes(controlProp)) {
 			if (!refSelector) refSelector = 'window';
 			el.setAttribute(ATTR_CONTROLLER_REF, refSelector);
