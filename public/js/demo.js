@@ -29,10 +29,11 @@ function closeMenu() {
 
 window.addEventListener('load', () => {
 	const menuButton = document.querySelector('.menu-button');
-	document.addEventListener('click', function (event) {
-		if (menuButton.contains(event.target)) opemMenu();
-		else closeMenu();
-	});
+	menuButton &&
+		document.addEventListener('click', function (event) {
+			if (menuButton.contains(event.target)) opemMenu();
+			else closeMenu();
+		});
 	document.querySelectorAll('[data-icon]').forEach(el => {
 		loadIcon(el, el.dataset.icon);
 	});

@@ -28,7 +28,7 @@ const sty = `.container {
 	justify-content: center;
 	position: absolute;
 }
-@media (max-width: 480px) {
+@media (max-width: 576px) {
 .container {overflow:hidden;}
 }
 .place {

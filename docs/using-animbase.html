@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Using AnimBase</title>
+		<meta
+			name="description"
+			content="AnimBase is a lightweight animation engine that interprets structured data in data-* attributes"
+		/>
+		<meta property="og:title" content="Using AnimBase" />
+		<meta
+			property="og:description"
+			content="AnimBase is a lightweight animation engine that interprets structured data in data-* attributes"
+		/>
+		<meta property="og:image" content="https://agusmade.github.io/animbase/public/res/animbase-preview.png" />
+		<meta property="og:url" content="https://agusmade.github.io/animbase/docs/using-animbase.html" />
+		<meta property="og:type" content="website" />
+		<link rel="icon" type="image/png" sizes="16x16" href="https://agusmade.github.io/animbase/public/res/favicon-16x16.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="https://agusmade.github.io/animbase/public/res/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="96x96" href="https://agusmade.github.io/animbase/public/res/favicon-96x96.png" />
+		<link rel="icon" type="image/png" sizes="192x192" href="https://agusmade.github.io/animbase/public/res/android-chrome-192x192.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="https://agusmade.github.io/animbase/public/res/apple-touch-icon.png" />
+		<link rel="manifest" href="https://agusmade.github.io/animbase/public/res/site.webmanifest" />
+		<link rel="canonical" href="https://agusmade.github.io/animbase/docs/using-animbase.html" />
+		<meta name="color-scheme" content="light dark" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css" />
+		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/docs.css" />
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+	</head>
+	<body>
+		<header>
+			<nav
+				data-anim-controlled-by="scrollTop"
+				data-anim-init='{"backgroundColor": "#2220", "boxShadow": "0 0px 0px #000b"}'
+				data-anim-config='{
+							"200":{"backgroundColor": "#222f.inSine"},
+							"800":{"boxShadow": "0 5px.in 10px.out #000b"}
+						}'
+			>
+				<div class="nav-content">
+					<div
+						class="title"
+						data-anim-controlled-by="scrollTop"
+						data-anim-init='{"opacity": "0", "transform": "translateX(50%)"}'
+						data-anim-config='{
+							"200":{},
+							"500":{"opacity": "1.outQuad", "transform": "translateX(0%.spring)"}
+						}'
+					>
+						<span>Using</span> <a href="https://agusmade.github.io/animbase/" class="name">AnimBase</a>
+					</div>
+					<div class="menu-bg"></div>
+					<div class="nav-right">
+						<div>
+							<a href="https://agusmade.github.io/animbase/">Home</a>
+							<a href="https://agusmade.github.io/animbase/docs/">Documentation</a>
+							<a href="https://agusmade.github.io/animbase/demo/">Demo</a>
+						</div>
+						<div>
+							<a href="https://github.com/agusmade/animbase/"><i data-icon="github"></i></a>
+						</div>
+						<a class="menu-close-button">x</a>
+					</div>
+					<a class="menu-button"><i data-icon="menu"></i></a>
+				</div>
+				<div
+					class="nav-border"
+					data-anim-controlled-by="scrollTop"
+					data-anim-init='{"opacity": "0"}'
+					data-anim-config='{"200":{"opacity": "1.inSine"}}'
+				></div>
+			</nav>
+			<div
+				data-anim-trigger-group="intro"
+				data-anim-trigger-config='{"speed": 400, "once": true, "autostart": true, "max": 3800}'
+			></div>
+		</header>
+		<main>
+			<h1>Using <span class="name">AnimBase</span></h1>
+			<p>AnimBase provides two main animation strategies:</p>
+			<ul>
+				<li>
+					<strong>Controlled Animators</strong> – driven by external properties like scroll, range inputs, or media
+					playback.
+				</li>
+				<li>
+					<strong>Timed Animators</strong> – driven by internal frame-based timelines, typically triggered manually
+					or automatically.
+				</li>
+			</ul>
+
+			<hr />
+
+			<h2>🕹 Controlled Animators</h2>
+			<p>
+				Controlled animators link animation progress to a <strong>property of an external element</strong>, such as
+				<code>scrollTop</code>, <code>value</code>, or <code>currentTime</code>.
+			</p>
+
+			<h3>🔧 Required Attributes</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>Attribute</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><code>data-anim-controller-ref</code></td>
+						<td>
+							<strong>Selector</strong> to the controlling element (<code>#slider</code>, <code>#video1</code>,
+							etc)
+						</td>
+					</tr>
+					<tr>
+						<td><code>data-anim-controlled-by</code></td>
+						<td>
+							<strong>Property</strong> of the controller to track (<code>value</code>, <code>scrollTop</code>,
+							<code>currentTime</code>)
+						</td>
+					</tr>
+					<tr>
+						<td><code>data-anim-listen</code></td>
+						<td>
+							Optional <strong>event name</strong> (e.g., <code>input</code>, <code>scroll</code>,
+							<code>timeupdate</code>)
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<h3>✅ Behavior Rules</h3>
+			<ul>
+				<li>
+					If <strong>only</strong> <code>data-anim-controlled-by</code> is present, controller defaults to
+					<code>window</code>.
+				</li>
+				<li>
+					If <strong>only</strong> <code>data-anim-controller-ref</code> is present and not <code>window</code>,
+					default property is <code>value</code>.
+				</li>
+				<li>
+					If <strong>neither</strong> is present but the element has <code>data-anim-init</code>, it will fallback
+					to <strong>Timed Animator</strong>.
+				</li>
+			</ul>
+
+			<h3>🧠 Default Event Mapping</h3>
+			<pre><code class="language-js">{
+  scrollTop:     'scroll',
+  scrollY:       'scroll',
+  scrollLeft:    'scroll',
+  scrollX:       'scroll',
+  value:         'input',
+  currentTime:   'timeupdate'
+}</code></pre>
+			<p>Use <code>data-anim-listen</code> to override if needed.</p>
+
+			<h3>💡 Examples</h3>
+
+			<h4>Scroll-Controlled</h4>
+			<pre><code class="language-html">&lt;div
+	data-anim-controlled-by="scrollTop"
+	data-anim-init='{"opacity": "0"}'
+	data-anim-config='{"100": {"opacity": "1"}}'
+&gt;
+	Scroll me into view
+&lt;/div&gt;</code></pre>
+
+			<h4>Input-Controlled</h4>
+			<pre><code class="language-html">&lt;input type="range" id="slider" /&gt;
+
+&lt;div
+	data-anim-controller-ref="#slider"
+	data-anim-init='{"opacity": "0"}'
+	data-anim-config='{"100": {"opacity": "1"}}'
+&gt;
+	Controlled by slider
+&lt;/div&gt;</code></pre>
+
+			<h4>Media-Controlled</h4>
+			<pre><code class="language-html">&lt;video id="video1" src="..." autoplay muted&gt;&lt;/video&gt;
+
+&lt;div
+	data-anim-controller-ref="#video1"
+	data-anim-controlled-by="currentTime"
+	data-anim-init='{"opacity": "0"}'
+	data-anim-config='{"10": {"opacity": "1"}}'
+&gt;
+	Appears after 10s
+&lt;/div&gt;</code></pre>
+
+			<h4>Input-Controlled (Multiple Targets)</h4>
+			<pre><code class="language-html">&lt;input type="range" id="slider" /&gt;
+
+&lt;!-- First element controlled by #slider --&gt;
+&lt;div
+	data-anim-controller-ref="#slider"
+	data-anim-init='{"opacity": "0"}'
+	data-anim-config='{"100": {"opacity": "1"}}'
+&gt;
+	Fades in
+&lt;/div&gt;
+
+&lt;!-- Second element also controlled by #slider --&gt;
+&lt;div
+	data-anim-controller-ref="#slider"
+	data-anim-init='{"marginLeft": "0px"}'
+	data-anim-config='{"100": {"marginLeft": "100px.outSine"}}'
+&gt;
+	Slides to the right
+&lt;/div&gt;</code></pre>
+			<p>
+				<em
+					>💡 Both elements respond to the same range input. AnimBase handles grouping automatically using the
+					controller ref and tracked property.</em
+				>
+			</p>
+
+			<hr />
+
+			<h2>⏱ Timed Animators</h2>
+			<p>
+				Timed animators are <strong>frame-based</strong> animation groups that run over time, either triggered
+				programmatically or configured to start automatically.
+			</p>
+
+			<h3>🔧 Required Attributes</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>Attribute</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><code>data-anim-trigger-group</code></td>
+						<td>
+							Group name to link multiple elements to one timeline.<br />If omitted, defaults to
+							<code>"default"</code>
+						</td>
+					</tr>
+					<tr>
+						<td><code>data-anim-trigger-config</code></td>
+						<td>Configuration block used in a <strong>separate dummy element</strong> (not inline)</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<h3>🧠 Behavior</h3>
+			<ul>
+				<li>All elements with the same <code>data-anim-trigger-group</code> will animate together.</li>
+				<li>
+					If <code>data-anim-trigger-group</code> is omitted, the element belongs to the
+					<code>"default"</code> group.
+				</li>
+				<li>
+					The config for a group <strong>must</strong> be defined using a separate dummy element that only contains
+					<code>data-anim-trigger-config</code>.
+				</li>
+				<li>
+					Group animation can be triggered via API (<code>AnimBase.play()</code>), or automatically with
+					<code>autostart</code>.
+				</li>
+				<li>Each element should define its own <code>data-anim-init</code> and <code>data-anim-config</code>.</li>
+			</ul>
+
+			<h3>⚙️ Config Options (via <code>data-anim-trigger-config</code>)</h3>
+			<pre><code class="language-json">{
+  "max": 300,
+  "speed": 60,
+  "autostart": true,
+  "once": true,
+  "reverse": false
+}</code></pre>
+
+			<ul>
+				<li><code>max</code> – maximum frame count (default: 100)</li>
+				<li><code>speed</code> – frames per second (default: 60)</li>
+				<li><code>autostart</code> – if true, animation starts automatically</li>
+				<li><code>once</code> – stops after one full cycle</li>
+				<li><code>reverse</code> – plays from max → 0</li>
+			</ul>
+
+			<h3>💡 Declarative Example</h3>
+			<pre><code class="language-html">&lt;!-- Animation element --&gt;
+&lt;div
+	data-anim-trigger-group="intro"
+	data-anim-init='{"opacity": "0", "transform": "translateY(50px)"}'
+	data-anim-config='{"100": {"opacity": "1", "transform": "translateY(0px.outBack)"}}'
+&gt;
+	Hello!
+&lt;/div&gt;
+
+&lt;!-- Dummy config element (declarative config setup) --&gt;
+&lt;div data-anim-trigger-group="intro" data-anim-trigger-config='{"autostart": true, "speed": 40}'&gt;&lt;/div&gt;</code></pre>
+
+			<h3>💻 Imperative Alternative</h3>
+			<pre><code class="language-js">AnimBase.createTimedAnimator("intro", {
+  speed: 40,
+  max: 100,
+  once: true,
+  autostart: true,
+});
+
+AnimBase.play("intro");</code></pre>
+
+			<h3>🎮 Manual Trigger with API</h3>
+			<pre><code class="language-html">&lt;button onclick="AnimBase.play('intro')"&gt;Play&lt;/button&gt;
+&lt;button onclick="AnimBase.stop('intro')"&gt;Stop&lt;/button&gt;</code></pre>
+		</main>
+		<footer>
+			<p>Powered by <span class="name">AnimBase</span></p>
+		</footer>
+		<script>
+			hljs.highlightAll();
+		</script>
+	</body>
+</html>

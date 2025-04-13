@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>How AnimBase Works</title>
+		<meta
+			name="description"
+			content="AnimBase is a lightweight animation engine that interprets structured data in data-* attributes"
+		/>
+		<meta property="og:title" content="How AnimBase Works" />
+		<meta
+			property="og:description"
+			content="AnimBase is a lightweight animation engine that interprets structured data in data-* attributes"
+		/>
+		<meta property="og:image" content="https://agusmade.github.io/animbase/public/res/animbase-preview.png" />
+		<meta property="og:url" content="https://agusmade.github.io/animbase/docs/how-it-works.html" />
+		<meta property="og:type" content="website" />
+		<link rel="icon" type="image/png" sizes="16x16" href="https://agusmade.github.io/animbase/public/res/favicon-16x16.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="https://agusmade.github.io/animbase/public/res/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="96x96" href="https://agusmade.github.io/animbase/public/res/favicon-96x96.png" />
+		<link rel="icon" type="image/png" sizes="192x192" href="https://agusmade.github.io/animbase/public/res/android-chrome-192x192.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="https://agusmade.github.io/animbase/public/res/apple-touch-icon.png" />
+		<link rel="manifest" href="https://agusmade.github.io/animbase/public/res/site.webmanifest" />
+		<link rel="canonical" href="https://agusmade.github.io/animbase/docs/how-it-works.html" />
+		<meta name="color-scheme" content="light dark" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css" />
+		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/docs.css" />
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+	</head>
+	<body>
+		<header>
+			<nav
+				data-anim-controlled-by="scrollTop"
+				data-anim-init='{"backgroundColor": "#2220", "boxShadow": "0 0px 0px #000b"}'
+				data-anim-config='{
+							"200":{"backgroundColor": "#222f.inSine"},
+							"800":{"boxShadow": "0 5px.in 10px.out #000b"}
+						}'
+			>
+				<div class="nav-content">
+					<div
+						class="title"
+						data-anim-controlled-by="scrollTop"
+						data-anim-init='{"opacity": "0", "transform": "translateX(50%)"}'
+						data-anim-config='{
+							"200":{},
+							"500":{"opacity": "1.outQuad", "transform": "translateX(0%.spring)"}
+						}'
+					>
+						<span>How</span> <a href="https://agusmade.github.io/animbase/" class="name">AnimBase</a> <span>Works</span>
+					</div>
+					<div class="menu-bg"></div>
+					<div class="nav-right">
+						<div>
+							<a href="https://agusmade.github.io/animbase/">Home</a>
+							<a href="https://agusmade.github.io/animbase/docs/">Documentation</a>
+							<a href="https://agusmade.github.io/animbase/demo/">Demo</a>
+						</div>
+						<div>
+							<a href="https://github.com/agusmade/animbase/"><i data-icon="github"></i></a>
+						</div>
+						<a class="menu-close-button">x</a>
+					</div>
+					<a class="menu-button"><i data-icon="menu"></i></a>
+				</div>
+				<div
+					class="nav-border"
+					data-anim-controlled-by="scrollTop"
+					data-anim-init='{"opacity": "0"}'
+					data-anim-config='{"200":{"opacity": "1.inSine"}}'
+				></div>
+			</nav>
+			<div
+				data-anim-trigger-group="intro"
+				data-anim-trigger-config='{"speed": 400, "once": true, "autostart": true, "max": 3800}'
+			></div>
+		</header>
+		<main>
+			<h1 id="how-animbase-works">How <span class="name">AnimBase</span> Works</h1>
+			<p>
+				AnimBase is a lightweight animation engine that interprets structured data in <code>data-anim-init</code> and
+				<code>data-anim-config</code> attributes to drive animations. It supports granular control over values,
+				easing functions, and timelines. Here&#39;s a breakdown of its core working principles:
+			</p>
+			<hr />
+			<h2 id="1-styleconfig">1. StyleConfig</h2>
+			<p>A <strong>StyleConfig</strong> is a plain JavaScript object that represents inline CSS properties:</p>
+			<pre><code class="lang-json">{
+	&quot;opacity&quot;: &quot;0.5&quot;,
+	&quot;transform&quot;: &quot;scale(1.2)&quot;
+}</code></pre>
+			<p>It is represented as a JSON string in <code>data-anim-init</code>.</p>
+			<hr />
+			<h2 id="2-keyframeconfig">2. KeyframeConfig</h2>
+			<p>
+				A <strong>KeyframeConfig</strong> is a mapping of animation keyframes (in frame numbers) to style changes.
+				Each frame references a partial or complete StyleConfig:
+			</p>
+			<pre><code class="lang-json">{
+	&quot;100&quot;: {
+		&quot;opacity&quot;: &quot;1.outQuad&quot;
+	},
+	&quot;300&quot;: {
+		&quot;transform&quot;: &quot;scale(1.5.outSine)&quot;
+	}
+}</code></pre>
+			<p>It is represented as a JSON string in <code>data-anim-config</code>.</p>
+			<h3 id="key-principles-">Key Principles:</h3>
+			<ul>
+				<li>Keys are frame numbers as strings (e.g., &quot;100&quot;, &quot;300&quot;).</li>
+				<li>Properties only need to be included if they change at that frame.</li>
+				<li>Unspecified properties retain their values from the last keyframe.</li>
+				<li>
+					For the very first appearance of a property in the animation, the value is taken from
+					<code>data-anim-init</code>.
+				</li>
+				<li>
+					Properties not declared in <code>data-anim-init</code> will be ignored, even if declared in keyframes.
+				</li>
+				<li>After the last keyframe, all property values are held constant.</li>
+			</ul>
+			<hr />
+			<h2 id="3-value-parsing-and-matching">3. Value Parsing and Matching</h2>
+			<p>
+				AnimBase parses each string value using regular expressions to extract
+				<strong>individual animatable variables</strong> such as:
+			</p>
+			<ul>
+				<li>Numbers with or without units (e.g., <code>100</code>, <code>50px</code>, <code>0.5rem</code>)</li>
+				<li>Percentages (<code>10%</code>)</li>
+				<li>Hex color codes (<code>#fff</code>, <code>#ffffff</code>, <code>#ffff</code>)</li>
+				<li>Optional easing functions appended as <code>.easeName</code></li>
+			</ul>
+			<p>Each parsed variable is stored along with:</p>
+			<ul>
+				<li>Type (<code>number</code> or <code>color</code>)</li>
+				<li>Unit (if applicable)</li>
+				<li>Easing function (optional)</li>
+				<li>Text span and index position (for substitution)</li>
+			</ul>
+			<h3 id="example-">Example:</h3>
+			<pre><code class="lang-json">{
+	&quot;boxShadow&quot;: &quot;3px 5rem.in 10% #fa2.outBounce&quot;
+}</code></pre>
+			<p>This breaks into:</p>
+			<ul>
+				<li><code>3px</code> (number, no easing)</li>
+				<li><code>5rem</code> (number, with <code>in</code> easing)</li>
+				<li><code>10%</code> (number, no easing)</li>
+				<li><code>#fa2</code> (color, with <code>outBounce</code> easing)</li>
+			</ul>
+			<hr />
+			<h2 id="4-matching-variables-by-position">4. Matching Variables by Position</h2>
+			<p>AnimBase does not track variable names—only <strong>position matters</strong>.</p>
+			<h3 id="-correct-example-">✅ Correct Example:</h3>
+			<pre><code class="lang-html">&lt;div
+	data-anim-init='{ &quot;transform&quot;: &quot;translateX(-50%) rotateZ(45deg) scale(1.5)&quot; }'
+	data-anim-config='{
+		&quot;100&quot;: { &quot;transform&quot;: &quot;translateX(0%.spring) rotateZ(0deg.outBounce) scale(1)&quot; }
+	}'
+&gt;
+	Text
+&lt;/div&gt;</code></pre>
+			<p>Each value maps correctly to its counterpart by position.</p>
+			<h3 id="-incorrect-example-">❌ Incorrect Example:</h3>
+			<pre><code class="lang-html">&lt;div
+	data-anim-init='{ &quot;transform&quot;: &quot;translateX(-50%) rotateZ(45deg) scale(1.5)&quot; }'
+	data-anim-config='{
+		&quot;100&quot;: { &quot;transform&quot;: &quot;scale(1) translateX(0%.spring) rotateZ(0deg.outBounce)&quot; }
+	}'
+&gt;
+	Text
+&lt;/div&gt;</code></pre>
+			<p>
+				The mismatch in value order results in incorrect animations because AnimBase uses the order from
+				<code>data-anim-init</code> as the reference.
+			</p>
+			<hr />
+			<h2 id="5-non-css-awareness">5. Non-CSS Awareness</h2>
+			<p>
+				AnimBase does not parse or validate CSS functions. It treats the entire string value as a container of
+				<strong>animatable variables</strong>, and only those variables are interpolated.
+			</p>
+			<h3 id="example-">Example:</h3>
+			<pre><code class="lang-html">&lt;div
+	data-anim-init='{&quot;color&quot;: &quot;rgb(85, 187, 255)&quot;}'
+	data-anim-config='{&quot;100&quot;: {&quot;color&quot;: &quot;rgb(255.outSine, 255, 255)&quot;}}'
+&gt;
+	Text
+&lt;/div&gt;</code></pre>
+			<p>
+				Only the values <code>85</code>, <code>187</code>, and <code>255</code> are animated, with
+				<code>.outSine</code> applied to the first.
+			</p>
+			<hr />
+			<h2 id="6-final-notes">6. Final Notes</h2>
+			<ul>
+				<li>AnimBase uses linear interpolation by default if no easing function is provided.</li>
+				<li>It supports per-variable easing even within a single property string.</li>
+				<li>It does not require CSS classes or external style sheets.</li>
+				<li>Scroll-driven and trigger-based animations are fully supported.</li>
+			</ul>
+			<p>You define your timeline and transitions entirely in HTML.</p>
+			<!-- <p>
+				<strong>Next:</strong> Explore <a href="controller.html">Controller Integration</a> to link animations to
+				scroll or input values.
+			</p> -->
+			<p class="note next-section">
+				Looking for usage examples? See <a href="https://agusmade.github.io/animbase/docs/using-animbase.html">How to Use AnimBase</a> →
+			</p>
+		</main>
+		<footer>
+			<p>Powered by <span class="name">AnimBase</span></p>
+		</footer>
+		<script>
+			hljs.highlightAll();
+		</script>
+	</body>
+</html>

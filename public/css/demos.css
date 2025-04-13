@@ -53,7 +53,7 @@ nav a,
 nav a:visited,
 nav a:active {
 	display: inline-block;
-	padding: 5px 10px;
+	padding: 5px 8px;
 	text-decoration: none;
 	color: #eee;
 }
@@ -93,7 +93,11 @@ nav .title {
 	align-items: center;
 	justify-content: center;
 }
-@media (max-width: 480px) {
+.nav-right > div {
+	display: flex;
+	flex-direction: row;
+}
+@media (max-width: 576px) {
 	.nav-right {
 		display: flex !important;
 		flex-direction: column !important;
@@ -103,7 +107,7 @@ nav .title {
 		left: 50%;
 		top: 20px;
 		width: 90%;
-		transform: translateX(480px);
+		transform: translateX(576px);
 		transition: all 200ms ease;
 		padding: 32px 2px 2px 2px;
 		margin: auto 5px;
@@ -120,6 +124,8 @@ nav .title {
 		right: 0;
 		width: 32px;
 		height: 32px;
+		user-select: none;
+		cursor: pointer;
 	}
 	.nav-right > div {
 		display: flex;

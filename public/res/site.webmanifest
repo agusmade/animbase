@@ -1,0 +1,12 @@
+{
+	"name": "AnimBase, Declarative Animation Engine",
+	"short_name": "AnimBase",
+	"icons": [
+		{"src": "https://agusmade.github.io/animbase/public/res/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png"},
+		{"src": "https://agusmade.github.io/animbase/public/res/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png"}
+	],
+	"start_url": "https://agusmade.github.io/animbase/",
+	"display": "standalone",
+	"background_color": "#111111",
+	"theme_color": "#ffaa22"
+}
