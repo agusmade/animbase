@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<title>AnimBase Playground</title>
+		<meta
+			name="description"
+			content="Interactive playground for AnimBase – experiment with declarative animations directly in your browser using HTML, CSS, and JavaScript."
+		/>
+		<meta
+			name="keywords"
+			content="AnimBase, animation playground, declarative animation, HTML animation, CSS animation, JavaScript animation, animation editor, web animation, timeline animation"
+		/>
+		<meta property="og:title" content="AnimBase Documentation" />
+		<meta
+			property="og:description"
+			content="Interactive playground for AnimBase – experiment with declarative animations directly in your browser using HTML, CSS, and JavaScript."
+		/>
+		<meta property="og:image" content="https://agusmade.github.io/animbase/public/res/animbase-preview.png" />
+		<meta property="og:url" content="https://agusmade.github.io/animbase/playground/" />
+		<meta property="og:type" content="website" />
+		<link rel="icon" type="image/png" sizes="16x16" href="https://agusmade.github.io/animbase/public/res/favicon-16x16.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="https://agusmade.github.io/animbase/public/res/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="96x96" href="https://agusmade.github.io/animbase/public/res/favicon-96x96.png" />
+		<link rel="icon" type="image/png" sizes="192x192" href="https://agusmade.github.io/animbase/public/res/android-chrome-192x192.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="https://agusmade.github.io/animbase/public/res/apple-touch-icon.png" />
+		<link rel="manifest" href="https://agusmade.github.io/animbase/public/res/site.webmanifest" />
+		<link rel="canonical" href="https://agusmade.github.io/animbase/playground/" />
+		<meta name="color-scheme" content="light dark" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/darcula.min.css" />
+		<link rel="stylesheet" href="./style.css" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/xml/xml.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/javascript/javascript.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+
+		<script src="./resizer.js"></script>
+	</head>
+	<body>
+		<div class="navbar">
+			<h1><span class="name">AnimBase</span> Playground</h1>
+			<div class="buttons">
+				<button onclick="downloadHTML()">
+					<i data-icon="download"></i>
+					<span>Download HTML</span>
+				</button>
+				<button onclick="share()">
+					<i data-icon="share"></i>
+					<span>Share</span>
+				</button>
+				<button onclick="exportToCodepen()">
+					<i data-icon="codepen"></i>
+					<span>Onpen in CodePen</span>
+				</button>
+			</div>
+		</div>
+		<div class="main">
+			<div class="editor-place">
+				<div class="editor-wrapper">
+					<h2>CSS</h2>
+					<div class="editor" id="css-editor"></div>
+				</div>
+				<div class="editor-wrapper editor-wrapper-html">
+					<h2>HTML</h2>
+					<div class="editor" id="html-editor"></div>
+				</div>
+				<div class="editor-wrapper">
+					<h2>JS</h2>
+					<div class="editor" id="js-editor"></div>
+				</div>
+			</div>
+			<div class="preview-place">
+				<iframe id="preview"></iframe>
+				<div id="log-panel"></div>
+			</div>
+		</div>
+		<div id="share-message">copied</div>
+		<script src="./playground.js"></script>
+	</body>
+</html>

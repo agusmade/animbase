@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Contributing to AnimBase</title>
+		<meta
+			name="description"
+			content="Contribute to AnimBase — whether through code, documentation, design, or community outreach. Everyone is welcome to help grow this lightweight declarative animation engine."
+		/>
+		<meta property="og:title" content="Contributing to AnimBase" />
+		<meta
+			property="og:description"
+			content="AnimBase is a lightweight animation engine that interprets structured data in data-* attributes"
+		/>
+		<meta property="og:image" content="https://agusmade.github.io/animbase/public/res/animbase-preview.png" />
+		<meta property="og:url" content="https://agusmade.github.io/animbase/docs/contributing.html" />
+		<meta property="og:type" content="website" />
+		<link rel="icon" type="image/png" sizes="16x16" href="https://agusmade.github.io/animbase/public/res/favicon-16x16.png" />
+		<link rel="icon" type="image/png" sizes="32x32" href="https://agusmade.github.io/animbase/public/res/favicon-32x32.png" />
+		<link rel="icon" type="image/png" sizes="96x96" href="https://agusmade.github.io/animbase/public/res/favicon-96x96.png" />
+		<link rel="icon" type="image/png" sizes="192x192" href="https://agusmade.github.io/animbase/public/res/android-chrome-192x192.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="https://agusmade.github.io/animbase/public/res/apple-touch-icon.png" />
+		<link rel="manifest" href="https://agusmade.github.io/animbase/public/res/site.webmanifest" />
+		<link rel="canonical" href="https://agusmade.github.io/animbase/docs/contributing.html" />
+		<meta name="color-scheme" content="light dark" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap"
+			rel="stylesheet"
+		/>
+		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css" />
+		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/docs.css" />
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+	</head>
+	<body>
+		<header>
+			<nav
+				data-anim-controlled-by="scrollTop"
+				data-anim-init='{"backgroundColor": "#2220", "boxShadow": "0 0px 0px #000b"}'
+				data-anim-config='{
+							"200":{"backgroundColor": "#222f.inSine"},
+							"800":{"boxShadow": "0 5px.in 10px.out #000b"}
+						}'
+			>
+				<div class="nav-content">
+					<div
+						class="title"
+						data-anim-controlled-by="scrollTop"
+						data-anim-init='{"opacity": "0", "transform": "translateX(50%)"}'
+						data-anim-config='{
+							"200":{},
+							"500":{"opacity": "1.outQuad", "transform": "translateX(0%.spring)"}
+						}'
+					>
+						<span>Contributing to</span> <a href="https://agusmade.github.io/animbase/" class="name">AnimBase</a>
+					</div>
+					<div class="menu-bg"></div>
+					<div class="nav-right">
+						<div>
+							<a href="https://agusmade.github.io/animbase/">Home</a>
+							<a href="https://agusmade.github.io/animbase/docs/">Documentation</a>
+							<a href="https://agusmade.github.io/animbase/demo/">Demo</a>
+						</div>
+						<div>
+							<a href="https://github.com/agusmade/animbase/"><i data-icon="github"></i></a>
+						</div>
+						<a class="menu-close-button">x</a>
+					</div>
+					<a class="menu-button"><i data-icon="menu"></i></a>
+				</div>
+				<div
+					class="nav-border"
+					data-anim-controlled-by="scrollTop"
+					data-anim-init='{"opacity": "0"}'
+					data-anim-config='{"200":{"opacity": "1.inSine"}}'
+				></div>
+			</nav>
+			<div
+				data-anim-trigger-group="intro"
+				data-anim-trigger-config='{"speed": 400, "once": true, "autostart": true, "max": 3800}'
+			></div>
+		</header>
+		<main>
+			<h1>Contributing to <span class="name">AnimBase</span></h1>
+			<p>
+				Thanks for your interest in contributing! Whether you're fixing bugs, improving documentation, designing
+				visuals, or spreading the word — <strong>you’re welcome here</strong>. AnimBase grows through community
+				support, and every contribution counts.
+			</p>
+			<p>We accept both code and non-code contributions. Pick the path that suits your skills and interests:</p>
+
+			<hr />
+			<h2>🧑‍💻 Code Contributions</h2>
+
+			<h3>Getting Started</h3>
+			<ol>
+				<li>Fork this repository</li>
+				<li>Run <code>yarn install</code></li>
+				<li>Use <code>yarn dev</code> to start the development server</li>
+				<li>Submit your changes in a new branch via a pull request</li>
+			</ol>
+
+			<h3>Code Standards</h3>
+			<ul>
+				<li>
+					Use <code>prettier</code> (already integrated via <code>.editorconfig</code> and
+					<code>.prettierrc</code>)
+				</li>
+				<li>Run linter: <code>yarn lint</code></li>
+				<li>Run tests: <code>yarn test</code> or <code>yarn test:cov</code></li>
+				<li>Check coverage: <code>yarn test:cov</code></li>
+			</ul>
+
+			<h3>Suggestions</h3>
+			<ul>
+				<li>Fix or open an issue for bugs</li>
+				<li>Add tests where applicable</li>
+				<li>Follow the existing code style and structure</li>
+				<li>Keep pull requests focused and concise</li>
+				<li>Document any new public APIs</li>
+			</ul>
+
+			<hr />
+			<h2>🌍 Non-Code Contributions</h2>
+			<p>You don’t have to write code to make a difference!</p>
+			<p>Here’s how you can contribute without touching the source code:</p>
+
+			<h3>📖 Improve Documentation</h3>
+			<ul>
+				<li>Fix typos, improve clarity, or translate documentation</li>
+				<li>Suggest better examples, animations, or practical use cases</li>
+				<li>Help convert docs to other formats (HTML, PDF, etc.)</li>
+			</ul>
+
+			<h3>💡 Share Ideas & Feedback</h3>
+			<ul>
+				<li>Open discussions or issues with feature suggestions</li>
+				<li>Report confusing behavior or hard-to-understand features</li>
+				<li>Help prioritize upcoming roadmap items</li>
+			</ul>
+
+			<h3>🎨 Visual & UX Contributions</h3>
+			<ul>
+				<li>Suggest UI/UX tweaks for the documentation or tools</li>
+				<li>Contribute illustrations, icons, or layout improvements</li>
+				<li>Help design AnimBase Playground, easing visualizer, etc.</li>
+			</ul>
+
+			<h3>🎥 Create Demos or Guides</h3>
+			<ul>
+				<li>Record tutorials, quick tips, or visual walk-throughs</li>
+				<li>Build sample websites that use AnimBase creatively</li>
+				<li>Share insights about how AnimBase fits into real projects</li>
+			</ul>
+
+			<h3>📣 Spread the Word</h3>
+			<ul>
+				<li>Tweet, blog, or post about AnimBase</li>
+				<li>Add AnimBase to awesome lists or developer collections</li>
+				<li>Star the repository ⭐ and mention it in relevant communities</li>
+			</ul>
+
+			<hr />
+			<h2>🧭 Need Help?</h2>
+			<p>If you're unsure where to start:</p>
+			<ul>
+				<li>Open a <a href="https://github.com/agusmade/animbase/discussions">discussion</a></li>
+				<li>Ask a question in an issue or pull request</li>
+				<li>Suggest edits to this very file if it can be improved</li>
+			</ul>
+
+			<p>We're happy to guide and collaborate with you.</p>
+		</main>
+	</body>
+</html>

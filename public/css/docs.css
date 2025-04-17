@@ -271,6 +271,7 @@ footer {
 .example-b1 {
 	height: 100%;
 	overflow: hidden;
+	min-height: 220px;
 }
 .example-b1 > * {
 	position: absolute;
