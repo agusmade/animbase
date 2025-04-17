@@ -1,40 +1,30 @@
-const loadIcon = (container, icon) => {
-	fetch(`https://agusmade.github.io/animbase/public/images/icons/${icon}.svg`)
-		.then(response => response.text())
-		.then(svgData => {
-			container.innerHTML = svgData;
-		})
-		.catch(e => console.error(e));
-};
-
-const D = {
-	ce: (t, o = {}, s = '') => {
-		const e = document.createElement(t);
-		for (let [k, v] of Object.entries(o)) e.setAttribute(k, v);
-		!!s && (e.innerHTML = s);
-		return e;
-	},
-	ac: (p, ...e) => {
-		for (let el of e) p.appendChild(el);
-		return p;
-	},
-};
-
-function opemMenu() {
-	if (!document.body.classList.contains('menu-visible')) document.body.classList.add('menu-visible');
-}
-function closeMenu() {
-	if (document.body.classList.contains('menu-visible')) document.body.classList.remove('menu-visible');
+function toShareableURL({html = '', css = '', js = ''} = {}) {
+	const data = {html, css, js};
+	const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(data));
+	return `https://agusmade.github.io/animbase/playground/#code=${compressed}`;
 }
 
 window.addEventListener('load', () => {
-	const menuButton = document.querySelector('.menu-button');
-	menuButton &&
-		document.addEventListener('click', function (event) {
-			if (menuButton.contains(event.target)) opemMenu();
-			else closeMenu();
-		});
-	document.querySelectorAll('[data-icon]').forEach(el => {
-		loadIcon(el, el.dataset.icon);
-	});
+	const urlParams = new URLSearchParams(window.location.search);
+	if (urlParams.get('mode') === 'og') return;
+	const beautify = (fn, code) => (typeof fn === 'function' ? fn(code) : code);
+	const css = beautify(window.css_beautify, document.head.querySelector('style')?.innerText || '');
+	const bodyElements = Array.from(document.body.childNodes);
+	const jsE = bodyElements.find(e => e.tagName === 'SCRIPT');
+	const js = jsE ? beautify(window.js_beautify, jsE.innerText) : '';
+	const html = beautify(
+		window.html_beautify,
+		bodyElements
+			.filter(e => e.tagName !== 'SCRIPT')
+			.map(e => e.outerHTML || e.contentText || '')
+			.join('')
+	);
+	const button = document.createElement('a');
+	button.setAttribute('href', toShareableURL({html, css, js}));
+	button.setAttribute(
+		'style',
+		'display:block;position:fixed;right:20px;top:20px;padding:5px 10px;text-decoration:none;color:#fff;background:#0005;border-radius:4px;z-index:1000;'
+	);
+	button.innerHTML = '✏️ Edit in Playground';
+	document.body.appendChild(button);
 });

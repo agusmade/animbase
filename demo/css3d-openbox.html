@@ -13,7 +13,7 @@
 			property="og:description"
 			content="A 3D animated box built entirely with CSS transforms and enhanced using AnimBase. The box opens and closes with a smooth, declarative unfolding motion triggered by click or button control. Each part of the box — the side walls, flaps (covers), base, and an inner card — moves in sync to create a visually convincing box animation."
 		/>
-		<meta property="og:image" content="https://agusmade.github.io/animbase/public/res/animbase-preview.png" />
+		<meta property="og:image" content="https://agusmade.github.io/animbase/public/og/css3d-openbox.png" />
 		<meta property="og:url" content="https://agusmade.github.io/animbase/demo/css3d-openbox.html" />
 		<meta property="og:type" content="website" />
 		<link rel="icon" type="image/png" sizes="16x16" href="https://agusmade.github.io/animbase/public/res/favicon-16x16.png" />
@@ -30,6 +30,12 @@
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
 		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
 		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/public/js/demos.js"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-css.min.js"></script>
 		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
 		<style>
 			:root {
@@ -225,8 +231,8 @@
 				</div>
 			</div>
 			<div class="controls">
-				<button onclick="boxClose()"><i data-icon="chevron-left"></i></button>
-				<button onclick="boxOpen()"><i data-icon="chevron-right"></i></button>
+				<button onclick="boxClose()"><i data-icon="chevron-left">&lt;&lt;</i></button>
+				<button onclick="boxOpen()"><i data-icon="chevron-right">&gt;&gt;</i></button>
 			</div>
 		</div>
 

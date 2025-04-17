@@ -13,7 +13,7 @@
 			property="og:description"
 			content="A demonstration of AnimBase’s imperative API for manual playback. Users can play, pause, stop, reverse, and repeat animations using UI buttons, all while keeping animation definitions declarative and centralized in HTML."
 		/>
-		<meta property="og:image" content="https://agusmade.github.io/animbase/public/res/animbase-preview.png" />
+		<meta property="og:image" content="https://agusmade.github.io/animbase/public/og/triggered.png" />
 		<meta property="og:url" content="https://agusmade.github.io/animbase/demo/triggered.html" />
 		<meta property="og:type" content="website" />
 		<link rel="icon" type="image/png" sizes="16x16" href="https://agusmade.github.io/animbase/public/res/favicon-16x16.png" />
@@ -30,6 +30,12 @@
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
 		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
 		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://agusmade.github.io/animbase/public/js/demos.js"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-css.min.js"></script>
 		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
 		<style>
 			body {
@@ -108,31 +114,31 @@
 
 		<div class="buttons">
 			<div>
-				<button onclick="AnimBase.play('g1')"><i data-icon="play"></i></button>
+				<button onclick="AnimBase.play('g1')"><i data-icon="play">play</i></button>
 				<span>Play</span>
 			</div>
 			<div>
-				<button onclick="pause()"><i data-icon="pause"></i></button>
+				<button onclick="pause()"><i data-icon="pause">pause</i></button>
 				<span>Pause/Resume</span>
 			</div>
 			<div>
-				<button onclick="AnimBase.stop('g1')"><i data-icon="stop"></i></button>
+				<button onclick="AnimBase.stop('g1')"><i data-icon="stop">stop</i></button>
 				<span>Stop</span>
 			</div>
 			<div id="reverse">
-				<button onclick="reverse(true)"><i data-icon="backward"></i></button>
+				<button onclick="reverse(true)"><i data-icon="backward">backward</i></button>
 				<span>Reverse</span>
 			</div>
 			<div id="forward">
-				<button onclick="reverse(false)"><i data-icon="forward"></i></button>
+				<button onclick="reverse(false)"><i data-icon="forward">forward</i></button>
 				<span>Forward</span>
 			</div>
 			<div id="once">
-				<button onclick="once(true)"><i data-icon="repeat-off"></i></button>
+				<button onclick="once(true)"><i data-icon="repeat-off">once</i></button>
 				<span>Once</span>
 			</div>
 			<div id="repeat">
-				<button onclick="once(false)"><i data-icon="repeat"></i></button>
+				<button onclick="once(false)"><i data-icon="repeat">repeat</i></button>
 				<span>Repeat</span>
 			</div>
 		</div>
