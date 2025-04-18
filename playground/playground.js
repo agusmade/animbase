@@ -1,3 +1,10 @@
+let userConfig = {
+	title: 'My AnimBase Animation Demo',
+	description: '',
+	scripts: [],
+	styles: [],
+};
+
 const defaultHtml = `<div
     data-anim-trigger-group="demo"
 	data-anim-init='{"opacity":"0","transform":"translateX(-50%) translateY(calc(-50% - 200px))"}'
@@ -21,11 +28,15 @@ const defaultCss = `.text{
 
 const loadIcon = (container, icon) => {
 	fetch(`https://agusmade.github.io/animbase/public/images/icons/${icon}.svg`)
-		.then(response => response.text())
-		.then(svgData => {
-			container.innerHTML = svgData;
+		.then(async response => {
+			if (response.status === 200) return response.text();
 		})
-		.catch(e => console.error(e));
+		.then(svgData => {
+			svgData && (container.innerHTML = svgData || '');
+		})
+		.catch(e => {
+			console.error(e);
+		});
 };
 
 const htmlEditorEl = document.getElementById('html-editor');
@@ -38,11 +49,45 @@ const cfg = {
 	theme: 'darcula',
 };
 
-const htmlEditor = CodeMirror(htmlEditorEl, {...cfg, value: defaultHtml, mode: 'htmlmixed'});
+const beautifyOption = {
+	indent_size: '4',
+	indent_char: '\t',
+	max_preserve_newlines: '5',
+	preserve_newlines: true,
+	keep_array_indentation: false,
+	break_chained_methods: false,
+	indent_scripts: 'normal',
+	brace_style: 'collapse',
+	space_before_conditional: true,
+	unescape_strings: false,
+	jslint_happy: true,
+	end_with_newline: false,
+	wrap_line_length: '0',
+	indent_inner_html: false,
+	comma_first: false,
+	e4x: false,
+	indent_empty_lines: false,
+};
 
+const htmlEditor = CodeMirror(htmlEditorEl, {...cfg, value: defaultHtml, mode: 'htmlmixed'});
+htmlEditor.addKeyMap({
+	'Ctrl-B': function (cm) {
+		if (html_beautify) cm.setValue(html_beautify(cm.getValue(), beautifyOption));
+	},
+});
 const jsEditor = CodeMirror(jsEditorEl, {...cfg, value: '', mode: 'javascript'});
+jsEditor.addKeyMap({
+	'Ctrl-B': function (cm) {
+		if (js_beautify) cm.setValue(js_beautify(cm.getValue(), beautifyOption));
+	},
+});
 
 const cssEditor = CodeMirror(cssEditorEl, {...cfg, value: defaultCss, mode: 'css'});
+cssEditor.addKeyMap({
+	'Ctrl-B': function (cm) {
+		if (css_beautify) cm.setValue(css_beautify(cm.getValue(), beautifyOption));
+	},
+});
 
 const iframe = document.getElementById('preview');
 const scripts = ['https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js'];
@@ -58,8 +103,6 @@ const errorHandler = [
 	`};`,
 	`})(console.error);`,
 ].join('');
-
-const toInline = js => (js ? '<' + 'script' + '>' + js + '</' + 'script' + '>' : '');
 
 // log
 const logPanel = document.getElementById('log-panel');
@@ -82,27 +125,31 @@ function saveLocalstorage() {
 	const js = jsEditor.getValue();
 	const css = cssEditor.getValue();
 	const html = htmlEditor.getValue();
-	window.localStorage.setItem('playground-storage', JSON.stringify({js, css, html}));
+	window.localStorage.setItem('playground-storage', JSON.stringify({js, css, html, ...userConfig}));
 }
 
 function loadLocalstorage() {
 	const ls = window.localStorage.getItem('playground-storage');
 	if (!ls) return;
-	const {js, css, html} = JSON.parse(ls);
+	const {js, css, html, title, description, scripts, styles} = JSON.parse(ls);
 	jsEditor.setValue(js);
 	cssEditor.setValue(css);
 	htmlEditor.setValue(html);
+	userConfig.title = title || '';
+	userConfig.description = description || '';
+	userConfig.scripts = scripts || [];
+	userConfig.styles = styles || [];
 }
 
 // share
-function toShareableURL({html = '', css = '', js = ''} = {}) {
-	const data = {html, css, js};
+function toShareableURL({html = '', css = '', js = '', title = '', description = '', scripts = [], styles = []} = {}) {
+	const data = {html, css, js, title, description, scripts, styles};
 	const compressed = LZString.compressToEncodedURIComponent(JSON.stringify(data));
 	return `https://agusmade.github.io/animbase/playground/#code=${compressed}`;
 }
 
 function getShareableUrl() {
-	return toShareableURL({html: htmlEditor.getValue(), css: cssEditor.getValue(), js: jsEditor.getValue()});
+	return toShareableURL({html: htmlEditor.getValue(), css: cssEditor.getValue(), js: jsEditor.getValue(), ...userConfig});
 }
 
 function codeInUrl() {
@@ -118,9 +165,11 @@ function loadFromURL() {
 		const compressed = hash.slice(5);
 		const json = LZString.decompressFromEncodedURIComponent(compressed);
 		const data = JSON.parse(json);
-		htmlEditor.setValue(data.html || '');
-		cssEditor.setValue(data.css || '');
-		jsEditor.setValue(data.js || '');
+		const {html, css, js, title = '', description = '', scripts = [], styles = []} = data || {};
+		htmlEditor.setValue(html_beautify(html || '', beautifyOption));
+		cssEditor.setValue(css_beautify(css || '', beautifyOption));
+		jsEditor.setValue(js_beautify(js || '', beautifyOption));
+		userConfig = {...userConfig, title, description, scripts, styles};
 		updatePreview();
 	} catch (e) {
 		console.error('Failed to load from URL:', e);
@@ -158,6 +207,50 @@ function downloadHTML() {
 	URL.revokeObjectURL(url);
 }
 
+function save() {
+	const js = jsEditor.getValue();
+	const css = cssEditor.getValue();
+	const html = htmlEditor.getValue();
+	const blob = new Blob(
+		[JSON5.stringify({title: userConfig.title, description: userConfig.description, html, css, js}, null, '\t')],
+		{type: 'application/json5'}
+	);
+	const url = URL.createObjectURL(blob);
+	const a = document.createElement('a');
+	a.href = url;
+	a.download = 'animbase-playground.json5';
+	a.click();
+	URL.revokeObjectURL(url);
+}
+
+function openFile() {
+	const input = document.createElement('input');
+	input.type = 'file';
+	input.accept = '.json5,application/json5,application/json';
+
+	input.addEventListener('change', async () => {
+		const file = input.files?.[0];
+		if (!file) return;
+
+		const text = await file.text();
+		let data;
+		try {
+			data = JSON5.parse(text);
+		} catch (err) {
+			alert('❌ Failed to parse file: ' + err.message);
+			return;
+		}
+		userConfig.title = data.title || '';
+		userConfig.description = data.description || '';
+		htmlEditor.setValue(data.html || '');
+		cssEditor.setValue(data.css || '');
+		jsEditor.setValue(data.js || '');
+		updatePreview();
+	});
+
+	input.click();
+}
+
 // codepen
 function exportToCodepen() {
 	const data = {
@@ -184,13 +277,62 @@ function exportToCodepen() {
 	form.remove();
 }
 
+// config
+function openConfig() {
+	document.getElementById('page-title').value = userConfig.title || '';
+	document.getElementById('page-description').value = userConfig.description || '';
+	document.getElementById('external-scripts').value = (userConfig.scripts || []).join(', ');
+	document.getElementById('external-css').value = (userConfig.styles || []).join(', ');
+	document.getElementById('config-dialog').showModal();
+}
+
+function applyConfig() {
+	const title = document.getElementById('page-title').value.trim();
+	const description = document.getElementById('page-description').value.trim();
+	const scripts = document
+		.getElementById('external-scripts')
+		.value.split(',')
+		.map(s => s.trim())
+		.filter(Boolean);
+	const styles = document
+		.getElementById('external-css')
+		.value.split(',')
+		.map(s => s.trim())
+		.filter(Boolean);
+
+	userConfig = {title, description, scripts, styles};
+	document.getElementById('config-dialog').close();
+	updatePreview();
+}
+
+const toInline = js => (js ? '<' + 'script' + '>' + js + '</' + 'script' + '>' : '');
+
 function updatePreview(toDownload) {
 	const js = jsEditor.getValue();
-	const jsPart = toDownload ? toInline(js) : toInline(errorHandler) + toInline(js);
 	const css = cssEditor.getValue();
-	const cssPart = css ? '<' + 'style' + '>' + css + '</' + 'style' + '>' : '';
-	const head = `<head>${cssPart}\n${scripts.map(s => '<script src="' + s + '"><' + '/script' + '>').join('')}</head>`;
-	const content = `<html lang="en">${head}<body>${htmlEditor.getValue()}${jsPart}</body></html>`;
+	const html = htmlEditor.getValue();
+
+	if (!toDownload) logPanel.innerHTML = '';
+	const title = userConfig.title ? `<title>${userConfig.title}</title>` : '';
+	const meta = userConfig.description ? `<meta name="description" content="${userConfig.description}">` : '';
+
+	const externalScripts = (userConfig.scripts || []).map(url => `<script src="${url}"></script>`).join('\n');
+	const externalStyles = (userConfig.styles || []).map(url => `<link rel="stylesheet" href="${url}">`).join('\n');
+
+	const jsPart = js
+		? toDownload
+			? `<script>${js}</script>`
+			: `<script>${errorHandler}\n${js}</script>`
+		: !toDownload
+			? `<script>${errorHandler}</script>`
+			: '';
+	const cssPart = css ? `<style>${css}</style>` : '';
+
+	const head = `<head>${title}\n${meta}\n${cssPart}\n${externalStyles}\n${scripts
+		.map(s => `<script src="${s}"></script>`)
+		.join('\n')}\n${externalScripts}</head>`;
+
+	const content = `<!doctype html><html lang="en">${head}<body>${html}\n${jsPart}</body></html>`;
 	if (toDownload) return content;
 	iframe.srcdoc = content;
 }

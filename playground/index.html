@@ -41,7 +41,11 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/css/css.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/htmlmixed/htmlmixed.min.js"></script>
 
+		<script src="https://cdn.jsdelivr.net/npm/json5@2.2.3/dist/index.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-css.min.js"></script>
 		<script src="./resizer.js"></script>
 
 		<!-- Google tag (gtag.js) -->
@@ -59,6 +63,17 @@
 		<div class="navbar">
 			<h1><span class="name">AnimBase</span> Playground</h1>
 			<div class="buttons">
+				<button onclick="openConfig()">
+					<i data-icon="setting"></i>
+				</button>
+				<button onclick="openFile()">
+					<i data-icon="open"></i>
+					<span>Open</span>
+				</button>
+				<button onclick="save()">
+					<i data-icon="save"></i>
+					<span>Save</span>
+				</button>
 				<button onclick="downloadHTML()">
 					<i data-icon="download"></i>
 					<span>Download HTML</span>
@@ -93,6 +108,23 @@
 				<div id="log-panel"></div>
 			</div>
 		</div>
+		<dialog id="config-dialog">
+			<h3>Page Configuration</h3>
+
+			<label><span>Title</span><input type="text" id="page-title" /></label>
+			<label><span>Description</span><textarea id="page-description" rows="3"></textarea></label>
+			<label
+				><span>External Scripts (comma-separated URLs)</span><textarea id="external-scripts" rows="2"></textarea>
+			</label>
+			<label
+				><span>External Stylesheets (comma-separated URLs)</span><textarea id="external-css" rows="2"></textarea>
+			</label>
+
+			<div class="dialog-actions">
+				<button class="cancel" onclick="document.getElementById('config-dialog').close()">Cancel</button>
+				<button class="ok" onclick="applyConfig()">OK</button>
+			</div>
+		</dialog>
 		<div id="share-message">copied</div>
 		<script src="./playground.js"></script>
 	</body>

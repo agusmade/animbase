@@ -33,9 +33,6 @@
 		<script src="https://agusmade.github.io/animbase/public/js/demos.js"></script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-css.min.js"></script>
 		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
 		<style>
 			body {
@@ -114,7 +111,7 @@
 
 		<div class="buttons">
 			<div>
-				<button onclick="AnimBase.play('g1')"><i data-icon="play">play</i></button>
+				<button onclick='AnimBase.play("g1")'><i data-icon="play">play</i></button>
 				<span>Play</span>
 			</div>
 			<div>
@@ -122,7 +119,7 @@
 				<span>Pause/Resume</span>
 			</div>
 			<div>
-				<button onclick="AnimBase.stop('g1')"><i data-icon="stop">stop</i></button>
+				<button onclick='AnimBase.stop("g1")'><i data-icon="stop">stop</i></button>
 				<span>Stop</span>
 			</div>
 			<div id="reverse">
