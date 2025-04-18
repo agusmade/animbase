@@ -90,7 +90,8 @@ cssEditor.addKeyMap({
 });
 
 const iframe = document.getElementById('preview');
-const scripts = ['https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js'];
+// https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js => /dist/animbase.iife.min.js
+const scripts = ["https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"];
 
 const errorHandler = [
 	`window.onerror=function(message,source,lineno,colno, error) {`,
@@ -242,6 +243,8 @@ function openFile() {
 		}
 		userConfig.title = data.title || '';
 		userConfig.description = data.description || '';
+		userConfig.scripts = data.scripts || [];
+		userConfig.styles = data.styles || [];
 		htmlEditor.setValue(data.html || '');
 		cssEditor.setValue(data.css || '');
 		jsEditor.setValue(data.js || '');
@@ -254,11 +257,14 @@ function openFile() {
 // codepen
 function exportToCodepen() {
 	const data = {
-		title: 'AnimBase Demo',
+		title: userConfig.title || 'AnimBase Demo',
+		description: userConfig.description,
+		tags: ['animbase'],
 		html: htmlEditor.getValue(),
 		css: cssEditor.getValue(),
 		js: jsEditor.getValue(),
-		js_external: 'https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js',
+		css_external: userConfig.styles.join(';'),
+		js_external: [...userConfig.scripts, ...scripts].join(';'),
 	};
 
 	const form = document.createElement('form');
