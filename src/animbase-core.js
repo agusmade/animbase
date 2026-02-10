@@ -5,7 +5,7 @@ const splitColor = color =>
 		.map(v => parseInt(v, 16));
 
 const toHexRGBA = s => {
-	const found = s.match(/^#(?:([0-f]{3})|([0-f]{4})|([0-f]{6})|([0-f]{8}))$/);
+	const found = s.match(/^#(?:([0-9a-fA-F]{3})|([0-9a-fA-F]{4})|([0-9a-fA-F]{6})|([0-9a-fA-F]{8}))$/);
 	if (!found) throw Error('Unsupported color format');
 	const [, c3, c4, c6, c8] = found;
 	return c3
@@ -99,8 +99,15 @@ const easingFunctions = {
 
 const linearInterpolation = (a, aMin, aMax, bMin, bMax) => bMin + ((a - aMin) * (bMax - bMin)) / (aMax - aMin);
 
+const warnedKeys = new Set();
+const warnOnce = (key, ...args) => {
+	if (warnedKeys.has(key)) return;
+	warnedKeys.add(key);
+	console.warn(...args);
+};
+
 let re = {
-	color: /#[0-f]{3,}/,
+	color: /#[0-9a-fA-F]{3,}/,
 	number: /-?\d+(?:\.\d+)?/,
 	unit: /[%a-zA-Z]*/,
 	func: /[a-zA-Z]+/,
@@ -114,19 +121,23 @@ re = {
 	numberWithOptionalUnitAndFunc: new RegExp(`${re.numberWithOptionalUnit.source}(?:\\.(${re.func.source}))?`),
 };
 
-const parseExpression = s => {
+const parseExpression = (s, options = {}) => {
+	const {strict = false, warnOnce: warnOnceFn = warnOnce, context = ''} = options;
 	const rege = RegExp(re.numberWithOptionalUnitAndFunc.source, 'g');
 	let arr;
 	const r = [];
 	while ((arr = rege.exec(s)) !== null) {
 		const [text, color, sValue, unit, func] = arr;
-		if (func && !easingFunctions[func]) throw Error(`Invalid easing function: ${func}`);
+		if (func && !easingFunctions[func]) {
+			if (strict) throw Error(`Invalid easing function: ${func}`);
+			warnOnceFn(`animbase:ease:${func}:${context}`, '[AnimBase] Invalid easing function:', func, context);
+		}
 		r.push({
 			type: color ? 'color' : 'number',
 			text,
 			value: color ? color : parseFloat(sValue),
 			unit,
-			func,
+			func: func && easingFunctions[func] ? func : undefined,
 			lastIndex: rege.lastIndex,
 		});
 	}
@@ -144,12 +155,64 @@ function replaceString(str, _ref, _replacer) {
 	return str;
 }
 
-const getValue = ({startValue, endValue, startFrame = 0, endFrame, currentFrame, func = 'linear', type} = {}) => {
+const getValue = ({
+	startValue,
+	endValue,
+	startFrame = 0,
+	endFrame,
+	currentFrame,
+	func = 'linear',
+	type,
+	strict = false,
+	warnOnce: warnOnceFn = warnOnce,
+	context = '',
+} = {}) => {
 	if (startValue === endValue) return startValue;
 	const normalValue = linearInterpolation(currentFrame, startFrame, endFrame, 0, 1);
 	const easeValue = easingFunctions[func](normalValue);
-	if (type === 'color') return interpolateColor(easeValue, startValue, endValue);
+	if (type === 'color') {
+		try {
+			return interpolateColor(easeValue, startValue, endValue);
+		} catch (err) {
+			if (strict) throw err;
+			warnOnceFn(`animbase:color:${context}`, '[AnimBase] Invalid color format:', startValue, endValue, context);
+			return easeValue >= 1 ? endValue : startValue;
+		}
+	}
 	return linearInterpolation(easeValue, 0, 1, startValue, endValue);
+};
+
+const handlerMapping = {
+	style: (el, key, val) => {
+		el.style[key] = val;
+	},
+	setAttribute: (el, key, val) => {
+		el.setAttribute(key, val);
+	},
+	textContent: (el, key, val) => {
+		el.textContent = val;
+	},
+	scrollProp: (el, key, val) => {
+		el[key] = parseFloat(val); // for scrollTop, scrollLeft
+	},
+	prop: (el, key, val) => {
+		el[key] = val; // generic fallback for special properties like currentTime
+	},
+	cssVar: (el, key, val) => {
+		el.style.setProperty(key, val);
+	},
+};
+
+const keyHandlerRegistry = {};
+const keyHandlerResolver = key => {
+	if (keyHandlerRegistry[key]) return keyHandlerRegistry[key];
+	if (key === 'd' || key === 'value' || key === 'viewBox' || key === 'x' || key === 'y' || key === 'cx' || key === 'cy')
+		return 'setAttribute';
+	if (key === 'text') return 'textContent';
+	if (key === 'scrollTop' || key === 'scrollLeft') return 'scrollProp';
+	if (key === 'currentTime' || key === 'volume' || key === 'playbackRate') return 'prop';
+	if (key.startsWith('--')) return 'cssVar';
+	return 'style';
 };
 
 class AnimatedElement {
@@ -159,6 +222,8 @@ class AnimatedElement {
 	}
 
 	setConfig({init = null, config = null} = {}) {
+		const strict = this.element.dataset.animStrict === 'true';
+		this.strict = strict;
 		const animInit = this.element.dataset.animInit;
 		const animConfig = this.element.dataset.animConfig;
 		if (!init || !config) {
@@ -166,16 +231,18 @@ class AnimatedElement {
 			try {
 				init = animInit ? JSON.parse(animInit) : {};
 			} catch (e) {
-				console.debug(animInit);
-				console.error(e);
+				if (strict) throw e;
+				warnOnce(`animbase:json:init:${this.element}`, '[AnimBase] Invalid data-anim-init JSON', animInit);
 			}
 			try {
 				config = animConfig ? JSON.parse(animConfig) : {};
 			} catch (e) {
-				console.debug(animConfig);
-				console.error(e);
+				if (strict) throw e;
+				warnOnce(`animbase:json:config:${this.element}`, '[AnimBase] Invalid data-anim-config JSON', animConfig);
 			}
 		}
+		init = init || {};
+		config = config || {};
 		this.rawInit = init;
 		this.rawConfig = config;
 
@@ -185,7 +252,10 @@ class AnimatedElement {
 		const initialRef = {};
 
 		for (const [prop, str] of Object.entries(init)) {
-			initialRef[prop] = parseExpression(str);
+			initialRef[prop] = parseExpression(str, {
+				strict,
+				context: `prop:${prop}`,
+			});
 			ref[prop] = [...initialRef[prop]];
 		}
 		for (const [k, props] of Object.entries(config)) {
@@ -193,7 +263,10 @@ class AnimatedElement {
 			const endFrame = parseInt(k);
 			styleConfig[k] = {startFrame, endFrame, ref, props: {}};
 			for (const [prop, str] of Object.entries(props)) {
-				const values = parseExpression(str);
+				const values = parseExpression(str, {
+					strict,
+					context: `prop:${prop}`,
+				});
 				ref = {...ref, [prop]: values};
 				styleConfig[k].props[prop] = values;
 			}
@@ -203,42 +276,86 @@ class AnimatedElement {
 		this.initial = init;
 		this.initialRef = initialRef;
 		this.styleConfig = styleConfig;
+		this.styleEntries = Object.entries(styleConfig);
+		this.lastFrame = null;
 	}
 
+	// update(currentFrame, debug = false) {
+	// 	const result = {};
+	// 	const entries = Object.entries(this.styleConfig);
+	// 	const found = entries.find(([, d]) => currentFrame >= d.startFrame && currentFrame <= d.endFrame);
+	// 	if (found) {
+	// 		const detail = found[1];
+	// 		for (const [prop, v] of Object.entries(detail.ref)) {
+	// 			const replacer = detail.props[prop]
+	// 				? detail.props[prop].map(
+	// 						(vi, i) =>
+	// 							`${getValue({
+	// 								startValue: v[i].value,
+	// 								endValue: vi.value,
+	// 								startFrame: detail.startFrame,
+	// 								endFrame: detail.endFrame,
+	// 								currentFrame,
+	// 								func: vi.func,
+	// 								type: vi.type,
+	// 							})}${vi.unit || ''}`
+	// 					)
+	// 				: v.map(vi => `${vi.value}${vi.unit || ''}`);
+	// 			const r = replaceString(this.initial[prop], this.initialRef[prop], replacer);
+	// 			if (debug) result[prop] = r;
+	// 			else this.element.style[prop] = r;
+	// 		}
+	// 	} else {
+	// 		const detail = entries.at(-1)[1];
+	// 		for (const [prop, v] of Object.entries(detail.ref)) {
+	// 			const replacer = detail.props[prop]
+	// 				? detail.props[prop].map(vi => `${vi.value}${vi.unit || ''}`)
+	// 				: v.map(vi => `${vi.value}${vi.unit || ''}`);
+	// 			const r = replaceString(this.initial[prop], this.initialRef[prop], replacer);
+	// 			if (debug) result[prop] = r;
+	// 			else this.element.style[prop] = r;
+	// 		}
+	// 	}
+	// 	return debug ? result : undefined;
+	// }
 	update(currentFrame, debug = false) {
+		if (this.lastFrame === currentFrame) return debug ? {} : undefined;
+		this.lastFrame = currentFrame;
 		const result = {};
-		const entries = Object.entries(this.styleConfig);
+		const entries = this.styleEntries;
+		if (!entries.length) return debug ? result : undefined;
 		const found = entries.find(([, d]) => currentFrame >= d.startFrame && currentFrame <= d.endFrame);
-		if (found) {
-			const detail = found[1];
-			for (const [prop, v] of Object.entries(detail.ref)) {
-				const replacer = detail.props[prop]
+		const detail = found?.[1] ?? entries.at(-1)[1];
+		const isActive = Boolean(found);
+
+		for (const [prop, v] of Object.entries(detail.ref)) {
+			const replacer =
+				isActive && detail.props[prop]
 					? detail.props[prop].map(
 							(vi, i) =>
 								`${getValue({
 									startValue: v[i].value,
-									endValue: vi.value,
-									startFrame: detail.startFrame,
-									endFrame: detail.endFrame,
-									currentFrame,
-									func: vi.func,
-									type: vi.type,
-								})}${vi.unit || ''}`
+								endValue: vi.value,
+								startFrame: detail.startFrame,
+								endFrame: detail.endFrame,
+								currentFrame,
+								func: vi.func,
+								type: vi.type,
+								strict: this.strict,
+								context: `prop:${prop}`,
+							})}${vi.unit || ''}`
 						)
-					: v.map(vi => `${vi.value}${vi.unit || ''}`);
-				const r = replaceString(this.initial[prop], this.initialRef[prop], replacer);
-				if (debug) result[prop] = r;
-				else this.element.style[prop] = r;
-			}
-		} else {
-			const detail = entries.at(-1)[1];
-			for (const [prop, v] of Object.entries(detail.ref)) {
-				const replacer = detail.props[prop]
-					? detail.props[prop].map(vi => `${vi.value}${vi.unit || ''}`)
-					: v.map(vi => `${vi.value}${vi.unit || ''}`);
-				const r = replaceString(this.initial[prop], this.initialRef[prop], replacer);
-				if (debug) result[prop] = r;
-				else this.element.style[prop] = r;
+					: detail.props[prop]
+						? detail.props[prop].map(vi => `${vi.value}${vi.unit || ''}`)
+						: v.map(vi => `${vi.value}${vi.unit || ''}`);
+
+			const r = replaceString(this.initial[prop], this.initialRef[prop], replacer);
+			if (debug) result[prop] = r;
+			else {
+				// this.element.style[prop] = r;
+				const handlerType = keyHandlerResolver(prop);
+				const handlerFn = typeof handlerType === 'function' ? handlerType : handlerMapping[handlerType];
+				if (handlerFn) handlerFn(this.element, prop, r);
 			}
 		}
 		return debug ? result : undefined;
@@ -249,7 +366,7 @@ class TimelineAnimator {
 	constructor(getTimelineValue, options = {}) {
 		this.getTimelineValue = getTimelineValue;
 		this.animatedElements = new Map();
-		this.timelineValue = 0;
+		this.timelineValue = NaN;
 
 		this.elementSelector = options.elementSelector || '[data-anim-config]';
 		this.autoCollect = options.autoCollect ?? true;
@@ -274,7 +391,9 @@ class TimelineAnimator {
 	}
 
 	updateTimeline() {
-		this.timelineValue = this.getTimelineValue();
+		const nextValue = this.getTimelineValue();
+		if (nextValue === this.timelineValue) return;
+		this.timelineValue = nextValue;
 		this.updateAllAnimatedElements();
 	}
 
@@ -283,4 +402,25 @@ class TimelineAnimator {
 	}
 }
 
-export {AnimatedElement, TimelineAnimator, easingFunctions, parseExpression, linearInterpolation};
+function registerKeyHandler(key, handlerTypeOrFn) {
+	if (typeof handlerTypeOrFn === 'function') {
+		keyHandlerRegistry[key] = handlerTypeOrFn;
+		handlerMapping[key] = handlerTypeOrFn;
+		return;
+	}
+	keyHandlerRegistry[key] = handlerTypeOrFn;
+	if (typeof handlerTypeOrFn === 'string' && !handlerMapping[handlerTypeOrFn]) {
+		warnOnce(
+			`animbase:handler:${handlerTypeOrFn}`,
+			'[AnimBase] Unknown handler type:',
+			handlerTypeOrFn,
+			`for key "${key}"`
+		);
+	}
+}
+
+function registerHandlerType(type, handlerFn) {
+	handlerMapping[type] = handlerFn;
+}
+
+export {AnimatedElement, TimelineAnimator, easingFunctions, parseExpression, linearInterpolation, registerKeyHandler, registerHandlerType};

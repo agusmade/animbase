@@ -1,0 +1,39 @@
+name: Release
+
+on:
+    push:
+        tags:
+            - 'v*.*.*'
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: ⬇️ Checkout repo
+              uses: actions/checkout@v3
+
+            - name: 🧶 Setup Node & Yarn
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+                  cache: 'yarn'
+                  cache-dependency-path: yarn.lock
+                  registry-url: https://registry.npmjs.org
+
+            - name: 📦 Install dependencies
+              run: yarn install --frozen-lockfile
+
+            - name: 🧪 Run tests
+              run: yarn test:run
+
+            - name: 📦 Build
+              run: yarn build
+
+            - name: 🚀 Publish to npm
+              run: npm publish
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

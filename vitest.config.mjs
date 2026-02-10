@@ -7,6 +7,7 @@ export default defineConfig({
 		environment: 'jsdom',
 		setupFiles: ['./test/setup.js'],
 		coverage: {
+			include: ['src/**'],
 			exclude: ['docs-src/**', 'tools/**', 'src/index.js', 'src/animbase-core-only.js', '*.js', '*.mjs', '**/*.d.ts'],
 		},
 	},

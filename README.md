@@ -1,29 +1,37 @@
 # AnimBase
 
+[![CI](https://github.com/agusmade/animbase/actions/workflows/ci.yml/badge.svg)](https://github.com/agusmade/animbase/actions/workflows/ci.yml)
+
 [![npm](https://img.shields.io/npm/v/animbase)](https://www.npmjs.com/package/animbase)
 [![install size](https://packagephobia.com/badge?p=animbase)](https://packagephobia.com/result?p=animbase)
 [![bundlephobia](https://img.shields.io/bundlephobia/minzip/animbase)](https://bundlephobia.com/package/animbase)
+[![codecov](https://codecov.io/gh/agusmade/animbase/branch/main/graph/badge.svg)](https://codecov.io/gh/agusmade/animbase)
 [![license](https://img.shields.io/badge/license-MIT-green)](https://github.com/agusmade/animbase/blob/main/LICENSE)
 [![gh-pages](https://img.shields.io/badge/demo-gh--pages-orange)](https://agusmade.github.io/animbase/)
 
 **The declarative animation engine** – Animate HTML elements using only `data-*` attributes. No custom JavaScript required.
 
+### 🎮 Try it instantly!
+
+No installation required. Experiment with AnimBase directly in your browser:
+👉 **[Interactive Playground](https://agusmade.github.io/animbase/playground/)** (with "Download HTML" feature)
+
 ## ✨ Features
 
--   🔧 **Fully declarative** via `data-anim-init` and `data-anim-config`
--   🎮 **Frame-based timeline**
--   🎨 Supports numeric values and colors
--   ⚡ Per-subvalue easing (e.g., `transform: translateY(20px.out)`, `color: #00f.out`)
--   🧠 Detects and interpolates each number or color in a single property (e.g., `box-shadow`, `filter`, `transform`, `outline`, etc.)
--   🎯 Multiple timeline sources (2 types):
-    -   external-controlled (scroll, input range, other)
-    -   triggered timer (looping or one-shot)
--   🔂 Triggered animation with runtime control API
--   ⏰ Playback control: trigger, pause, resume, stop, seek
--   🔁 Direction control with `reverse`
--   ☝️ Play-once support with `once`
--   🪝 Hooks: `onStart` and `onFinish`
--   🧩 Easy to extend and integrate
+- 🔧 **Fully declarative** via `data-anim-init` and `data-anim-config`
+- 🎮 **Frame-based timeline**
+- 🎨 Supports numeric values and colors
+- ⚡ Per-subvalue easing (e.g., `transform: translateY(20px.out)`, `color: #00f.out`)
+- 🧠 Detects and interpolates each number or color in a single property (e.g., `box-shadow`, `filter`, `transform`, `outline`, etc.)
+- 🎯 Multiple timeline sources (2 types):
+    - external-controlled (scroll, input range, other)
+    - triggered timer (looping or one-shot)
+- 🔂 Triggered animation with runtime control API
+- ⏰ Playback control: trigger, pause, resume, stop, seek
+- 🔁 Direction control with `reverse`
+- ☝️ Play-once support with `once`
+- 🪝 Hooks: `onStart` and `onFinish`
+- 🧩 Easy to extend and integrate
 
 ---
 
@@ -44,7 +52,7 @@ import AnimBase from 'animbase';
 ### Using CDN
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"></script>
 ```
 
 ---
@@ -54,7 +62,7 @@ import AnimBase from 'animbase';
 ### 1. Include the script
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"></script>
 ```
 
 ### 2. Add animated element using one of two animation modes:
@@ -80,14 +88,14 @@ These use `data-anim-controller-ref` and/or `data-anim-controlled-by`.
 ></div>
 ```
 
--   `data-anim-controller-ref`: selector of the controlling element (default: `window`)
--   `data-anim-controlled-by`: property to read (e.g. `value`, `scrollTop`, `scrollLeft`)
--   `data-anim-listen` (optional): event to listen (e.g. `input`, `scroll`, `timeupdate`, etc.)
+- `data-anim-controller-ref`: selector of the controlling element (default: `window`)
+- `data-anim-controlled-by`: property to read (e.g. `value`, `scrollTop`, `scrollLeft`)
+- `data-anim-listen` (optional): event to listen (e.g. `input`, `scroll`, `timeupdate`, etc.)
 
 Default behavior:
 
--   If only `data-anim-controller-ref` → property defaults to `value`, listens to `input`
--   If only `data-anim-controlled-by` → target defaults to `window`, uses common scroll events
+- If only `data-anim-controller-ref` → property defaults to `value`, listens to `input`
+- If only `data-anim-controlled-by` → target defaults to `window`, uses common scroll events
 
 #### B. Timed Animator
 
@@ -165,13 +173,22 @@ Defines a **timeline of keyframes**, where each key (frame number) maps to a sty
 data-anim-config='{ "500": {"opacity": "1.out", "transform": "scale(1.spring)"} }'
 ```
 
+### 3. `data-anim-strict` (optional)
+
+By default, AnimBase **fails softly**: invalid JSON, colors, or easing will only warn and won’t break the page.  
+Add strict mode to make errors throw (useful during development):
+
+```html
+<div data-anim-strict="true" data-anim-init='{"opacity": "0"}' data-anim-config='{"100": {"opacity": "1"}}'></div>
+```
+
 ### ✨ Per-Value Easing
 
 Each variable inside a value string (e.g. `5rem.outQuad`) can have **its own easing**. AnimBase parses:
 
--   Numbers: `100`, `50px`, `-2.5rem`, `10%`
--   Colors: `#fff`, `#5bf.outBounce`
--   Easing functions: `linear`, `spring`, `outQuad`, etc.
+- Numbers: `100`, `50px`, `-2.5rem`, `10%`
+- Colors: `#fff`, `#5bf.outBounce`
+- Easing functions: `linear`, `spring`, `outQuad`, etc.
 
 ### ⚙️ Example
 
@@ -205,6 +222,12 @@ AnimBase.setHooks('group', {
 	onStart: () => console.log('Started'),
 	onFinish: () => console.log('Finished'),
 });
+
+// Extend how properties are applied
+AnimBase.registerHandlerType('dataSet', (el, key, val) => {
+	el.dataset[key] = val;
+});
+AnimBase.registerKeyHandler('dataCount', 'dataSet');
 
 // Add element programmatically
 AnimBase.getAnimator('group').addElement(domElement, {init, config});

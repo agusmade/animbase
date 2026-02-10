@@ -61,12 +61,20 @@ export type EasingFunction = (t: number) => number;
 
 export const easingFunctions: Record<string, EasingFunction>;
 
+export interface ParseExpressionOptions {
+	/** Throw on invalid easing when true (default: false). */
+	strict?: boolean;
+	/** Optional context used for warnings. */
+	context?: string;
+}
+
 /**
  * Parses an expression string and returns an array of ParsedValue objects.
  * @param str - The expression string to parse.
+ * @param options - Optional parsing options.
  * @returns An array of ParsedValue objects.
  */
-export function parseExpression(str: string): ParsedValue[];
+export function parseExpression(str: string, options?: ParseExpressionOptions): ParsedValue[];
 
 /**
  * Performs linear interpolation between two values.
@@ -140,3 +148,20 @@ export class TimelineAnimator {
 	 */
 	updateAllAnimatedElements(): void;
 }
+
+/**
+ * Registers a handler for a specific property key.
+ * Accepts a handler function or a handler type string.
+ */
+export function registerKeyHandler(
+	key: string,
+	handlerTypeOrFn: string | ((el: HTMLElement, key: string, val: string) => void)
+): void;
+
+/**
+ * Registers a handler type for use with registerKeyHandler.
+ */
+export function registerHandlerType(
+	type: string,
+	handlerFn: (el: HTMLElement, key: string, val: string) => void
+): void;

@@ -62,6 +62,20 @@ describe('TimelineAnimator', () => {
 		expect(updateSpy).toHaveBeenCalledWith(50);
 	});
 
+	it('skips update when timeline value does not change', () => {
+		const staticAnimator = new TimelineAnimator(() => 10, {
+			autoCollect: false,
+			autoUpdate: false,
+		});
+		staticAnimator.addElement(element);
+		const updateAllSpy = vi.spyOn(staticAnimator, 'updateAllAnimatedElements');
+
+		staticAnimator.updateTimeline();
+		staticAnimator.updateTimeline();
+
+		expect(updateAllSpy).toHaveBeenCalledTimes(1);
+	});
+
 	afterEach(() => {
 		document.body.removeChild(element);
 	});

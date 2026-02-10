@@ -1,4 +1,4 @@
-import {describe, it, expect} from 'vitest';
+import {describe, it, expect, vi} from 'vitest';
 import {parseExpression} from '../src/animbase-core.js';
 
 describe('parseExpression', () => {
@@ -22,10 +22,24 @@ describe('parseExpression', () => {
 		expect(result[0]).toMatchObject({type: 'color', value: '#fff', func: undefined});
 	});
 
+	it('does not parse invalid hex color', () => {
+		const result = parseExpression('#ggg');
+		expect(result).toEqual([]);
+	});
+
 	it('parses hex color with easing', () => {
 		const result = parseExpression('#fa2.outBounce');
 		expect(result).toHaveLength(1);
 		expect(result[0]).toMatchObject({type: 'color', value: '#fa2', func: 'outBounce'});
+	});
+
+	it('parses 4-digit and 8-digit hex colors', () => {
+		const r4 = parseExpression('#abcd');
+		const r8 = parseExpression('#aabbccdd');
+		expect(r4).toHaveLength(1);
+		expect(r8).toHaveLength(1);
+		expect(r4[0]).toMatchObject({type: 'color', value: '#abcd'});
+		expect(r8[0]).toMatchObject({type: 'color', value: '#aabbccdd'});
 	});
 
 	/** 📦 Multi-value string */
@@ -41,6 +55,15 @@ describe('parseExpression', () => {
 		expect(result).toHaveLength(2);
 		expect(result[0]).toMatchObject({value: 100, unit: '%', func: 'spring'});
 		expect(result[1]).toMatchObject({value: 45, unit: 'deg', func: 'outSine'});
+	});
+
+	it('keeps parsing when easing is invalid in non-strict mode', () => {
+		const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+		const result = parseExpression('10px.badEase 20px.out');
+		expect(result).toHaveLength(2);
+		expect(result[0]).toMatchObject({value: 10, func: undefined});
+		expect(result[1]).toMatchObject({value: 20, func: 'out'});
+		warnSpy.mockRestore();
 	});
 
 	/** 🧪 Graceful fallback on unrecognized input */

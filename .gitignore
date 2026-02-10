@@ -4,6 +4,7 @@ dist/
 
 # Local tools and docs development
 docs-src/
+docs-preview/
 tools/
 
 # Build log dan cache

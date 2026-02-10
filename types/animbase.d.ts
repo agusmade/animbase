@@ -28,6 +28,16 @@ export function setHooks(
 	}
 ): void;
 
+export function registerKeyHandler(
+	key: string,
+	handlerTypeOrFn: string | ((el: HTMLElement, key: string, val: string) => void)
+): void;
+
+export function registerHandlerType(
+	type: string,
+	handlerFn: (el: HTMLElement, key: string, val: string) => void
+): void;
+
 export function getAnimator(group?: string): TimelineAnimator;
 export function createTimedAnimator(
 	group: string,

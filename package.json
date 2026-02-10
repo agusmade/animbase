@@ -1,6 +1,6 @@
 {
 	"name": "animbase",
-	"version": "1.1.2",
+	"version": "1.2.0",
 	"description": "Declarative animation engine",
 	"main": "dist/animbase.cjs.js",
 	"module": "dist/animbase.esm.js",
@@ -40,6 +40,7 @@
 		"eslint-plugin-prettier": "^5.2.6",
 		"jsdom": "^26.0.0",
 		"prettier": "^3.5.3",
+		"puppeteer": "^24.6.1",
 		"rollup": "^4.0.0",
 		"rollup-plugin-serve": "^2",
 		"rollup-plugin-terser": "^7.0.2",

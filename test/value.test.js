@@ -26,4 +26,12 @@ describe('easingFunctions', () => {
 		expect(ease(0.5)).toBeGreaterThan(0.5);
 		expect(ease(1)).toBeCloseTo(1);
 	});
+
+	it('covers outBounce branches', () => {
+		const ease = easingFunctions.outBounce;
+		expect(ease(0.1)).toBeGreaterThanOrEqual(0);
+		expect(ease(0.6)).toBeGreaterThanOrEqual(0);
+		expect(ease(0.8)).toBeGreaterThanOrEqual(0);
+		expect(ease(0.95)).toBeGreaterThanOrEqual(0);
+	});
 });
