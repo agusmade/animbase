@@ -28,8 +28,7 @@
 			rel="stylesheet"
 		/>
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
-		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
-		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"></script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
 		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
@@ -79,6 +78,7 @@
 		<!-- Bola animasi -->
 		<div
 			class="ball"
+			data-anim-strict="true"
 			data-anim-init='{"transform": "translateY(-200%) scale(1,1)"}'
 			data-anim-config='{
 				"60": {"transform": "translateY(0%.inSine) scale(1,1)"},
@@ -91,6 +91,7 @@
 		<!-- Bayangan -->
 		<div
 			class="ball shadow"
+			data-anim-strict="true"
 			data-anim-init='{"filter": "blur(1.8rem)"}'
 			data-anim-config='{
 				"60": {"filter": "blur(0.2rem.inSine)"},

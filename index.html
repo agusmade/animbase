@@ -31,7 +31,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css" />
 		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/home.css" />
-		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-L5X2VEBG9T"></script>
@@ -196,6 +196,8 @@
 							Built-in <code>easing</code> functions, including <code>spring</code>, <code>elastic</code>,
 							<code>bounce</code>
 						</li>
+						<li>Fail-soft by default, with optional <code>data-anim-strict</code> for dev validation</li>
+						<li>Extensible property handlers via <code>registerKeyHandler</code></li>
 						<li>Small footprint: ~9KB minified</li>
 						<li>No runtime dependencies</li>
 					</ul>
@@ -206,7 +208,7 @@
 						<h2>Getting Started</h2>
 						<p>Install via CDN or NPM and start animating in seconds.</p>
 						<h3>💡 CDN</h3>
-						<pre><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"&gt;&lt;/script&gt;</code></pre>
+						<pre><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"&gt;&lt;/script&gt;</code></pre>
 						<h3>📦 NPM</h3>
 						<pre><code class="language-shell">npm install animbase</code></pre>
 						<h3>⚙️ Import (ESM/CommonJS)</h3>
@@ -267,6 +269,10 @@ const AnimBase = require("animbase");</code></pre>
 						<p style="margin-top: 2em">
 							Curious how it works under the hood?
 							<a href="https://agusmade.github.io/animbase/docs/how-it-works.html">Read the deep dive &rarr;</a>
+						</p>
+						<p>
+							Need custom behaviors? Extend property handling with
+							<code>registerHandlerType</code> and <code>registerKeyHandler</code>.
 						</p>
 					</div>
 				</section>

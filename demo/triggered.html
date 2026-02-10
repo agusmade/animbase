@@ -28,8 +28,7 @@
 			rel="stylesheet"
 		/>
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
-		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
-		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"></script>
 		<script src="https://agusmade.github.io/animbase/public/js/demos.js"></script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
@@ -44,7 +43,11 @@
 				height: 100dvh;
 				gap: 2rem;
 				background: radial-gradient(ellipse at 50% -100%, #69413c -50%, #000 300%);
+				color: white;
+				margin: 0 0;
+				padding: 0 0;
 			}
+
 			.box {
 				width: 100px;
 				height: 100px;
@@ -53,14 +56,17 @@
 				border-radius: 0.5rem;
 				transition: none !important;
 			}
+
 			.buttons {
 				display: flex;
 				flex-direction: row;
 				gap: 0.6rem;
 			}
+
 			.buttons > div {
 				position: relative;
 			}
+
 			.buttons span {
 				opacity: 0;
 				transition: opacity 250ms ease-in-out;
@@ -70,9 +76,25 @@
 				transform: translateX(-50%);
 				white-space: nowrap;
 			}
+
+			button {
+				border-radius: 50%;
+				width: 48px;
+				height: 48px;
+				border: 1px solid #fff5;
+				background-color: #222;
+				color: #fff8;
+				transition: background-color 150ms ease;
+			}
+
+			button:hover {
+				background-color: #444;
+			}
+
 			button:hover + span {
 				opacity: 1;
 			}
+
 			button > i > svg {
 				width: 24px;
 				height: 24px;
@@ -92,6 +114,7 @@
 	<body>
 		<div
 			class="box"
+			data-anim-strict="true"
 			data-anim-init='{
 				"transform": "scale(0.5) rotate(0deg)",
 				"background": "#f44",

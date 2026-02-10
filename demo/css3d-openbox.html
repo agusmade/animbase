@@ -28,8 +28,7 @@
 			rel="stylesheet"
 		/>
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
-		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
-		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"></script>
 		<script src="https://agusmade.github.io/animbase/public/js/demos.js"></script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
@@ -42,6 +41,10 @@
 			body {
 				margin: 0;
 				background: radial-gradient(#6a7e6b, #6a7e6b55);
+			}
+			.name {
+				font-family: 'Lobster Two';
+				font-size: 120%;
 			}
 
 			.container {
@@ -225,6 +228,7 @@
 			<div class="place">
 				<div
 					class="box"
+					data-anim-strict="true"
 					data-anim-init='{"transform":"rotateX(45deg) rotateY(-20deg) translateZ(-300px) translateY(-200px) translateX(-100px)"}'
 					data-anim-config='{"300":{}, "500":{"transform":"rotateX(0deg.inOutSine) rotateY(0deg.inOutSine) translateZ(0px.inOutSine) translateY(0px.inOutSine) translateX(0px.inOutSine)"}}'
 				>
@@ -235,11 +239,13 @@
 					<div class="paper paper-w"></div>
 					<div
 						class="paper card-shadow"
+						data-anim-strict="true"
 						data-anim-init='{"filter": "blur(0rem)"}'
 						data-anim-config='{"200":{}, "400":{"filter": "blur(1.5rem.inOut)"}}'
 					></div>
 					<div
 						class="paper card"
+						data-anim-strict="true"
 						data-anim-init='{"transform": "translateZ(-80px)"}'
 						data-anim-config='{"200":{}, "400":{"transform": "translateZ(-10px.inOut)"}}'
 					>
@@ -248,16 +254,19 @@
 					</div>
 					<div
 						class="cover paper cover-l"
+						data-anim-strict="true"
 						data-anim-init='{"transform": "rotateY(0deg)"}'
 						data-anim-config='{"100":{},"300":{"transform": "rotateY(-180deg.inExpo)"}}'
 					></div>
 					<div
 						class="cover paper cover-r"
+						data-anim-strict="true"
 						data-anim-init='{"transform": "rotateY(0deg)"}'
 						data-anim-config='{"100":{},"300":{"transform": "rotateY(180deg.inExpo)"}}'
 					></div>
 					<div
 						class="tape"
+						data-anim-strict="true"
 						data-anim-init='{"height": "100%"}'
 						data-anim-config='{"100":{"height": "0%.inQuad"}}'
 					></div>

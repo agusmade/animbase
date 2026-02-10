@@ -31,7 +31,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css" />
 		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/docs.css" />
-		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"></script>
 		<script src="https://agusmade.github.io/animbase/public/js/demos.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
@@ -107,6 +107,15 @@
 					or automatically.
 				</li>
 			</ul>
+
+			<h3>🛡 Strict Mode (Optional)</h3>
+			<p>
+				By default, invalid JSON, colors, or easing only emit warnings so your page keeps running. During
+				development, enable strict mode to throw errors:
+			</p>
+			<pre><code class="language-html">&lt;div data-anim-strict="true"
+	data-anim-init='{"opacity":"0"}'
+	data-anim-config='{"100":{"opacity":"1"}}'&gt;&lt;/div&gt;</code></pre>
 
 			<hr />
 
@@ -329,6 +338,19 @@ AnimBase.play("intro");</code></pre>
 			<h3>🎮 Manual Trigger with API</h3>
 			<pre><code class="language-html">&lt;button onclick="AnimBase.play('intro')"&gt;Play&lt;/button&gt;
 &lt;button onclick="AnimBase.stop('intro')"&gt;Stop&lt;/button&gt;</code></pre>
+
+			<h3>🧩 Extensibility: Custom Property Handlers</h3>
+			<p>
+				You can extend how properties are applied with custom handlers. This lets AnimBase animate non-style
+				properties or map to custom behaviors.
+			</p>
+			<pre><code class="language-js">AnimBase.registerHandlerType("dataSet", (el, key, val) =&gt; {
+  el.dataset[key] = val;
+});
+
+AnimBase.registerKeyHandler("dataCount", "dataSet");</code></pre>
+			<pre><code class="language-html">&lt;div data-anim-init='{"dataCount":"0"}'
+	data-anim-config='{"100":{"dataCount":"10"}}'&gt;&lt;/div&gt;</code></pre>
 		</main>
 		<footer>
 			<p>Powered by <span class="name">AnimBase</span></p>

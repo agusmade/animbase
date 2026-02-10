@@ -31,7 +31,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css" />
 		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/docs.css" />
-		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"></script>
 		<script src="https://agusmade.github.io/animbase/public/js/demos.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 		<!-- Google tag (gtag.js) -->
@@ -156,6 +156,10 @@
 				<li>Easing function (optional)</li>
 				<li>Text span and index position (for substitution)</li>
 			</ul>
+			<p>
+				If an easing name is invalid, AnimBase will warn and ignore it by default. Use
+				<code>data-anim-strict="true"</code> to throw errors during development.
+			</p>
 			<h3 id="example-">Example:</h3>
 			<pre><code class="lang-json">{
 	&quot;boxShadow&quot;: &quot;3px 5rem.in 10% #fa2.outBounce&quot;
@@ -217,6 +221,8 @@
 				<li>It supports per-variable easing even within a single property string.</li>
 				<li>It does not require CSS classes or external style sheets.</li>
 				<li>Scroll-driven and trigger-based animations are fully supported.</li>
+				<li>Invalid JSON/colors/easing only warn by default; use <code>data-anim-strict="true"</code> to throw errors.</li>
+				<li>Property handling is extensible via <code>registerKeyHandler</code> and <code>registerHandlerType</code>.</li>
 			</ul>
 			<p>You define your timeline and transitions entirely in HTML.</p>
 			<!-- <p>

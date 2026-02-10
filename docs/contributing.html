@@ -31,7 +31,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css" />
 		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/docs.css" />
-		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"></script>
 		<script src="https://agusmade.github.io/animbase/public/js/demos.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 		<!-- Google tag (gtag.js) -->
@@ -122,6 +122,17 @@
 				<li>Run linter: <code>yarn lint</code></li>
 				<li>Run tests: <code>yarn test</code> or <code>yarn test:cov</code></li>
 				<li>Check coverage: <code>yarn test:cov</code></li>
+			</ul>
+
+			<h3>API Notes</h3>
+			<ul>
+				<li>
+					AnimBase fails softly by default; strict mode is opt-in via <code>data-anim-strict="true"</code>.
+				</li>
+				<li>
+					Extensible property handling is supported via <code>registerHandlerType</code> and
+					<code>registerKeyHandler</code>.
+				</li>
 			</ul>
 
 			<h3>Suggestions</h3>

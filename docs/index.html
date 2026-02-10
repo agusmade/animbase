@@ -31,7 +31,7 @@
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/dark.min.css" />
 		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/docs.css" />
-		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"></script>
 		<script src="https://agusmade.github.io/animbase/public/js/demos.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
 
@@ -99,7 +99,7 @@
 
 			<h2>Installation</h2>
 			<h3>💡 CDN</h3>
-			<pre><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"&gt;&lt;/script&gt;</code></pre>
+			<pre><code class="language-html">&lt;script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"&gt;&lt;/script&gt;</code></pre>
 
 			<h3>📦 NPM</h3>
 			<pre><code class="language-bash">npm install animbase</code></pre>
@@ -125,18 +125,29 @@ const AnimBase = require("animbase");</code></pre>
 				<li><code>AnimBase.getAnimator(group)</code></li>
 				<li><code>AnimBase.createTimedAnimator(group, config)</code></li>
 				<li><code>AnimBase.refresh()</code></li>
+				<li><code>AnimBase.registerKeyHandler(key, handlerTypeOrFn)</code></li>
+				<li><code>AnimBase.registerHandlerType(type, handlerFn)</code></li>
 			</ul>
 
 			<h3>Data Attributes</h3>
 			<ul>
 				<li><code>data-anim-init</code> – initial style object</li>
 				<li><code>data-anim-config</code> – keyframe config object</li>
+				<li><code>data-anim-strict</code> – throw on invalid config (optional)</li>
 				<li><code>data-anim-trigger-group</code> – group for timed animation</li>
 				<li><code>data-anim-trigger-config</code> – config source for the group</li>
 				<li><code>data-anim-controller-ref</code> – selector or "window"</li>
 				<li><code>data-anim-controlled-by</code> – property like scrollY, scrollX, value, currentTime</li>
 				<li><code>data-anim-listen</code> – event to listen (optional)</li>
 			</ul>
+
+			<h3>Strict Mode (Optional)</h3>
+			<p>
+				AnimBase is fail-soft by default. If you want errors during development, enable strict mode per element:
+			</p>
+			<pre><code class="language-html">&lt;div data-anim-strict="true"
+	data-anim-init='{"opacity":"0"}'
+	data-anim-config='{"100":{"opacity":"1"}}'&gt;&lt;/div&gt;</code></pre>
 
 			<h2>Examples</h2>
 			<h3>Minimal Usage</h3>
@@ -184,6 +195,33 @@ const AnimBase = require("animbase");</code></pre>
 	data-anim-init='{"opacity": "0"}'
 	data-anim-config='{"100": {"opacity": "1"}}'
 &gt;Fades in as slider moves&lt;/div&gt;</code></pre>
+				</div>
+			</div>
+
+			<h3>Custom Handler (Extensibility)</h3>
+			<div class="example-grid">
+				<div class="example-preview">
+					<div
+						id="custom-handler-el"
+						data-anim-trigger-group="custom-handler"
+						data-anim-init='{"counter":"0"}'
+						data-anim-config='{"100":{"counter":"10"}}'
+					>
+						Counter: 0
+					</div>
+					<div
+						data-anim-trigger-group="custom-handler"
+						data-anim-trigger-config='{"speed": 30, "autostart": true, "max": 100}'
+						hidden
+					></div>
+				</div>
+				<div class="example-code">
+					<pre><code class="language-js">AnimBase.registerHandlerType("textCounter", (el, key, val) =&gt; {
+  const n = Math.round(Number(val) || 0);
+  el.textContent = `Counter: ${n}`;
+});
+
+AnimBase.registerKeyHandler("counter", "textCounter");</code></pre>
 				</div>
 			</div>
 
@@ -304,6 +342,10 @@ const AnimBase = require("animbase");</code></pre>
 				<li>Default group name for <code>AnimBase.play()</code> is <code>default</code>.</li>
 				<li>Triggered animation can be controlled via API using its group name.</li>
 				<li>You can imperatively add elements using <code>getAnimator(group).addElement(...)</code></li>
+				<li>
+					By default, invalid JSON/colors/easing only warn. Use <code>data-anim-strict="true"</code> to throw
+					errors during development.
+				</li>
 				<li>If <code>data-anim-controller-ref</code> is omitted, the controller defaults to <code>window</code>.</li>
 				<li>
 					If <code>data-anim-listen</code> is omitted, the event defaults to <code>scroll</code> for scroll-based
@@ -333,6 +375,13 @@ const AnimBase = require("animbase");</code></pre>
 			<p>Powered by <span class="name">AnimBase</span></p>
 		</footer>
 		<script>
+			if (window.AnimBase) {
+				AnimBase.registerHandlerType('textCounter', (el, key, val) => {
+					const n = Math.round(Number(val) || 0);
+					el.textContent = `Counter: ${n}`;
+				});
+				AnimBase.registerKeyHandler('counter', 'textCounter');
+			}
 			hljs.highlightAll();
 		</script>
 	</body>

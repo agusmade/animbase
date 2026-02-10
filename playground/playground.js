@@ -90,8 +90,8 @@ cssEditor.addKeyMap({
 });
 
 const iframe = document.getElementById('preview');
-// https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js => /dist/animbase.iife.min.js
-const scripts = ["https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"];
+// https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js => /dist/animbase.iife.min.js
+const scripts = ["https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"];
 
 const errorHandler = [
 	`window.onerror=function(message,source,lineno,colno, error) {`,

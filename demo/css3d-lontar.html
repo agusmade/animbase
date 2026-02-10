@@ -28,8 +28,7 @@
 			rel="stylesheet"
 		/>
 		<link href="https://fonts.googleapis.com/css?family=Lobster+Two&text=AnimBase" rel="stylesheet" />
-		<link rel="stylesheet" href="https://agusmade.github.io/animbase/public/css/demos.css" />
-		<script src="https://cdn.jsdelivr.net/npm/animbase@1.1.2/dist/animbase.iife.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/animbase@1.2.0/dist/animbase.iife.min.js"></script>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
 		<script src="https://agusmade.github.io/animbase/public/js/demo.js"></script>
@@ -40,6 +39,10 @@
 				color: #fff;
 				font-family: sans-serif;
 				background: radial-gradient(ellipse at -300% 100%, #ac9a70 0%, #000 150%);
+			}
+			.name {
+				font-family: 'Lobster Two';
+				font-size: 120%;
 			}
 			.palmleaf-container {
 				perspective: 1000px;
@@ -184,6 +187,7 @@
 					el.setAttribute('data-anim-init', JSON.stringify(c.init));
 					el.setAttribute('data-anim-config', JSON.stringify(c.config));
 					el.setAttribute('data-anim-controlled-by', 'scrollY');
+					el.setAttribute('data-anim-strict', 'true');
 					// a.push(c);
 				});
 				// console.log(a);
